@@ -11,6 +11,7 @@ import PSFS from "./modules/psfs.js";
 import PGIC from "./modules/pgic.js";
 import KOOS from "./modules/koos.js";
 import HOOS from "./modules/hoos.js";
+import IKDC from "./modules/ikdc.js";
 
 const planned = (id, name, category) => ({ id, name, category, status: "planlagt" });
 
@@ -19,7 +20,7 @@ export const TESTS = [
   CFS,
   BERG, OLS, planned("minibest", "Mini-BESTest", "Balanse"),
   TUG, SPPB, STS, GAIT, planned("6mwt", "6-minutters gangtest", "Funksjon og gange"),
-  KOOS, HOOS, planned("ikdc", "IKDC", "PROM kne/hofte"), planned("aclrsi", "ACL-RSI", "PROM kne/hofte"), planned("tegner", "Tegner", "PROM kne/hofte"),
+  KOOS, HOOS, IKDC, planned("aclrsi", "ACL-RSI", "PROM kne/hofte"), planned("tegner", "Tegner", "PROM kne/hofte"),
   planned("qdash", "QuickDASH", "PROM skulder/arm"), planned("oss", "Oxford Shoulder Score", "PROM skulder/arm"), planned("worc", "WORC/WOSI", "PROM skulder/arm"),
   planned("odi", "ODI", "PROM rygg/nakke"), planned("ndi", "NDI", "PROM rygg/nakke"), planned("orebro", "Örebro", "PROM rygg/nakke"), planned("startback", "STarT Back", "PROM rygg/nakke"),
   NPRS, PSFS, planned("eq5d", "EQ-5D", "Generiske"), PGIC
