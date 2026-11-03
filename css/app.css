@@ -109,6 +109,9 @@ fieldset.bitem legend{font-weight:700;font-size:.92rem;padding:0 4px;display:fle
 .scores span{display:grid;place-items:center;min-height:44px;border:1px solid var(--line);border-radius:8px;font-weight:700;font-size:1.05rem;background:var(--surface);font-variant-numeric:tabular-nums}
 .scores input:checked + span{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
 .scores label:focus-within span{outline:3px solid var(--accent);outline-offset:2px}
+.kitems{display:flex;flex-direction:column;gap:6px}
+.kitem{display:grid;grid-template-columns:3.2em minmax(0,1fr);align-items:center;gap:8px}
+.kcode{font-family:var(--f-mono);font-weight:500;font-size:.9rem;color:var(--muted)}
 .crit{font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:2px}
 .crit.picked span{display:none}
 .crit.picked span.sel{display:block;color:var(--fg)}
