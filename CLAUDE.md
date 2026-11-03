@@ -81,18 +81,19 @@ export default {
 
 ## Status
 
-Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst.
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer).
 
 Planlagt:
-1. NPRS, PSFS og PGIC.
-2. KOOS og HOOS (fullt skjema), deretter IKDC, ACL-RSI (sjekk lisens) og Tegner.
-3. Mini-BESTest og 6MWT.
-4. Lisensierte skjemaer med inntasting av skårer: QuickDASH, OSS, WORC/WOSI, ODI, NDI, Örebro, STarT Back og EQ-5D.
+1. KOOS og HOOS (fullt skjema), deretter IKDC, ACL-RSI (sjekk lisens) og Tegner.
+2. Mini-BESTest og 6MWT.
+3. Lisensierte skjemaer med inntasting av skårer: QuickDASH, OSS, WORC/WOSI, ODI, NDI, Örebro, STarT Back og EQ-5D.
 
 Åpne faglige punkter som Rikard skal avklare:
 - CFS nivå 4: kontroller ordlyden mot Helsedirektoratets norske v2.0. Prototypen bruker «Lever med svært lett skrøpelighet».
 - Berg: kontroller de forkortede leddkriteriene mot den norske versjonen.
 - Berg MDC for utgangsskår 0–24 (5 poeng ifølge Donoghue & Stokes 2009): verifiser i originalartikkelen.
+- PSFS er «© P Stratford 1995, all rights reserved» (ePROVIDE). Bruksvilkårene vises bare etter innlogging på ePROVIDE: sjekk dem.
+- PGIC: den norske ordlyden er appens egen oversettelse. Bytt til en publisert norsk versjon hvis det finnes en.
 
 ## Arbeidsmåte
 - Skriv på norsk i UI, i DIPS-tekst, i commit-meldinger og i kommunikasjonen med Rikard.
