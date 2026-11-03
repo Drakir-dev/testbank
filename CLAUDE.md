@@ -24,7 +24,7 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 - Kan bygges som fullt skjema, ledd for ledd: NPRS, PSFS, PGIC og Örebro.
 - IKDC (© AOSSM, helseforetak må ha lisens), ACL-RSI og Tegner (rettigheter uavklart, «no information» på ePROVIDE): sjekket 3.11.2026. De er bygget uten spørsmåls- og nivåtekster, og svarene tastes inn fra pasientens skjema. CFS og funksjonstestene kan også brukes fritt, med kildeangivelse.
 - KOOS og HOOS: vilkårene er endret (sjekket 3.11.2026, koos.nu). De er «© Ewa M. Roos, all rights reserved» og krever alltid lisens via Mapi. De er bygget **ledd for ledd med leddkoder** (P1, S1 …): svaret 0–4 tastes inn fra pasientens lisensierte skjema, uten spørsmålstekst.
-- Spørsmålstekst (3.11.2026): Rikard oppgir at Mapi har godkjent digital bruk via Ahus-lisensen. Rikard legger selv inn teksten for KOOS, HOOS, IKDC og ACL-RSI i `js/data/ledd-tekst.js`, fra Ahus' lisensierte norske versjoner. Claude henter eller skriver ikke av spørsmålstekst fra nettet. Et tomt felt viser bare leddkoden.
+- Spørsmålstekst (3.11.2026): Rikard oppgir at Mapi har godkjent digital bruk via Ahus-lisensen. Rikard legger selv inn teksten for KOOS, HOOS, IKDC og ACL-RSI (IKDC og ACL-RSI er lagt inn) i `js/data/ledd-tekst.js`, fra Ahus' lisensierte norske versjoner. Claude henter eller skriver ikke av spørsmålstekst fra nettet. Et tomt felt viser bare leddkoden.
 - Tegner (3.11.2026): Rikard limte inn den engelske originalteksten og ba om norsk oversettelse. Nivåbeskrivelsene i `js/data/ledd-tekst.js` er appens egen oversettelse, ikke en validert norsk versjon. Bytt dem ut med den offisielle norske teksten hvis Ahus har en.
 - Krever lisens eller tillatelse for digital gjengivelse: ODI og EQ-5D (Mapi/EuroQol), Oxford Shoulder Score, QuickDASH, WORC/WOSI og antakelig NDI og STarT Back. Disse bygges inntil videre med **inntasting av delskårer/totalskår**, ikke med spørsmålstekstene.
 - Sjekk bruksvilkårene på nytt før hvert skjema bygges, og oppgi rettighetshaveren i veiledningen.
@@ -100,7 +100,7 @@ Planlagt:
 - PSFS er «© P Stratford 1995, all rights reserved» (ePROVIDE). Bruksvilkårene vises bare etter innlogging på ePROVIDE: sjekk dem.
 - PGIC: den norske ordlyden er appens egen oversettelse. Bytt til en publisert norsk versjon hvis det finnes en.
 - KOOS/HOOS: kontroller at leddkodene og antallet ledd per delskår stemmer med det lisensierte norske skjemaet. Avklar med Mapi om Ahus-lisensen dekker spørsmålstekst i appen.
-- IKDC: kontroller at leddnumrene (1–8, 9a–9i, 10) og poengnøkkelen stemmer med det norske skjemaet, og at Ahus har lisens fra AOSSM.
+- IKDC: leddnumrene og poengnøkkelen stemmer med det norske skjemaet Rikard limte inn 4.11.2026. Gjenstår: bekreft at Ahus har lisens fra AOSSM.
 
 ## Arbeidsmåte
 - Skriv på norsk i UI, i DIPS-tekst, i commit-meldinger og i kommunikasjonen med Rikard.
