@@ -32,13 +32,17 @@ function same(id, states, profiles) {
   assert.ok(n > 0);
 }
 
+/* Testene som var ferdige i prototypen. Tester bygget senere sammenlignes ikke. */
+const PROTO_ACTIVE = proto.TESTS.filter(t => t.status === "aktiv").map(t => t.id);
+
 test("registeret: samme tester, rekkefølge og kategorier", () => {
-  assert.equal(JSON.stringify(TESTS.map(t => [t.id, t.name, t.category, t.status])), JSON.stringify(proto.TESTS.map(t => [t.id, t.name, t.category, t.status])));
+  assert.equal(JSON.stringify(TESTS.map(t => [t.id, t.name, t.category])), JSON.stringify(proto.TESTS.map(t => [t.id, t.name, t.category])));
+  for (const id of PROTO_ACTIVE) assert.equal(TESTS.find(t => t.id === id).status, "aktiv", id);
   assert.equal(JSON.stringify(CATEGORIES), JSON.stringify(proto.CATEGORIES));
 });
 
 test("skjema, veiledning og grunntilstand er uendret", () => {
-  for (const t of TESTS.filter(t => t.status === "aktiv")) {
+  for (const t of TESTS.filter(t => PROTO_ACTIVE.includes(t.id))) {
     const p = proto.TESTS.find(x => x.id === t.id);
     for (const k of ["title", "meta", "guide"]) assert.equal(t[k], p[k], `${t.id}.${k}`);
     assert.equal(t.form(t.initState()), p.form(p.initState()), `${t.id}.form`);

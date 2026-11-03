@@ -71,6 +71,8 @@ h3{margin:0;font-size:1.15rem;text-wrap:balance}
 .hint{font-size:.82rem;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
 .grid .field > .lbl{font-size:.88rem}
+.grid.psfs-row{grid-template-columns:minmax(0,1fr) 110px}
+.grid.psfs-row[hidden]{display:none}
 
 .levels{display:flex;flex-direction:column;gap:6px}
 label.lvl{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:var(--r);padding:10px 12px 10px 10px;cursor:pointer;background:var(--surface);position:relative}
