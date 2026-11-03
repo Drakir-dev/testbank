@@ -21,6 +21,7 @@ const ASSETS = [
   "js/modules/10mwt.js",
   "js/modules/nprs.js",
   "js/modules/psfs.js",
+  "js/modules/pgic.js",
   "fonts/atkinson-hyperlegible-400-latin.woff2",
   "fonts/atkinson-hyperlegible-400-latin-ext.woff2",
   "fonts/atkinson-hyperlegible-700-latin.woff2",

@@ -8,6 +8,7 @@ import STS from "./modules/sts30.js";
 import GAIT from "./modules/10mwt.js";
 import NPRS from "./modules/nprs.js";
 import PSFS from "./modules/psfs.js";
+import PGIC from "./modules/pgic.js";
 
 const planned = (id, name, category) => ({ id, name, category, status: "planlagt" });
 
@@ -19,7 +20,7 @@ export const TESTS = [
   planned("koos", "KOOS", "PROM kne/hofte"), planned("hoos", "HOOS", "PROM kne/hofte"), planned("ikdc", "IKDC", "PROM kne/hofte"), planned("aclrsi", "ACL-RSI", "PROM kne/hofte"), planned("tegner", "Tegner", "PROM kne/hofte"),
   planned("qdash", "QuickDASH", "PROM skulder/arm"), planned("oss", "Oxford Shoulder Score", "PROM skulder/arm"), planned("worc", "WORC/WOSI", "PROM skulder/arm"),
   planned("odi", "ODI", "PROM rygg/nakke"), planned("ndi", "NDI", "PROM rygg/nakke"), planned("orebro", "Örebro", "PROM rygg/nakke"), planned("startback", "STarT Back", "PROM rygg/nakke"),
-  NPRS, PSFS, planned("eq5d", "EQ-5D", "Generiske"), planned("pgic", "PGIC", "Generiske")
+  NPRS, PSFS, planned("eq5d", "EQ-5D", "Generiske"), PGIC
 ];
 export const CATEGORIES = ["Skrøpelighet", "Balanse", "Funksjon og gange", "PROM kne/hofte", "PROM skulder/arm", "PROM rygg/nakke", "Generiske"];
 
