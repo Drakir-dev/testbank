@@ -32,19 +32,31 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 - Tester kjøres med Nodes innebygde testløper: `node --test`. Ingen npm-pakker uten at Rikard godkjenner det.
 - Mobil først (ca. 400 px), men appen skal også fungere på PC. Lys og mørk modus via CSS-variabler.
 
-### Struktur (mål)
+### Struktur
 ```
 index.html
 manifest.webmanifest
-sw.js
+sw.js                  service worker, precache-liste og versjonert cache
 css/app.css
-fonts/
-icons/
-js/app.js              kjerne: register, rendering, binding, DIPS-tekst, kopier, nullstill
-js/lib/format.js       num(), f() (desimalkomma), fs(), changeText()
+fonts/                 woff2 + OFL-lisenser
+icons/                 lages med tools/lag-ikoner.mjs
+js/app.js              kjerne (DOM): rendering, binding, kopier, nullstill, registrering av SW
+js/registry.js         testregister, bibliotekets rekkefølge og samlet DIPS-tekst (ingen DOM)
+js/lib/format.js       num(), f() (desimalkomma), fs(), changeText(), aidText()
+js/lib/form.js         esc(), inputF(), radioF(), checkF(), AIDS
 js/modules/<id>.js     én fil per test
 tests/<id>.test.js     tester for skåring og tolkning per test
+tests/eksempel.test.js hele DIPS-teksten for Rikards eksempel
+tests/prototype.test.js sammenligner med prototype/testbank.html
+tests/personvern.test.js, tests/sw.test.js  vakter for personvern og offline-cache
+tools/serve.mjs        lokal utviklingsserver: node tools/serve.mjs
+prototype/testbank.html  prototypen fra Cowork, uendret referanse
 ```
+
+### Ny test eller ny fil
+- Ny test: lag `js/modules/<id>.js` og `tests/<id>.test.js`, importer modulen i `js/registry.js` og legg filen i `ASSETS` i `sw.js`.
+- **Øk `CACHE`-versjonen i `sw.js` ved hver endring i appen**, ellers får installerte apper den gamle versjonen fra cachen. `tests/sw.test.js` feiler hvis en fil mangler i listen.
+- `prototype.test.js` sammenligner bare de sju testene fra prototypen. Endres en av dem faglig med vilje, må sammenligningen for den testen tas ut eller oppdateres.
 
 ### Modulgrensesnitt
 Hver test er en modul som eksporterer:
@@ -69,14 +81,13 @@ export default {
 
 ## Status
 
-Ferdig i prototypen (`testbank.html`, én fil fra Claude Cowork): CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest.
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst.
 
 Planlagt:
-1. Restrukturering til moduler, tester og PWA. Første økt.
-2. NPRS, PSFS og PGIC.
-3. KOOS og HOOS (fullt skjema), deretter IKDC, ACL-RSI (sjekk lisens) og Tegner.
-4. Mini-BESTest og 6MWT.
-5. Lisensierte skjemaer med inntasting av skårer: QuickDASH, OSS, WORC/WOSI, ODI, NDI, Örebro, STarT Back og EQ-5D.
+1. NPRS, PSFS og PGIC.
+2. KOOS og HOOS (fullt skjema), deretter IKDC, ACL-RSI (sjekk lisens) og Tegner.
+3. Mini-BESTest og 6MWT.
+4. Lisensierte skjemaer med inntasting av skårer: QuickDASH, OSS, WORC/WOSI, ODI, NDI, Örebro, STarT Back og EQ-5D.
 
 Åpne faglige punkter som Rikard skal avklare:
 - CFS nivå 4: kontroller ordlyden mot Helsedirektoratets norske v2.0. Prototypen bruker «Lever med svært lett skrøpelighet».
