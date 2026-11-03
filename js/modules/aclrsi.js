@@ -1,9 +1,12 @@
-/* ACL Return to Sport after Injury (ACL-RSI), 12 ledd uten spørsmålstekst.
-   Rettighetene er uavklart (Webster, Feller & Lambros), så spørsmålene gjengis ikke. */
+/* ACL Return to Sport after Injury (ACL-RSI), 12 ledd.
+   Spørsmålstekst hentes fra js/data/ledd-tekst.js når Rikard har lagt den inn fra Ahus' versjon. */
 import { num, f, fs } from "../lib/format.js";
-import { inputF } from "../lib/form.js";
+import { inputF, esc } from "../lib/form.js";
+import { itemText } from "../lib/koos-hoos.js";
+import { ACLRSI_TEXT } from "../data/ledd-tekst.js";
 
 export const ACLRSI_N = 12;
+const hasText = Object.values(ACLRSI_TEXT).some(t => t.trim());
 const r1 = x => Math.round(x * 10) / 10;
 
 /* Ledd 0–100 i trinn på 10, ellers null */
@@ -29,7 +32,10 @@ export default {
   initState: () => { const s = { prev: "" }; for (let i = 1; i <= ACLRSI_N; i++) s["r" + i] = ""; return s; },
   form: () => `
     <span class="hint">Tast inn svaret for hvert ledd fra pasientens skjema: 0–100 i trinn på 10, der høyere er mer positivt.</span>
-    <div class="grid">${Array.from({ length: ACLRSI_N }, (_, i) => inputF(`aclrsi-r${i + 1}`, `r${i + 1}`, `Ledd ${i + 1}`, "", { int: true, ph: "0–100" })).join("")}</div>
+    <div class="${hasText ? "kitems" : "grid"}">${Array.from({ length: ACLRSI_N }, (_, i) => {
+      const t = itemText(ACLRSI_TEXT, String(i + 1));
+      return inputF(`aclrsi-r${i + 1}`, `r${i + 1}`, t ? `${i + 1}. ${esc(t)}` : `Ledd ${i + 1}`, "", { int: true, ph: "0–100" });
+    }).join("")}</div>
     <div class="grid">${inputF("aclrsi-prev", "prev", "Forrige ACL-RSI (valgfritt)", "/100", { ph: "f.eks. 45,8" })}</div>`,
   result(s) {
     const P = scoreAclrsi(s); if (!P.answered) return null;
@@ -54,6 +60,6 @@ export default {
       <li>Skår = gjennomsnittet av de 12 leddene (0–100). Kilden beskriver ikke regler for ubesvarte ledd, så alle må besvares.</li>
       <li>Ingen etablert grenseverdi.</li>
       <li>MIC 13,4 poeng, målt 6–12 mnd etter ACL-rekonstruksjon (Webster & Feller 2021). Responsiviteten er god på gruppenivå, men mer usikker for enkeltpasienter.</li>
-      <li>Utviklet av Webster, Feller og Lambros. Rettighetene er uavklart (ePROVIDE har ingen opplysning), så appen gjengir ikke spørsmålene.</li></ul>
+      <li>Utviklet av Webster, Feller og Lambros. Rettighetene er uavklart (ePROVIDE har ingen opplysning), så spørsmålene vises bare når de er lagt inn fra Ahus' versjon (js/data/ledd-tekst.js).</li></ul>
     <p class="source">Webster KE, Feller JA, Lambros C. Phys Ther Sport 2008;9:9–15. Webster KE, Feller JA. Orthop J Sports Med 2018;6:2325967118763763. Webster KE, Feller JA. Orthop J Sports Med 2021;9:23259671211031240.</p>`
 };
