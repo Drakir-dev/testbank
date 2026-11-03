@@ -24,6 +24,7 @@ const ASSETS = [
   "js/modules/psfs.js",
   "js/modules/pgic.js",
   "js/modules/koos.js",
+  "js/modules/hoos.js",
   "fonts/atkinson-hyperlegible-400-latin.woff2",
   "fonts/atkinson-hyperlegible-400-latin-ext.woff2",
   "fonts/atkinson-hyperlegible-700-latin.woff2",
