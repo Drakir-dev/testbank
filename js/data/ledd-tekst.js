@@ -94,7 +94,8 @@ export const HOOS_TEXT = {
 
 /* IKDC subjektiv kne-evaluering (© AOSSM). Norsk tekst limt inn av Rikard 4.11.2026.
    Et ledd kan være en tekst, eller et objekt med q (spørsmål), opts ([poeng, svar] i skjemaets rekkefølge),
-   head (overskrift før leddet) og note (forklaring før leddet). Poengene er de som står på skjemaet. */
+   head (overskrift før leddet), note (forklaring før leddet) og desc (knappene i rekkefølgen 4–0, som på skjemaet).
+   Poengene er de som står på skjemaet. */
 const aktivitet = grunn => [
   [4, "Veldig anstrengende aktiviteter som å hoppe eller vri deg rundt som i basketball eller fotball"],
   [3, "Anstrengende aktiviteter som tungt fysisk arbeid, stå på ski eller spille tennis"],
@@ -115,15 +116,15 @@ export const IKDC_TEXT = {
   "6": { q: "Har kneet ditt låst seg eller hengt seg opp i løpet av de siste fire ukene, eller siden skaden?", opts: [[0, "Ja"], [1, "Nei"]] },
   "7": { q: "Hva er høyeste grad av aktivitet du kan utføre uten at kneet ditt gir ordentlig etter?", opts: aktivitet("at kneet gir etter") },
   "8": { head: "Sportsaktiviteter", q: "Hva er høyeste grad av aktivitet du kan delta i regelmessig?", opts: aktivitet("kneet") },
-  "9a": { note: NOTE9, q: "Gå opp trapper" },
-  "9b": { q: "Gå ned trapper" },
-  "9c": { q: "Knele på fremsiden av kneet" },
-  "9d": { q: "Sitte på huk" },
-  "9e": { q: "Sitte med kneet bøyd" },
-  "9f": { q: "Reise deg opp av en stol" },
-  "9g": { q: "Løpe rett frem" },
-  "9h": { q: "Hoppe og lande på det skadde beinet" },
-  "9i": { q: "Stoppe og starte raskt" },
+  "9a": { desc: true, note: NOTE9, q: "Gå opp trapper" },
+  "9b": { desc: true, q: "Gå ned trapper" },
+  "9c": { desc: true, q: "Knele på fremsiden av kneet" },
+  "9d": { desc: true, q: "Sitte på huk" },
+  "9e": { desc: true, q: "Sitte med kneet bøyd" },
+  "9f": { desc: true, q: "Reise deg opp av en stol" },
+  "9g": { desc: true, q: "Løpe rett frem" },
+  "9h": { desc: true, q: "Hoppe og lande på det skadde beinet" },
+  "9i": { desc: true, q: "Stoppe og starte raskt" },
   "10": { head: "Funksjonsevne", note: "Hvordan vil du vurdere kneets funksjonsevne på en skala fra 0 til 10, hvor 10 representerer normal, utmerket funksjonsevne og 0 at du ikke er i stand til å utføre noen av dine vanlige daglige aktiviteter, inkludert sportsaktiviteter? Funksjonsevne før kneskaden skåres ikke og er ikke med her.",
     q: "Nåværende funksjonsevne for kneet ditt (0 = Kan ikke utføre daglige aktiviteter, 10 = Ingen begrensninger i daglige aktiviteter)" },
 };

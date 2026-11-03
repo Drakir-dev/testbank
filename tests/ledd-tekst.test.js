@@ -67,8 +67,18 @@ test("utfylt tekst vises og escapes", () => {
   assert.equal((html.match(/type="radio"/g) || []).length, 5);
 });
 
-test("ledd med 0–10 får seks kolonner, 0–4 bruker standard", () => {
-  assert.match(itemRow("ikdc", "2", "i2", 10, ""), /repeat\(6,1fr\)/);
+test("ledd 9a–9i vises 4–0 som på skjemaet, andre ledd 0–maks", () => {
+  const html = IKDC.form(IKDC.initState());
+  const order = code => [...html.matchAll(new RegExp(`id="ikdc-${code}-(\\d+)"`, "g"))].map(m => Number(m[1]));
+  for (const l of "abcdefghi") assert.deepEqual(order("9" + l), [4, 3, 2, 1, 0], "9" + l);
+  assert.deepEqual(order("2"), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  assert.deepEqual(order("6"), [0, 1]);
+  assert.deepEqual([...itemRow("x", "P1", "P1", 4, "", "", null, true).matchAll(/value="(\d)"/g)].map(m => m[1]), ["4", "3", "2", "1", "0"]);
+});
+
+test("ledd med 0–10 får klassen s11 (seks kolonner på mobil, én rad på bred skjerm), 0–4 bruker standard", () => {
+  assert.match(itemRow("ikdc", "2", "i2", 10, ""), /class="scores s11">/);
+  assert.doesNotMatch(itemRow("ikdc", "2", "i2", 10, ""), /grid-template-columns/);
   assert.match(itemRow("ikdc", "6", "i6", 1, ""), /repeat\(2,1fr\)/);
   assert.doesNotMatch(itemRow("koos", "P1", "P1", 4, ""), /grid-template-columns/);
 });

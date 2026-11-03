@@ -52,7 +52,7 @@ export default {
     <div class="kitems">${IKDC_ITEMS.map(it => {
       const e = itemEntry(IKDC_TEXT, it.code);
       return (e.head ? `<div class="sub-h">${esc(e.head)}</div>` : "") + (e.note ? `<span class="hint">${esc(e.note)}</span>` : "")
-        + itemRow("ikdc", it.code, "i" + it.code, it.max, e.q, `, ${hint(it)}`, e.opts);
+        + itemRow("ikdc", it.code, "i" + it.code, it.max, e.q, `, ${hint(it)}`, e.opts, e.desc);
     }).join("")}</div>
     <div class="grid">${inputF("ikdc-prev", "prev", "Forrige IKDC-skår (valgfritt)", "/100", { ph: "f.eks. 50,6" })}</div>`,
   result(s) {

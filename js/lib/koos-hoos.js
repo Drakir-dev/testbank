@@ -16,13 +16,17 @@ export function itemEntry(texts, code) {
 export const itemText = (texts, code) => itemEntry(texts, code).q;
 
 /* Leddkode, valgfri tekst og knapper 0–max. Brukes av KOOS, HOOS og IKDC.
-   opts ([poeng, svar] i skjemaets rekkefølge) gir én knapp per svar med poeng og tekst i stedet for bare tall. */
-export function itemRow(id, code, k, max, text, ariaExtra = "", opts = null) {
-  const cols = Math.min(max + 1, 6);
+   opts ([poeng, svar] i skjemaets rekkefølge) gir én knapp per svar med poeng og tekst i stedet for bare tall.
+   desc viser tallknappene fra max til 0, når skjemaet har høyest poeng lengst til venstre.
+   0–10 står i seks kolonner på mobil og på én rad på bred skjerm (klassen s11 i css/app.css). */
+export function itemRow(id, code, k, max, text, ariaExtra = "", opts = null, desc = false) {
+  const values = Array.from({ length: max + 1 }, (_, i) => desc ? max - i : i);
+  const layout = max === 4 ? "" : max === 10 ? " s11" : "";
+  const style = max === 4 || max === 10 ? "" : ` style="grid-template-columns:repeat(${Math.min(max + 1, 6)},1fr)"`;
   const radio = (v, label) => `<label><input type="radio" name="${id}-${code}" id="${id}-${code}-${v}" data-k="${k}" value="${v}"><span>${label}</span></label>`;
   const buttons = opts
     ? `<div class="scores opts">${opts.map(([v, t]) => radio(v, `<b>${v}</b> ${esc(t)}`)).join("")}</div>`
-    : `<div class="scores"${max === 4 ? "" : ` style="grid-template-columns:repeat(${cols},1fr)"`}>${Array.from({ length: max + 1 }, (_, v) => radio(v, v)).join("")}</div>`;
+    : `<div class="scores${layout}"${style}>${values.map(v => radio(v, v)).join("")}</div>`;
   return `
       <div class="kitem" role="radiogroup" aria-label="${code}${text ? ": " + esc(text) : ariaExtra}">${text ? `<span class="ktext"><b class="kno">${code}</b> ${esc(text)}</span>` : `<span class="kcode">${code}</span>`}
         ${buttons}</div>`;
