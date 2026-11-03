@@ -129,3 +129,6 @@ resetBtn.addEventListener("click", () => {
 renderLib();
 renderProfile();
 renderForms();
+
+/* Offline: service workeren cacher bare appens egne filer (se sw.js) */
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
