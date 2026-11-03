@@ -1,9 +1,10 @@
-/* Hip disability and Osteoarthritis Outcome Score (HOOS), ledd for ledd uten spørsmålstekst */
+/* Hip disability and Osteoarthritis Outcome Score (HOOS), ledd for ledd. Spørsmålstekst hentes fra js/data/ledd-tekst.js når den er lagt inn. */
 import { makeModule } from "../lib/koos-hoos.js";
+import { HOOS_TEXT } from "../data/ledd-tekst.js";
 
 /* Delskårer i skjemaets rekkefølge (Nilsdotter 2003) */
 export const HOOS_DEF = {
-  id: "hoos", name: "HOOS",
+  id: "hoos", name: "HOOS", texts: HOOS_TEXT,
   title: "Hip disability and Osteoarthritis Outcome Score (HOOS)", meta: "40 ledd · 5 delskårer 0–100",
   subscales: [
     { key: "S", n: 5, label: "symptomer", head: "Symptomer og stivhet" },
@@ -22,7 +23,7 @@ export const HOOS_DEF = {
       <li>1–2 ubesvarte ledd i en delskår erstattes med gjennomsnittet av de andre. Ved 3 eller flere ubesvarte er delskåren ugyldig (Nilsdotter 2003).</li>
       <li>Delskårene tolkes hver for seg. Det regnes ingen totalskår.</li>
       <li>MCID: smerte 24 og livskvalitet 17 poeng, 1 år etter hofteprotese (Paulsen 2014). Symptomer, ADL og sport/fritid har ingen etablert MCID i appen.</li>
-      <li>HOOS © Ewa M. Roos. Lisens via Mapi Research Trust (ePROVIDE). Appen gjengir ikke spørsmålsteksten.</li></ul>
+      <li>HOOS © Ewa M. Roos. Lisens via Mapi Research Trust (ePROVIDE). Spørsmålsteksten vises bare når den er lagt inn fra Ahus' lisensierte norske versjon (js/data/ledd-tekst.js).</li></ul>
     <p class="source">Nilsdotter AK, Lohmander LS, Klässbo M, Roos EM. BMC Musculoskelet Disord 2003;4:10. Paulsen A, Roos EM, Pedersen AB, Overgaard S. Acta Orthop 2014;85:39–48.</p>`
 };
 

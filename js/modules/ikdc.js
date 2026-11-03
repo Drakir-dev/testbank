@@ -1,7 +1,9 @@
-/* IKDC Subjective Knee Form (2000), ledd for ledd uten spørsmålstekst.
-   Skjemaet er © AOSSM og gjengis ikke. Skåring etter AOSSMs skåringsinstruksjon. */
+/* IKDC Subjective Knee Form (2000), ledd for ledd (© AOSSM).
+   Spørsmålstekst hentes fra js/data/ledd-tekst.js når den er lagt inn. Skåring etter AOSSMs skåringsinstruksjon. */
 import { num, f, fs } from "../lib/format.js";
 import { inputF } from "../lib/form.js";
+import { itemRow, itemText } from "../lib/koos-hoos.js";
+import { IKDC_TEXT } from "../data/ledd-tekst.js";
 
 /* 18 skårede ledd: kode, maks poeng og om tallet pasienten krysset må snus (poeng = 10 − kryss).
    Ledd 10 «før skaden» skåres ikke. Sum maks = 87. */
@@ -47,10 +49,7 @@ export default {
   initState: () => { const s = { prev: "" }; IKDC_ITEMS.forEach(it => s["i" + it.code] = ""); return s; },
   form: () => `
     <span class="hint">Tast inn svarene fra pasientens lisensierte skjema. Ledd 1 og 4–9: poeng etter AOSSMs skåringsnøkkel (0 = lavest funksjon eller mest plager). Ledd 2, 3 og 10: tallet pasienten krysset, 0–10 (appen snur ledd 2 og 3). Ledd 10 «før skaden» skåres ikke.</span>
-    <div class="kitems">${IKDC_ITEMS.map(it => `
-      <div class="kitem" role="radiogroup" aria-label="Ledd ${it.code}, ${hint(it)}"><span class="kcode">${it.code}</span>
-        <div class="scores" style="grid-template-columns:repeat(${Math.min(it.max + 1, 6)},1fr)">${Array.from({ length: it.max + 1 }, (_, v) =>
-          `<label><input type="radio" name="ikdc-${it.code}" id="ikdc-${it.code}-${v}" data-k="i${it.code}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`).join("")}</div>
+    <div class="kitems">${IKDC_ITEMS.map(it => itemRow("ikdc", it.code, "i" + it.code, it.max, itemText(IKDC_TEXT, it.code), `, ${hint(it)}`)).join("")}</div>
     <div class="grid">${inputF("ikdc-prev", "prev", "Forrige IKDC-skår (valgfritt)", "/100", { ph: "f.eks. 50,6" })}</div>`,
   result(s) {
     const P = scoreIkdc(s); if (!P.answered) return null;
@@ -79,6 +78,6 @@ export default {
       <li>Ledd 2 og 3: tallet pasienten krysset (0–10). Appen snur skalaen (poeng = 10 − kryss). Ledd 10: tallet for nåværende funksjon (0–10). Funksjon før skaden skåres ikke.</li>
       <li>Skår = sum av poeng ÷ maks mulig for besvarte ledd × 100 (maks 87 når alle er besvart). Skåren regnes ut når minst 16 av 18 ledd er besvart.</li>
       <li>MCID: 11,5 poeng er mest sensitive og 20,5 mest spesifikke grense for bedring, hos pasienter med ulike knelidelser (Irrgang 2006). Appen klassifiserer mot 11,5. MDC 9,0 poeng (Irrgang 2001).</li>
-      <li>IKDC © American Orthopaedic Society for Sports Medicine (AOSSM). Helseforetak må ha lisens fra AOSSM. Appen gjengir ikke spørsmålsteksten.</li></ul>
+      <li>IKDC © American Orthopaedic Society for Sports Medicine (AOSSM). Helseforetak må ha lisens fra AOSSM. Spørsmålsteksten vises bare når den er lagt inn fra Ahus' lisensierte norske versjon (js/data/ledd-tekst.js).</li></ul>
     <p class="source">Irrgang JJ et al. Am J Sports Med 2001;29:600–13. Irrgang JJ et al. Am J Sports Med 2006;34:1567–73. AOSSM: 2000 IKDC Knee Forms, skåringsinstruksjon.</p>`
 };

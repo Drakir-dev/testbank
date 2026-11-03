@@ -2,7 +2,19 @@
    Spørsmålsteksten er opphavsrettsbeskyttet (© Ewa M. Roos, lisens via Mapi Research Trust) og gjengis ikke.
    Hvert ledd skåres 0–4 (0 = ingen problemer). Rene funksjoner, ingen DOM. */
 import { num, fs } from "./format.js";
-import { inputF } from "./form.js";
+import { inputF, esc } from "./form.js";
+
+/* Leddtekst fra Ahus' lisensierte versjon (js/data/ledd-tekst.js), eller "" */
+export const itemText = (texts, code) => ((texts || {})[code] || "").trim();
+
+/* Leddkode, valgfri tekst og knapper 0–max. Brukes av KOOS, HOOS og IKDC. */
+export function itemRow(id, code, k, max, text, ariaExtra = "") {
+  const cols = Math.min(max + 1, 6);
+  return `
+      <div class="kitem" role="radiogroup" aria-label="${code}${text ? ": " + esc(text) : ariaExtra}">${text ? `<span class="ktext">${esc(text)}</span>` : ""}<span class="kcode">${code}</span>
+        <div class="scores"${max === 4 ? "" : ` style="grid-template-columns:repeat(${cols},1fr)"`}>${Array.from({ length: max + 1 }, (_, v) =>
+          `<label><input type="radio" name="${id}-${code}" id="${id}-${code}-${v}" data-k="${k}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`;
+}
 
 /* Ledd 0–4 som heltall, ellers null */
 export const itemVal = v => { const x = num(v); return Number.isInteger(x) && x >= 0 && x <= 4 ? x : null; };
@@ -66,10 +78,7 @@ export function makeModule(def) {
     <span class="hint">Tast inn svarene fra pasientens lisensierte skjema: 0 = svaret lengst til venstre (ingen problemer), 4 = lengst til høyre (ekstreme problemer).</span>
     ${def.subscales.map(sub => `
     <div class="sub-h">${sub.head} (${sub.key}1–${sub.key}${sub.n})</div>
-    <div class="kitems">${codes(sub).map(c => `
-      <div class="kitem" role="radiogroup" aria-label="${c}"><span class="kcode">${c}</span>
-        <div class="scores">${[0, 1, 2, 3, 4].map(v =>
-          `<label><input type="radio" name="${def.id}-${c}" id="${def.id}-${c}-${v}" data-k="${c}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`).join("")}</div>`).join("")}
+    <div class="kitems">${codes(sub).map(c => itemRow(def.id, c, c, 4, itemText(def.texts, c))).join("")}</div>`).join("")}
     <div class="sub-h">Forrige delskårer (valgfritt)</div>
     <div class="grid">${def.textOrder.map(k => inputF(`${def.id}-prev${k}`, "prev" + k, cap(def.subscales.find(x => x.key === k).label), "/100", { int: true, ph: "0–100" })).join("")}</div>`,
     result(s) {

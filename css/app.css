@@ -112,6 +112,7 @@ fieldset.bitem legend{font-weight:700;font-size:.92rem;padding:0 4px;display:fle
 .kitems{display:flex;flex-direction:column;gap:6px}
 .kitem{display:grid;grid-template-columns:3.2em minmax(0,1fr);align-items:center;gap:8px}
 .kcode{font-family:var(--f-mono);font-weight:500;font-size:.9rem;color:var(--muted)}
+.ktext{grid-column:1/-1;font-size:.9rem;line-height:1.35}
 .crit{font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:2px}
 .crit.picked span{display:none}
 .crit.picked span.sel{display:block;color:var(--fg)}
