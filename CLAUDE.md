@@ -21,7 +21,8 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 - Skåringslogikk skal ha automatiske tester (se under) før den merges.
 
 ### Opphavsrett for PROM-skjemaer
-- Kan bygges som fullt skjema, ledd for ledd: IKDC, Tegner, NPRS, PSFS, PGIC og Örebro. CFS og funksjonstestene kan også brukes fritt, med kildeangivelse.
+- Kan bygges som fullt skjema, ledd for ledd: NPRS, PSFS, PGIC og Örebro.
+- IKDC (© AOSSM, helseforetak må ha lisens), ACL-RSI og Tegner (rettigheter uavklart, «no information» på ePROVIDE): sjekket 3.11.2026. De er bygget uten spørsmåls- og nivåtekster, og svarene tastes inn fra pasientens skjema. CFS og funksjonstestene kan også brukes fritt, med kildeangivelse.
 - KOOS og HOOS: vilkårene er endret (sjekket 3.11.2026, koos.nu). De er «© Ewa M. Roos, all rights reserved» og krever alltid lisens via Mapi. De er bygget **ledd for ledd med leddkoder** (P1, S1 …): svaret 0–4 tastes inn fra pasientens lisensierte skjema, uten spørsmålstekst. Teksten kan legges inn bare hvis Mapi gir skriftlig tillatelse til digital gjengivelse i en åpen app.
 - Krever lisens eller tillatelse for digital gjengivelse: ODI og EQ-5D (Mapi/EuroQol), Oxford Shoulder Score, QuickDASH, WORC/WOSI og antakelig NDI og STarT Back. Disse bygges inntil videre med **inntasting av delskårer/totalskår**, ikke med spørsmålstekstene.
 - Sjekk bruksvilkårene på nytt før hvert skjema bygges, og oppgi rettighetshaveren i veiledningen.
@@ -83,12 +84,11 @@ export default {
 
 ## Status
 
-Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), og KOOS og HOOS (ledd for ledd uten spørsmålstekst).
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd uten spørsmålstekst), og IKDC, ACL-RSI og Tegner (uten spørsmåls- og nivåtekster).
 
 Planlagt:
-1. IKDC, ACL-RSI (sjekk lisens) og Tegner.
-2. Mini-BESTest og 6MWT.
-3. Lisensierte skjemaer med inntasting av skårer: QuickDASH, OSS, WORC/WOSI, ODI, NDI, Örebro, STarT Back og EQ-5D.
+1. Mini-BESTest og 6MWT.
+2. Lisensierte skjemaer med inntasting av skårer: QuickDASH, OSS, WORC/WOSI, ODI, NDI, Örebro, STarT Back og EQ-5D.
 
 Åpne faglige punkter som Rikard skal avklare:
 - CFS nivå 4: kontroller ordlyden mot Helsedirektoratets norske v2.0. Prototypen bruker «Lever med svært lett skrøpelighet».
@@ -97,6 +97,7 @@ Planlagt:
 - PSFS er «© P Stratford 1995, all rights reserved» (ePROVIDE). Bruksvilkårene vises bare etter innlogging på ePROVIDE: sjekk dem.
 - PGIC: den norske ordlyden er appens egen oversettelse. Bytt til en publisert norsk versjon hvis det finnes en.
 - KOOS/HOOS: kontroller at leddkodene og antallet ledd per delskår stemmer med det lisensierte norske skjemaet. Avklar med Mapi om Ahus-lisensen dekker spørsmålstekst i appen.
+- IKDC: kontroller at leddnumrene (1–8, 9a–9i, 10) og poengnøkkelen stemmer med det norske skjemaet, og at Ahus har lisens fra AOSSM.
 
 ## Arbeidsmåte
 - Skriv på norsk i UI, i DIPS-tekst, i commit-meldinger og i kommunikasjonen med Rikard.
