@@ -114,20 +114,20 @@ export const IKDC_TEXT = {
   "10": "",
 };
 
-/* ACL-RSI (Webster, Feller & Lambros) */
+/* ACL-RSI (Webster, Feller & Lambros 2008). Norsk tekst limt inn av Rikard 3.11.2026, med svarankre for 0 og 100. */
 export const ACLRSI_TEXT = {
-  "1": "",
-  "2": "",
-  "3": "",
-  "4": "",
-  "5": "",
-  "6": "",
-  "7": "",
-  "8": "",
-  "9": "",
-  "10": "",
-  "11": "",
-  "12": "",
+  "1": "Er du sikker på at du kan drive idretten din på samme nivå som tidligere? (0 = Ikke sikker i det hele tatt, 100 = Helt sikker)",
+  "2": "Tror du det er sannsynlig at du kommer til å skade kneet ditt på nytt ved å delta i idretten din? (0 = Ekstremt sannsynlig, 100 = Ikke sannsynlig i det hele tatt)",
+  "3": "Er du engstelig for å drive med idretten din? (0 = Ekstremt engstelig, 100 = Ikke engstelig i det hele tatt)",
+  "4": "Føler du deg sikker på at kneet ditt ikke vil gi etter når du driver med idretten din? (0 = Ikke sikker i det hele tatt, 100 = Helt sikker)",
+  "5": "Føler du deg sikker på at du kunne drevet med idretten din uten å bekymre deg for kneet ditt? (0 = Ikke sikker i det hele tatt, 100 = Helt sikker)",
+  "6": "Synes du det er frustrerende å måtte ta hensyn til kneet ditt når det gjelder idretten din? (0 = Ekstremt frustrerende, 100 = Ikke frustrerende i det hele tatt)",
+  "7": "Er du engstelig for å skade kneet ditt på nytt når du driver med idretten din? (0 = Ekstremt engstelig, 100 = Ikke engstelig i det hele tatt)",
+  "8": "Er du sikker på at kneet ditt ikke vil svikte under store belastninger? (0 = Ikke sikker i det hele tatt, 100 = Helt sikker)",
+  "9": "Er du engstelig for at du skal skade kneet ditt ved et uhell når du driver med idretten din? (0 = Ekstremt engstelig, 100 = Ikke engstelig i det hele tatt)",
+  "10": "Hindrer tanken på å måtte gjennomgå operasjon og gjenopptrening på nytt deg fra å drive med idretten din? (0 = Hele tiden, 100 = Aldri)",
+  "11": "Er du trygg på din evne til å prestere bra i idretten din? (0 = Ikke trygg i det hele tatt, 100 = Helt trygg)",
+  "12": "Føler du deg komfortabel med tanke på å drive med idretten din? (0 = Ikke komfortabel i det hele tatt, 100 = Helt komfortabel)",
 };
 
 /* Tegner aktivitetsskala (Tegner & Lysholm 1985). Appens egen norske oversettelse av den engelske teksten Rikard

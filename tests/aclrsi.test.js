@@ -41,3 +41,13 @@ test("eksempel: full DIPS-tekst", () => {
     "Endring fra forrige: 40,0 → 58,3 (+18,3 poeng, bedring; over MIC). MIC: 13,4 poeng (6–12 mnd etter ACL-rekonstruksjon, Webster & Feller 2021)."
   ].join("\n"));
 });
+
+test("spørsmålstekst: alle 12 ledd har tekst med svarankre, og vises i skjemaet", async () => {
+  const { ACLRSI_TEXT } = await import("../js/data/ledd-tekst.js");
+  for (let i = 1; i <= 12; i++) assert.match(ACLRSI_TEXT[String(i)], /\(0 = .+, 100 = .+\)$/, `ledd ${i}`);
+  const html = ACLRSI.form(ACLRSI.initState());
+  assert.match(html, /1\. Er du sikker på at du kan drive idretten din/);
+  assert.match(html, /12\. Føler du deg komfortabel/);
+  assert.match(html, /hovedidretten før skaden/);
+  assert.doesNotMatch(html, /Fødselsnummer|Navn:/);
+});
