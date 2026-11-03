@@ -33,6 +33,8 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+/* hidden skal alltid skjule, også elementer med egen display (f.eks. .grid) */
+[hidden]{display:none !important}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:16px;line-height:1.45;
   padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
   padding-block:0 calc(110px + env(safe-area-inset-bottom, 0px))}
@@ -70,7 +72,6 @@ h3{margin:0;font-size:1.15rem;text-wrap:balance}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
 .grid .field > .lbl{font-size:.88rem}
 .grid.psfs-row{grid-template-columns:minmax(0,1fr) 110px}
-.grid.psfs-row[hidden]{display:none}
 
 .levels{display:flex;flex-direction:column;gap:6px}
 label.lvl{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:var(--r);padding:10px 12px 10px 10px;cursor:pointer;background:var(--surface);position:relative}
