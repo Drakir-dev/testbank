@@ -21,7 +21,8 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 - Skåringslogikk skal ha automatiske tester (se under) før den merges.
 
 ### Opphavsrett for PROM-skjemaer
-- Kan bygges som fullt skjema, ledd for ledd: KOOS, HOOS, IKDC, Tegner, NPRS, PSFS, PGIC og Örebro. CFS og funksjonstestene kan også brukes fritt, med kildeangivelse.
+- Kan bygges som fullt skjema, ledd for ledd: IKDC, Tegner, NPRS, PSFS, PGIC og Örebro. CFS og funksjonstestene kan også brukes fritt, med kildeangivelse.
+- KOOS og HOOS: vilkårene er endret (sjekket 3.11.2026, koos.nu). De er «© Ewa M. Roos, all rights reserved» og krever alltid lisens via Mapi. De er bygget **ledd for ledd med leddkoder** (P1, S1 …): svaret 0–4 tastes inn fra pasientens lisensierte skjema, uten spørsmålstekst. Teksten kan legges inn bare hvis Mapi gir skriftlig tillatelse til digital gjengivelse i en åpen app.
 - Krever lisens eller tillatelse for digital gjengivelse: ODI og EQ-5D (Mapi/EuroQol), Oxford Shoulder Score, QuickDASH, WORC/WOSI og antakelig NDI og STarT Back. Disse bygges inntil videre med **inntasting av delskårer/totalskår**, ikke med spørsmålstekstene.
 - Sjekk bruksvilkårene på nytt før hvert skjema bygges, og oppgi rettighetshaveren i veiledningen.
 
@@ -44,6 +45,7 @@ js/app.js              kjerne (DOM): rendering, binding, kopier, nullstill, regi
 js/registry.js         testregister, bibliotekets rekkefølge og samlet DIPS-tekst (ingen DOM)
 js/lib/format.js       num(), f() (desimalkomma), fs(), changeText(), aidText()
 js/lib/form.js         esc(), inputF(), radioF(), checkF(), AIDS
+js/lib/koos-hoos.js    felles skåring og skjema for KOOS og HOOS (delskårer 0–100)
 js/modules/<id>.js     én fil per test
 tests/<id>.test.js     tester for skåring og tolkning per test
 tests/eksempel.test.js hele DIPS-teksten for Rikards eksempel
@@ -81,10 +83,10 @@ export default {
 
 ## Status
 
-Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer).
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), og KOOS og HOOS (ledd for ledd uten spørsmålstekst).
 
 Planlagt:
-1. KOOS og HOOS (fullt skjema), deretter IKDC, ACL-RSI (sjekk lisens) og Tegner.
+1. IKDC, ACL-RSI (sjekk lisens) og Tegner.
 2. Mini-BESTest og 6MWT.
 3. Lisensierte skjemaer med inntasting av skårer: QuickDASH, OSS, WORC/WOSI, ODI, NDI, Örebro, STarT Back og EQ-5D.
 
@@ -94,6 +96,7 @@ Planlagt:
 - Berg MDC for utgangsskår 0–24 (5 poeng ifølge Donoghue & Stokes 2009): verifiser i originalartikkelen.
 - PSFS er «© P Stratford 1995, all rights reserved» (ePROVIDE). Bruksvilkårene vises bare etter innlogging på ePROVIDE: sjekk dem.
 - PGIC: den norske ordlyden er appens egen oversettelse. Bytt til en publisert norsk versjon hvis det finnes en.
+- KOOS/HOOS: kontroller at leddkodene og antallet ledd per delskår stemmer med det lisensierte norske skjemaet. Avklar med Mapi om Ahus-lisensen dekker spørsmålstekst i appen.
 
 ## Arbeidsmåte
 - Skriv på norsk i UI, i DIPS-tekst, i commit-meldinger og i kommunikasjonen med Rikard.
