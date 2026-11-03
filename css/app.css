@@ -147,3 +147,10 @@ textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.5;color:v
 .kitem .ktext ~ .scores{grid-column:1/-1}
 .kno{font-family:var(--f-mono);font-weight:500;color:var(--muted);margin-right:4px}
 .scores.opts span{display:block}
+.scores.s11{grid-template-columns:repeat(6,1fr)}
+@media (min-width:600px){.scores.s11{grid-template-columns:repeat(11,1fr)}}
+/* Spørsmål med tekst: fet, tydelig skille mellom spørsmålene, svarene under */
+.kitems:has(.ktext){gap:14px}
+.kitem:has(.ktext){padding-top:12px;border-top:1px solid var(--line)}
+.sub-h + .kitems > .kitem:first-child, .hint + .kitem{border-top:0;padding-top:0}
+.ktext{font-weight:700;font-size:.95rem}
