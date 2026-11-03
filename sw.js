@@ -26,6 +26,8 @@ const ASSETS = [
   "js/modules/koos.js",
   "js/modules/hoos.js",
   "js/modules/ikdc.js",
+  "js/modules/aclrsi.js",
+  "js/modules/tegner.js",
   "fonts/atkinson-hyperlegible-400-latin.woff2",
   "fonts/atkinson-hyperlegible-400-latin-ext.woff2",
   "fonts/atkinson-hyperlegible-700-latin.woff2",
