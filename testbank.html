@@ -1,0 +1,750 @@
+<title>Testbank Fysio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: mobilførst enkeltkolonne (maks 720px). Testbibliotek øverst, alder/kjønn, skjema per valgt test, DIPS-tekst nederst, fast kopier-linje i bunn. */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --surface-2:#e8eef0; --fg:#14232b; --muted:#5a6b73; --line:#d3dde1;
+  --accent:#0f6e7a; --accent-fg:#ffffff; --accent-soft:#d6ecee;
+  --ok:#2f7d4f; --warn:#a86400; --crit:#b3322b;
+  --l1:#1f7a52; --l2:#3c8a4a; --l3:#6f9a3c; --l4:#b08a12; --l5:#c26d10; --l6:#c4501a; --l7:#b3322b; --l8:#8a2236; --l9:#4e3b6b;
+  --f-ui:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "Consolas", monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f171b; --surface:#16232a; --surface-2:#1d2e36; --fg:#e4ecef; --muted:#9db0b8; --line:#2b3f48;
+  --accent:#4fb8c4; --accent-fg:#06222a; --accent-soft:#163a40;
+  --ok:#5cc28a; --warn:#e2a23a; --crit:#ef7a70;
+  --l1:#4fbf8a; --l2:#6cc277; --l3:#9cc364; --l4:#d8b443; --l5:#e5964a; --l6:#ea7a4c; --l7:#ef6a5f; --l8:#d86680; --l9:#a58fd0;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0f171b; --surface:#16232a; --surface-2:#1d2e36; --fg:#e4ecef; --muted:#9db0b8; --line:#2b3f48;
+  --accent:#4fb8c4; --accent-fg:#06222a; --accent-soft:#163a40;
+  --ok:#5cc28a; --warn:#e2a23a; --crit:#ef7a70;
+  --l1:#4fbf8a; --l2:#6cc277; --l3:#9cc364; --l4:#d8b443; --l5:#e5964a; --l6:#ea7a4c; --l7:#ef6a5f; --l8:#d86680; --l9:#a58fd0;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:16px;line-height:1.45;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:0 calc(110px + env(safe-area-inset-bottom, 0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--bg)}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header.top{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:var(--bg);padding-block:14px 10px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:1.25rem;letter-spacing:-.01em}
+.brand span{color:var(--accent)}
+.tag{font-size:.8rem;color:var(--muted)}
+h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 10px;font-weight:700}
+h3{margin:0;font-size:1.15rem;text-wrap:balance}
+.privacy{font-size:.85rem;color:var(--muted);background:var(--surface-2);border-radius:var(--r);padding:10px 12px;margin:0}
+.privacy b{color:var(--fg)}
+.stack{display:flex;flex-direction:column;gap:16px}
+
+/* Bibliotek */
+.lib{display:flex;flex-direction:column;gap:12px}
+.cat{display:flex;flex-direction:column;gap:6px}
+.cat-name{font-size:.85rem;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:.9rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:7px 12px;cursor:pointer;min-height:38px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);font-weight:700}
+.chip:disabled{cursor:default;color:var(--muted);background:transparent;border-style:dashed}
+.chip small{font-size:.72rem;opacity:.85;margin-left:4px}
+.chip:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,label.lvl:focus-within,.seg label:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+
+/* Kort */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:16px}
+.card.profile{background:var(--surface-2);border-style:dashed}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.card-head .meta{font-size:.8rem;color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.field > .lbl{font-weight:700;font-size:.92rem}
+.hint{font-size:.82rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.grid .field > .lbl{font-size:.88rem}
+
+.levels{display:flex;flex-direction:column;gap:6px}
+label.lvl{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:var(--r);padding:10px 12px 10px 10px;cursor:pointer;background:var(--surface);position:relative}
+label.lvl input{position:absolute;opacity:0;pointer-events:none}
+.num{min-width:44px;height:44px;padding:0 6px;border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:1.15rem;color:#fff;background:var(--c);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lvl-txt{min-width:0}
+.lvl-name{font-weight:700}
+.lvl-desc{font-size:.86rem;color:var(--muted)}
+label.lvl.on{border-color:var(--c);box-shadow:inset 0 0 0 2px var(--c);background:var(--surface-2)}
+
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.92rem;min-height:42px;background:var(--surface)}
+.seg label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.seg input{accent-color:var(--accent);width:18px;height:18px;margin:0}
+.inp{display:flex;align-items:center;gap:8px}
+.inp input{font:inherit;font-size:1.05rem;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;min-width:0;font-variant-numeric:tabular-nums}
+.inp .unit{color:var(--muted);font-size:.9rem;flex:none}
+textarea.note{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;min-height:64px;resize:vertical}
+
+.result{border-radius:var(--r);padding:12px 14px;background:var(--surface-2);display:flex;gap:12px;align-items:center}
+.result .num{flex:none}
+.result .r-main{font-weight:700}
+.result .r-sub{font-size:.86rem;color:var(--muted)}
+.result.empty{color:var(--muted);font-size:.92rem}
+.t-ok{--c:var(--ok)} .t-warn{--c:var(--warn)} .t-crit{--c:var(--crit)} .t-none{--c:var(--muted)}
+
+.sub-h{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);border-top:1px solid var(--line);padding-top:12px}
+.berg{display:flex;flex-direction:column;gap:8px}
+fieldset.bitem{border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+fieldset.bitem legend{font-weight:700;font-size:.92rem;padding:0 4px;display:flex;gap:8px;align-items:baseline}
+.bno{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.8rem}
+.scores{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.scores label{position:relative;cursor:pointer}
+.scores input{position:absolute;opacity:0;pointer-events:none}
+.scores span{display:grid;place-items:center;min-height:44px;border:1px solid var(--line);border-radius:8px;font-weight:700;font-size:1.05rem;background:var(--surface);font-variant-numeric:tabular-nums}
+.scores input:checked + span{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.scores label:focus-within span{outline:3px solid var(--accent);outline-offset:2px}
+.crit{font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.crit.picked span{display:none}
+.crit.picked span.sel{display:block;color:var(--fg)}
+details.guide{font-size:.88rem;border-top:1px solid var(--line);padding-top:10px}
+details.guide summary{cursor:pointer;font-weight:700;color:var(--accent)}
+details.guide ul{padding-left:18px;margin:8px 0 0;display:flex;flex-direction:column;gap:4px}
+.source{font-size:.78rem;color:var(--muted);margin:8px 0 0}
+
+/* DIPS-tekst */
+.out{display:flex;flex-direction:column;gap:8px}
+textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.5;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;width:100%;min-height:170px;resize:vertical}
+
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);
+  padding-top:10px;padding-bottom:calc(8px + env(safe-area-inset-bottom, 0px));
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.bar-in{max-width:720px;margin:0 auto;display:flex;gap:8px;align-items:center}
+.btn{font:inherit;font-weight:700;border-radius:10px;padding:12px 16px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;min-height:48px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);flex:1}
+.btn.primary:disabled{opacity:.45;cursor:default}
+.btn.danger{color:var(--crit);border-color:var(--crit)}
+.status{font-size:.82rem;color:var(--ok);min-height:1.2em}
+@media (prefers-reduced-motion:no-preference){label.lvl,.chip,.btn,.seg label{transition:background-color .15s,border-color .15s,box-shadow .15s}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Testbank <span>Fysio</span></div>
+    <div class="tag">Pilot v0.3</div>
+  </header>
+
+  <p class="privacy"><b>Ingen pasientdata lagres.</b> Alt du fyller inn ligger bare i denne fanen og forsvinner når du lukker eller nullstiller. Skriv ikke navn, fødselsnummer eller andre personopplysninger i kommentarfeltene.</p>
+
+  <section aria-labelledby="h-lib">
+    <h2 id="h-lib">Velg tester</h2>
+    <div class="lib" id="lib"></div>
+  </section>
+
+  <section aria-labelledby="h-forms">
+    <h2 id="h-forms">Utfylling</h2>
+    <div class="stack">
+      <article class="card profile" id="profile"></article>
+      <div class="stack" id="forms"></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-out" class="out">
+    <h2 id="h-out">Tekst til DIPS</h2>
+    <textarea id="dips" readonly aria-describedby="out-hint"></textarea>
+    <div class="hint" id="out-hint">Teksten oppdateres mens du fyller ut. Ren tekst uten formatering, klar til å limes inn i journalnotatet.</div>
+  </section>
+</div>
+
+<div class="bar">
+  <div class="bar-in">
+    <button class="btn danger" id="reset" type="button">Nullstill</button>
+    <button class="btn primary" id="copy" type="button" disabled>Kopier til DIPS</button>
+  </div>
+  <div class="bar-in"><div class="status" id="status" role="status" aria-live="polite"></div></div>
+</div>
+
+<script>
+/* ============================================================
+   Testbank – arkitektur
+   Hver test er en modul i TESTS-registeret:
+     { id, name, category, status:'aktiv'|'planlagt',
+       title, meta, initState(), form(s) -> HTML,
+       result(s, p) -> {tone, big, main, sub} | null,
+       toText(s, p) -> string | null, guide -> HTML }
+   p = felles profil {age, sex} (kun i minnet).
+   Skjemafelt bindes automatisk via data-k="nøkkel".
+   Ingen lagring av data.
+   ============================================================ */
+
+/* ---------- Hjelpere ---------- */
+const num = v => { if (v == null || v === "") return null; const x = parseFloat(String(v).replace(",", ".")); return Number.isFinite(x) ? x : null; };
+const f = (x, d = 1) => x.toFixed(d).replace(".", ",");
+const fs = (x, d = 1) => (x > 0 ? "+" : x < 0 ? "−" : "±") + f(Math.abs(x), d);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function inputF(id, k, label, unit, opts = {}) {
+  return `<div class="field"><label class="lbl" for="${id}">${label}</label>
+    <div class="inp"><input type="text" inputmode="${opts.int ? "numeric" : "decimal"}" id="${id}" data-k="${k}" placeholder="${opts.ph || ""}" autocomplete="off">${unit ? `<span class="unit">${unit}</span>` : ""}</div>
+    ${opts.hint ? `<span class="hint">${opts.hint}</span>` : ""}</div>`;
+}
+function radioF(name, k, label, options) {
+  return `<div class="field"><span class="lbl">${label}</span><div class="seg">${options.map(([v, t], i) =>
+    `<label><input type="radio" name="${name}" id="${name}-${i}" data-k="${k}" value="${v}"> ${t}</label>`).join("")}</div></div>`;
+}
+function checkF(id, k, label) {
+  return `<div class="seg"><label><input type="checkbox" id="${id}" data-k="${k}"> ${label}</label></div>`;
+}
+const AIDS = [["ingen", "Ingen"], ["stokk/krykke", "Stokk/krykke"], ["rullator", "Rullator"], ["annet hjelpemiddel", "Annet"]];
+const aidText = a => a === "ingen" ? "uten ganghjelpemiddel" : `med ${a}`;
+
+/* Endring mot forrige måling, med MCID */
+function changeText(cur, prev, { unit, d = 1, better, mcid, mcidLabel, big }) {
+  if (prev == null || cur == null) return null;
+  const diff = cur - prev;
+  const improved = better === "lower" ? diff < 0 : diff > 0;
+  const dir = diff === 0 ? "uendret" : improved ? "bedring" : "forverring";
+  let cls;
+  if (big != null && Math.abs(diff) >= big) cls = "betydelig endring";
+  else if (Math.abs(diff) >= mcid) cls = "over MCID";
+  else cls = "under MCID";
+  return `Endring fra forrige: ${f(prev, d)} → ${f(cur, d)} ${unit} (${fs(diff, d)} ${unit}, ${dir}; ${cls}). MCID: ${mcidLabel}.`;
+}
+
+/* ---------- CFS ---------- */
+const CFS_LEVELS = [
+  { n: 1, name: "Veldig sprek", desc: "Robust, aktiv, energisk og motivert. Trener regelmessig. Blant de sprekeste for alderen." },
+  { n: 2, name: "Sprek", desc: "Ingen aktive sykdomssymptomer, men mindre sprek enn nivå 1. Trener eller er svært aktiv i perioder." },
+  { n: 3, name: "Klarer seg bra", desc: "Medisinske problemer er godt kontrollert, selv om symptomer kan forekomme. Ikke regelmessig aktiv utover vanlig gange." },
+  { n: 4, name: "Lever med svært lett skrøpelighet", desc: "Ikke avhengig av daglig hjelp, men symptomer begrenser aktivitet. Beskriver ofte å være «langsommere» og/eller trett i løpet av dagen." },
+  { n: 5, name: "Lever med mild skrøpelighet", desc: "Tydelig redusert tempo. Trenger hjelp med krevende IADL (økonomi, transport, tungt husarbeid). Begynnende svikt i handling, matlaging og medisinhåndtering." },
+  { n: 6, name: "Lever med moderat skrøpelighet", desc: "Trenger hjelp med alle aktiviteter ute og med husarbeid. Problemer med trapper, trenger hjelp ved dusj/bad, kan trenge litt hjelp ved påkledning." },
+  { n: 7, name: "Lever med alvorlig skrøpelighet", desc: "Helt avhengig av hjelp til personlig stell (fysisk eller kognitivt). Ellers stabil og ikke høy risiko for å dø innen ca. 6 måneder." },
+  { n: 8, name: "Lever med svært alvorlig skrøpelighet", desc: "Helt avhengig av hjelp og nærmer seg livets slutt. Kommer seg typisk ikke etter selv lettere sykdom." },
+  { n: 9, name: "Terminalt syk", desc: "Nærmer seg livets slutt, forventet levetid under 6 måneder, men er ellers ikke tydelig skrøpelig." }
+];
+function cfsInterp(n) {
+  if (n <= 3) return { main: "Ikke skrøpelig", range: "CFS 1–3", tone: "ok" };
+  if (n === 4) return { main: "Svært lett skrøpelighet (økt sårbarhet)", range: "CFS 4", tone: "warn" };
+  const g = { 5: "mild", 6: "moderat", 7: "alvorlig", 8: "svært alvorlig" }[n];
+  if (g) return { main: `Skrøpelig, ${g} grad`, range: "CFS ≥5", tone: "crit" };
+  return { main: "Terminalt syk", range: "CFS 9", tone: "crit" };
+}
+const CFS_BASIS = { habituell: "habituell funksjon ca. 2 uker før aktuell sykdom/forverring", aktuell: "aktuell funksjon ved undersøkelsen" };
+const SOURCES = ["Pasient", "Pårørende", "Journal", "Klinisk observasjon"];
+
+const CFS = {
+  id: "cfs", name: "CFS", category: "Skrøpelighet", status: "aktiv",
+  title: "Clinical Frailty Scale (CFS)", meta: "Versjon 2.0 (NO) · nivå 1–9",
+  initState: () => ({ level: "", basis: "habituell", sources: [], prev: "", note: "" }),
+  form: () => `
+    <div class="field" role="radiogroup" aria-labelledby="cfs-lvl-lbl">
+      <span class="lbl" id="cfs-lvl-lbl">Velg nivå</span>
+      <div class="levels">${CFS_LEVELS.map(l => `
+        <label class="lvl" style="--c:var(--l${l.n})">
+          <input type="radio" name="cfs-level" id="cfs-level-${l.n}" data-k="level" value="${l.n}">
+          <span class="num">${l.n}</span>
+          <span class="lvl-txt"><span class="lvl-name">${l.name}</span><br><span class="lvl-desc">${l.desc}</span></span>
+        </label>`).join("")}</div>
+    </div>
+    ${radioF("cfs-basis", "basis", "Vurderingen bygger på", [["habituell", "Habituell funksjon (ca. 2 uker før aktuell sykdom)"], ["aktuell", "Aktuell funksjon ved undersøkelsen"]])}
+    <div class="field"><span class="lbl">Informasjonskilde</span><div class="seg">${SOURCES.map((x, i) =>
+      `<label><input type="checkbox" id="cfs-src-${i}" data-k="sources" data-multi="1" value="${x}"> ${x}</label>`).join("")}</div></div>
+    <div class="grid">${inputF("cfs-prev", "prev", "Forrige CFS (valgfritt)", "", { int: true, ph: "1–9", hint: "Gir endring ved re-test." })}</div>
+    <div class="field"><label class="lbl" for="cfs-note">Kommentar (valgfritt)</label>
+      <textarea class="note" id="cfs-note" data-k="note" placeholder="F.eks. kognitiv svikt påvirker vurderingen. Ingen personopplysninger."></textarea></div>`,
+  result(s, p) {
+    const n = num(s.level); if (!n) return null;
+    const I = cfsInterp(n); let sub = `${CFS_LEVELS[n - 1].name} · ${I.range}`;
+    const pv = num(s.prev); if (pv >= 1 && pv <= 9) sub += ` · endring ${pv} → ${n} (${fs(n - pv, 0)})`;
+    return { tone: "lvl", lvl: n, big: String(n), main: I.main, sub };
+  },
+  toText(s, p) {
+    const n = num(s.level); if (!n) return null;
+    const I = cfsInterp(n);
+    const out = [`Clinical Frailty Scale (CFS v2.0): ${n} – ${CFS_LEVELS[n - 1].name}.`];
+    let g = `Vurdert ut fra ${CFS_BASIS[s.basis]}`;
+    if (s.sources.length) g += `. Kilde: ${s.sources.join(", ").toLowerCase()}`;
+    out.push(g + ".");
+    out.push(`Tolkning: ${I.main} (${I.range}).`);
+    const pv = num(s.prev);
+    if (pv >= 1 && pv <= 9) {
+      const d = n - pv;
+      out.push(`Endring fra forrige vurdering: CFS ${pv} → ${n} (${fs(d, 0)} nivå, ${d > 0 ? "forverring" : d < 0 ? "bedring" : "uendret"}). Ingen etablert MCID for CFS.`);
+    }
+    const age = num(p.age);
+    if (age != null && age < 65) out.push("Merk: CFS er validert for personer ≥65 år og tolkes med forsiktighet.");
+    if (s.note.trim()) out.push(`Kommentar: ${s.note.trim()}`);
+    return out.join("\n");
+  },
+  guide: `<ul>
+      <li>Skår habituell funksjon. Ved akutt sykdom: slik pasienten var ca. 2 uker før, ikke på det dårligste.</li>
+      <li>Ved demens tilsvarer skrøpelighetsgraden vanligvis demensgraden for nivå 5–8 (mild ≈ 5, moderat ≈ 6, alvorlig ≈ 7, svært alvorlig ≈ 8).</li>
+      <li>CFS 9 brukes ved forventet levetid under 6 måneder hos personer som ellers ikke er tydelig skrøpelige.</li>
+      <li>Validert for personer ≥65 år. Brukes ikke under 65 år eller ved stabil, isolert funksjonsnedsettelse (f.eks. CP).</li>
+      <li>CFS bør ikke brukes alene, og skåren skal være datert og vise hvem som skåret (ivaretas av DIPS-notatet).</li>
+      <li>Ingen etablert MCID. Endring rapporteres i antall nivåer.</li></ul>
+    <p class="source">Beskrivelsene er forkortet. Referanse: Clinical Frailty Scale v2.0 (NO), © 2005–2020 Rockwood, oversatt av Rostoft, Engstad, Sjøbø og Flaatten (Helsedirektoratet). Rockwood K et al. CMAJ 2005;173:489–95.</p>`
+};
+
+/* ---------- TUG ---------- */
+const TUG_NORM = [[60, 69, 8.1], [70, 79, 9.2], [80, 99, 11.3]]; // Bohannon 2006, gjennomsnitt
+const tugNorm = a => a == null ? null : TUG_NORM.find(([lo, hi]) => a >= lo && a <= hi);
+const TUG = {
+  id: "tug", name: "TUG", category: "Funksjon og gange", status: "aktiv",
+  title: "Timed Up and Go (TUG)", meta: "Sekunder · 3 m",
+  initState: () => ({ time: "", aid: "ingen", prev: "" }),
+  form: () => `
+    <div class="grid">
+      ${inputF("tug-time", "time", "Tid", "s", { ph: "f.eks. 11,4" })}
+      ${inputF("tug-prev", "prev", "Forrige TUG (valgfritt)", "s", { ph: "s" })}
+    </div>
+    ${radioF("tug-aid", "aid", "Ganghjelpemiddel", AIDS)}`,
+  result(s, p) {
+    const t = num(s.time); if (t == null) return null;
+    const risk = t >= 13.5;
+    const nm = tugNorm(num(p.age));
+    let sub = risk ? "Grenseverdi ≥13,5 s" : "Grenseverdi for økt fallrisk: ≥13,5 s";
+    if (nm) sub += ` · snitt ${nm[0]}–${nm[1]} år: ${f(nm[2])} s`;
+    return { tone: risk ? "crit" : t >= 12 ? "warn" : "ok", big: f(t), main: risk ? "Økt fallrisk" : "Under grense for økt fallrisk", sub };
+  },
+  toText(s, p) {
+    const t = num(s.time); if (t == null) return null;
+    const out = [`Timed Up and Go (TUG): ${f(t)} s, ${aidText(s.aid)}.`];
+    out.push(t >= 13.5
+      ? "Tolkning: Over grenseverdi for økt fallrisk hos hjemmeboende eldre (≥13,5 s; Shumway-Cook 2000). TUG alene har begrenset prediktiv verdi for fall og bør sees sammen med andre funn."
+      : "Tolkning: Under grenseverdi for økt fallrisk hos hjemmeboende eldre (≥13,5 s; Shumway-Cook 2000).");
+    const nm = tugNorm(num(p.age));
+    if (nm) out.push(`Referanse ${nm[0]}–${nm[1]} år: gjennomsnitt ${f(nm[2])} s (Bohannon 2006).`);
+    const c = changeText(t, num(s.prev), { unit: "s", better: "lower", mcid: 0.8, mcidLabel: "0,8–1,4 s (hofteartrose, Wright 2011)" });
+    if (c) out.push(c);
+    return out.join("\n");
+  },
+  guide: `<ul>
+      <li>Stol med armlener (ca. 46 cm). Reise seg, gå 3 m i komfortabelt tempo, snu, gå tilbake og sette seg. Tid fra «gå» til ryggen er mot stolryggen.</li>
+      <li>Vanlig fottøy og vanlig ganghjelpemiddel. Én prøverunde, deretter målt forsøk.</li>
+      <li>Grenseverdi ≥13,5 s for økt fallrisk hos hjemmeboende eldre. CDC STEADI bruker ≥12 s (gul markering i appen fra 12 s).</li>
+      <li>Systematisk oversikt viser begrenset evne til å predikere fall alene (Barry 2014).</li>
+      <li>MCID 0,8–1,4 s (hofteartrose). MDC ca. 1,6–2,5 s ved hofte-/kneprotese.</li></ul>
+    <p class="source">Podsiadlo & Richardson, J Am Geriatr Soc 1991. Shumway-Cook A et al., Phys Ther 2000;80:896–903. Bohannon RW, J Geriatr Phys Ther 2006;29:64–8. Barry E et al., BMC Geriatr 2014;14:14. Wright AA et al., JOSPT 2011;41:319–27.</p>`
+};
+
+/* ---------- 30 s sit-to-stand ---------- */
+const STS_NORM = { // under gjennomsnitt hvis < verdi (Rikli & Jones 1999 / CDC STEADI)
+  mann: [[60, 64, 14], [65, 69, 12], [70, 74, 12], [75, 79, 11], [80, 84, 10], [85, 89, 8], [90, 94, 7]],
+  kvinne: [[60, 64, 12], [65, 69, 11], [70, 74, 10], [75, 79, 10], [80, 84, 9], [85, 89, 8], [90, 94, 4]]
+};
+const stsNorm = p => { const a = num(p.age); if (a == null || !STS_NORM[p.sex]) return null; return STS_NORM[p.sex].find(([lo, hi]) => a >= lo && a <= hi) || null; };
+const STS = {
+  id: "sts30", name: "30 s sit-to-stand", category: "Funksjon og gange", status: "aktiv",
+  title: "30 sekunders sit-to-stand", meta: "Antall reisinger",
+  initState: () => ({ reps: "", arms: false, prev: "" }),
+  form: () => `
+    <div class="grid">
+      ${inputF("sts-reps", "reps", "Antall reisinger", "stk", { int: true, ph: "f.eks. 11" })}
+      ${inputF("sts-prev", "prev", "Forrige (valgfritt)", "stk", { int: true })}
+    </div>
+    ${checkF("sts-arms", "arms", "Måtte bruke armene (skåres 0)")}`,
+  score(s) { return s.arms ? 0 : num(s.reps); },
+  result(s, p) {
+    const r = this.score(s); if (r == null) return null;
+    const nm = stsNorm(p);
+    if (!nm) return { tone: "none", big: String(r), main: `${r} reisinger`, sub: "Oppgi alder (60–94) og kjønn for normverdi" };
+    const below = r < nm[2];
+    return { tone: below ? "warn" : "ok", big: String(r), main: below ? "Under gjennomsnitt for alder og kjønn" : "Innenfor gjennomsnitt for alder og kjønn",
+      sub: `Grense ${p.sex === "mann" ? "menn" : "kvinner"} ${nm[0]}–${nm[1]} år: <${nm[2]}` };
+  },
+  toText(s, p) {
+    const r = this.score(s); if (r == null) return null;
+    const out = [`30 s sit-to-stand: ${r} reisinger${s.arms ? " (måtte bruke armene, skåret 0)" : ""}.`];
+    const nm = stsNorm(p);
+    if (nm) {
+      const who = `${p.sex === "mann" ? "menn" : "kvinner"} ${nm[0]}–${nm[1]} år`;
+      out.push(r < nm[2]
+        ? `Tolkning: Under gjennomsnitt for ${who} (<${nm[2]}), forbundet med økt fallrisk (Rikli & Jones 1999; CDC STEADI).`
+        : `Tolkning: Innenfor gjennomsnitt for ${who} (grense <${nm[2]}; Rikli & Jones 1999).`);
+    }
+    const c = changeText(r, num(s.prev), { unit: "reisinger", d: 0, better: "higher", mcid: 2, mcidLabel: "2 reisinger (hofteartrose, Wright 2011)" });
+    if (c) out.push(c);
+    return out.join("\n");
+  },
+  guide: `<ul>
+      <li>Stol uten armlener (ca. 43 cm) mot vegg. Armene i kryss over brystet.</li>
+      <li>Tell fulle reisinger på 30 s. Mer enn halvveis opp ved slutt teller som én.</li>
+      <li>Må pasienten bruke armene for å reise seg: avbryt og skår 0.</li>
+      <li>Normverdier finnes for 60–94 år. MCID 2 reisinger (hofteartrose).</li></ul>
+    <p class="source">Jones CJ, Rikli RE, Beam WC. Res Q Exerc Sport 1999;70:113–9. Rikli RE & Jones CJ, J Aging Phys Act 1999. CDC STEADI. Wright AA et al., JOSPT 2011;41:319–27.</p>`
+};
+
+/* ---------- 10 m gangtest ---------- */
+const GAIT = {
+  id: "10mwt", name: "10 m gangtest", category: "Funksjon og gange", status: "aktiv",
+  title: "10 meter gangtest", meta: "Ganghastighet m/s",
+  initState: () => ({ time: "", dist: "6", pace: "selvvalgt", aid: "ingen", prev: "" }),
+  form: () => `
+    <div class="grid">
+      ${inputF("gait-time", "time", "Tid", "s", { ph: "f.eks. 5,8" })}
+      ${inputF("gait-dist", "dist", "Målt strekning", "m", { hint: "Standard: midtre 6 m av 10 m." })}
+      ${inputF("gait-prev", "prev", "Forrige hastighet (valgfritt)", "m/s")}
+    </div>
+    ${radioF("gait-pace", "pace", "Tempo", [["selvvalgt", "Selvvalgt"], ["maksimalt", "Maksimalt"]])}
+    ${radioF("gait-aid", "aid", "Ganghjelpemiddel", AIDS)}`,
+  speed(s) { const t = num(s.time), d = num(s.dist); return t && d ? d / t : null; },
+  result(s) {
+    const v = this.speed(s); if (v == null) return null;
+    if (s.pace !== "selvvalgt") return { tone: "none", big: f(v, 2), main: `${f(v, 2)} m/s maksimal hastighet`, sub: "Grenseverdier gjelder selvvalgt tempo" };
+    if (v <= 0.8) return { tone: "crit", big: f(v, 2), main: "Nedsatt fysisk funksjon", sub: "≤0,8 m/s (EWGSOP2)" };
+    if (v < 1.0) return { tone: "warn", big: f(v, 2), main: "Redusert ganghastighet", sub: "0,8–1,0 m/s" };
+    return { tone: "ok", big: f(v, 2), main: "Ganghastighet ≥1,0 m/s", sub: "Forbundet med god prognose hos eldre" };
+  },
+  toText(s) {
+    const v = this.speed(s); if (v == null) return null;
+    const out = [`10 m gangtest (${s.pace} tempo, ${aidText(s.aid)}): ${f(num(s.time), 2)} s over ${f(num(s.dist), 0)} m = ${f(v, 2)} m/s.`];
+    if (s.pace === "selvvalgt") {
+      if (v <= 0.8) out.push("Tolkning: ≤0,8 m/s indikerer nedsatt fysisk funksjon (EWGSOP2, Cruz-Jentoft 2019).");
+      else if (v < 1.0) out.push("Tolkning: Redusert ganghastighet (0,8–1,0 m/s). ≥1,0 m/s er forbundet med bedre prognose hos eldre (Studenski 2011).");
+      else out.push("Tolkning: ≥1,0 m/s, forbundet med bedre prognose hos eldre (Studenski 2011).");
+    }
+    const c = changeText(v, num(s.prev), { unit: "m/s", d: 2, better: "higher", mcid: 0.05, big: 0.10, mcidLabel: "liten meningsfull endring 0,05 m/s, betydelig 0,10 m/s (Perera 2006)" });
+    if (c) out.push(c);
+    return out.join("\n");
+  },
+  guide: `<ul>
+      <li>10 m strekning med 2 m akselerasjon og 2 m retardasjon. Tid tas over de midtre 6 m.</li>
+      <li>Selvvalgt tempo: «gå i vanlig tempo». Eventuelt snitt av flere forsøk.</li>
+      <li>≤0,8 m/s er kriterium for nedsatt fysisk funksjon ved sarkopeni (EWGSOP2).</li>
+      <li>Meningsfull endring hos eldre: 0,05 m/s (liten) og 0,10 m/s (betydelig).</li></ul>
+    <p class="source">Perera S et al., J Am Geriatr Soc 2006;54:743–9. Cruz-Jentoft AJ et al., Age Ageing 2019;48:16–31. Studenski S et al., JAMA 2011;305:50–8.</p>`
+};
+
+/* ---------- Ettbensstående ---------- */
+const OLS_NORM = [ // Springer 2007, gjennomsnitt best av 3: [lo, hi, åpne{k,m,t}, lukket{k,m,t}]
+  [18, 39, { kvinne: 45.1, mann: 44.4, t: 44.7 }, { kvinne: 13.1, mann: 16.9, t: 15.2 }],
+  [40, 49, { kvinne: 42.1, mann: 41.6, t: 41.9 }, { kvinne: 13.5, mann: 12.0, t: 12.7 }],
+  [50, 59, { kvinne: 40.9, mann: 41.5, t: 41.2 }, { kvinne: 7.9, mann: 8.6, t: 8.3 }],
+  [60, 69, { kvinne: 30.4, mann: 33.8, t: 32.1 }, { kvinne: 3.6, mann: 5.1, t: 4.4 }],
+  [70, 79, { kvinne: 16.7, mann: 25.9, t: 21.5 }, { kvinne: 3.7, mann: 2.6, t: 3.1 }],
+  [80, 99, { kvinne: 10.6, mann: 8.7, t: 9.4 }, { kvinne: 2.1, mann: 1.8, t: 1.9 }]
+];
+const olsNorm = p => { const a = num(p.age); if (a == null) return null; const r = OLS_NORM.find(([lo, hi]) => a >= lo && a <= hi); if (!r) return null; const k = p.sex || "t"; return { lo: r[0], hi: r[1], open: r[2][k], closed: r[3][k] }; };
+const OLS = {
+  id: "ols", name: "Ettbensstående", category: "Balanse", status: "aktiv",
+  title: "Ettbensstående", meta: "Best av 3 · maks 45 s",
+  initState: () => ({ ro: "", lo: "", rc: "", lc: "" }),
+  form: () => `
+    <div class="grid">
+      ${inputF("ols-ro", "ro", "Høyre, øyne åpne", "s")}
+      ${inputF("ols-lo", "lo", "Venstre, øyne åpne", "s")}
+      ${inputF("ols-rc", "rc", "Høyre, øyne lukket", "s", { hint: "Valgfritt" })}
+      ${inputF("ols-lc", "lc", "Venstre, øyne lukket", "s", { hint: "Valgfritt" })}
+    </div>`,
+  result(s, p) {
+    const ro = num(s.ro), lo = num(s.lo);
+    const vals = [ro, lo].filter(x => x != null); if (!vals.length) return null;
+    const mn = Math.min(...vals), nm = olsNorm(p);
+    const sub = nm ? `Snitt ${nm.lo}–${nm.hi} år, øyne åpne: ${f(nm.open)} s` : "Oppgi alder for normverdi";
+    if (mn < 5) return { tone: "crit", big: f(mn), main: "Under 5 s på ett ben", sub: "Økt risiko for fall med skade · " + sub };
+    return { tone: nm && mn < nm.open ? "warn" : "ok", big: f(mn), main: nm && mn < nm.open ? "Under gjennomsnitt for alder" : "Svakeste side, øyne åpne", sub };
+  },
+  toText(s, p) {
+    const v = k => num(s[k]); const t = x => x == null ? "–" : `${f(x)} s`;
+    if (v("ro") == null && v("lo") == null) return null;
+    const out = [`Ettbensstående (best av 3, maks 45 s): Øyne åpne – høyre ${t(v("ro"))}, venstre ${t(v("lo"))}.`];
+    if (v("rc") != null || v("lc") != null) out[0] += ` Øyne lukket – høyre ${t(v("rc"))}, venstre ${t(v("lc"))}.`;
+    const nm = olsNorm(p);
+    if (nm) out.push(`Referanse ${nm.lo}–${nm.hi} år${p.sex ? ` (${p.sex === "mann" ? "menn" : "kvinner"})` : ""}: gjennomsnitt øyne åpne ${f(nm.open)} s, øyne lukket ${f(nm.closed)} s (Springer 2007).`);
+    const mn = Math.min(...[v("ro"), v("lo")].filter(x => x != null));
+    if (mn < 5) out.push("Tolkning: Under 5 s på ett ben er forbundet med økt risiko for fall med skade hos eldre (Vellas 1997).");
+    return out.join("\n");
+  },
+  guide: `<ul>
+      <li>Barbent, armene i kryss over brystet, blikket på et punkt i øyehøyde. Løftet fot nær, men ikke i kontakt med, standbenets ankel.</li>
+      <li>Stopp ved: armene løses, løftet fot berører gulvet eller standbenet, standfoten flytter seg, øynene åpnes (lukket-forsøk) eller 45 s.</li>
+      <li>Tre forsøk per betingelse. Før inn beste tid.</li>
+      <li>Under 5 s er forbundet med økt risiko for fall med skade. Ingen etablert MCID.</li></ul>
+    <p class="source">Springer BA et al., J Geriatr Phys Ther 2007;30:8–15. Vellas BJ et al., J Am Geriatr Soc 1997;45:735–8.</p>`
+};
+
+/* ---------- Berg balanseskala ---------- */
+const BERG_ITEMS = [
+  ["Fra sittende til stående", ["Trenger moderat eller mye hjelp", "Trenger litt hjelp for å reise seg eller bli stabil", "Reiser seg med hendene etter flere forsøk", "Reiser seg selvstendig med hendene", "Reiser seg uten hender og står stabilt selvstendig"]],
+  ["Stå uten støtte (2 min)", ["Klarer ikke stå 30 s uten støtte", "Trenger flere forsøk for å stå 30 s uten støtte", "Står 30 s uten støtte", "Står 2 min med tilsyn", "Står trygt i 2 min"]],
+  ["Sitte uten ryggstøtte, føttene på gulvet (2 min)", ["Klarer ikke sitte 10 s uten støtte", "Sitter 10 s", "Sitter 30 s", "Sitter 2 min med tilsyn", "Sitter trygt og sikkert i 2 min"]],
+  ["Fra stående til sittende", ["Trenger hjelp for å sette seg", "Setter seg selvstendig, men ukontrollert", "Bruker baksiden av bena mot stolen for å kontrollere", "Kontrollerer nedsettingen med hendene", "Setter seg trygt med minimal bruk av hendene"]],
+  ["Forflytning", ["Trenger to personer, eller tilsyn for sikkerhet", "Trenger én person til hjelp", "Klarer med verbal veiledning og/eller tilsyn", "Klarer trygt, men bruker tydelig hendene", "Klarer trygt med minimal bruk av hendene"]],
+  ["Stå med lukkede øyne (10 s)", ["Trenger hjelp for ikke å falle", "Klarer ikke holde øynene lukket i 3 s, men står stødig", "Står 3 s", "Står 10 s med tilsyn", "Står trygt i 10 s"]],
+  ["Stå med samlede føtter (1 min)", ["Trenger hjelp til å innta stillingen og holder ikke 15 s", "Trenger hjelp til å innta stillingen, men står 15 s", "Inntar stillingen selv, men holder ikke 30 s", "Inntar stillingen selv og står 1 min med tilsyn", "Inntar stillingen selv og står trygt i 1 min"]],
+  ["Strekke seg fremover med strak arm", ["Mister balansen eller trenger ytre støtte", "Strekker seg frem, men trenger tilsyn", "Når mer enn 5 cm", "Når mer enn 12,5 cm", "Når trygt mer enn 25 cm"]],
+  ["Plukke opp gjenstand fra gulvet", ["Kan ikke forsøke, eller trenger hjelp for ikke å falle", "Klarer ikke, og trenger tilsyn under forsøket", "Klarer ikke, men når 2–5 cm fra gjenstanden og holder balansen selv", "Plukker opp gjenstanden, men trenger tilsyn", "Plukker opp gjenstanden trygt og lett"]],
+  ["Snu seg og se bakover over begge skuldre", ["Trenger hjelp for ikke å falle", "Trenger tilsyn ved vending", "Snur seg bare til siden, men holder balansen", "Ser godt bakover til én side, mindre vektoverføring til den andre", "Ser bakover til begge sider med god vektoverføring"]],
+  ["Snu seg 360°", ["Trenger hjelp ved vending", "Trenger tett tilsyn eller verbal veiledning", "Snur seg trygt, men langsomt", "Snur seg trygt 360° til én side på ≤4 s", "Snur seg trygt 360° på ≤4 s til hver side"]],
+  ["Sette føttene vekselvis på krakk (8 ganger)", ["Trenger hjelp for ikke å falle, eller kan ikke forsøke", "Klarer mer enn 2 trinn med litt hjelp", "Klarer 4 trinn uten hjelp, med tilsyn", "Klarer 8 trinn selvstendig på mer enn 20 s", "Står selvstendig og trygt, 8 trinn på ≤20 s"]],
+  ["Stå med én fot foran den andre (30 s)", ["Mister balansen når han/hun tar steget eller står", "Trenger hjelp til å ta steget, men står 15 s", "Tar et lite steg selvstendig og står 30 s", "Plasserer foten foran den andre selvstendig og står 30 s", "Plasserer foten tandem selvstendig og står 30 s"]],
+  ["Stå på ett ben", ["Kan ikke forsøke, eller trenger hjelp for ikke å falle", "Forsøker å løfte benet, klarer ikke 3 s, men står selvstendig", "Løfter benet selvstendig og står ≥3 s", "Løfter benet selvstendig og står 5–10 s", "Løfter benet selvstendig og står >10 s"]]
+];
+function bergMDC(total) { return total >= 45 ? 4 : total >= 35 ? 5 : total >= 25 ? 7 : 5; }
+const BERG = {
+  id: "berg", name: "Berg balanseskala", category: "Balanse", status: "aktiv",
+  title: "Berg balanseskala (BBS)", meta: "14 ledd · 0–56",
+  initState: () => { const s = { prev: "" }; BERG_ITEMS.forEach((_, i) => s["b" + i] = ""); return s; },
+  form: () => `<div class="berg">${BERG_ITEMS.map(([name, crit], i) => `
+      <fieldset class="bitem">
+        <legend><span class="bno">${i + 1}</span> ${name}</legend>
+        <div class="scores">${[0, 1, 2, 3, 4].map(v =>
+          `<label title="${v}: ${crit[v]}"><input type="radio" name="berg-${i}" id="berg-${i}-${v}" data-k="b${i}" value="${v}"><span>${v}</span></label>`).join("")}</div>
+        <div class="crit" id="berg-crit-${i}">${crit.map((c, v) => `<span data-v="${v}">${v} – ${c}</span>`).join("")}</div>
+      </fieldset>`).join("")}</div>
+    <div class="grid">${inputF("berg-prev", "prev", "Forrige totalskår (valgfritt)", "/56", { int: true })}</div>`,
+  paint(card, s) {
+    BERG_ITEMS.forEach((_, i) => {
+      const sel = s["b" + i];
+      card.querySelectorAll(`#berg-crit-${i} span`).forEach(sp => sp.classList.toggle("sel", sp.dataset.v === sel));
+      card.querySelector(`#berg-crit-${i}`).classList.toggle("picked", sel !== "");
+    });
+  },
+  scored(s) { return BERG_ITEMS.map((_, i) => num(s["b" + i])).filter(x => x != null); },
+  total(s) { const v = this.scored(s); return v.length === 14 ? v.reduce((a, b) => a + b, 0) : null; },
+  result(s) {
+    const v = this.scored(s); if (!v.length) return null;
+    const sum = v.reduce((a, b) => a + b, 0);
+    if (v.length < 14) return { tone: "none", big: String(sum), main: `${v.length} av 14 ledd skåret`, sub: `Foreløpig sum ${sum}` };
+    const risk = sum < 45;
+    return { tone: sum <= 20 ? "crit" : risk ? "warn" : "ok", big: String(sum), main: risk ? "Økt fallrisk" : "Ikke økt fallrisk etter grenseverdi",
+      sub: `${sum}/56 · grense <45 · MDC ${bergMDC(sum)} poeng` };
+  },
+  toText(s) {
+    const t = this.total(s); if (t == null) return null;
+    const items = BERG_ITEMS.map((_, i) => `${i + 1}:${s["b" + i]}`).join(", ");
+    const out = [`Berg balanseskala: ${t}/56.`, `Ledd: ${items}.`];
+    if (t < 45) out.push(`Tolkning: Under 45 poeng, forbundet med økt fallrisk hos eldre (Berg 1992).${t <= 20 ? " Skår 0–20 indikerer høy fallrisk og stort behov for hjelp/hjelpemiddel." : ""}`);
+    else out.push("Tolkning: 45 poeng eller mer, ikke økt fallrisk etter grenseverdien <45 (Berg 1992).");
+    const pv = num(s.prev);
+    if (pv != null) {
+      const d = t - pv, mdc = bergMDC(pv);
+      out.push(`Endring fra forrige: ${pv} → ${t} (${fs(d, 0)} poeng, ${d > 0 ? "bedring" : d < 0 ? "forverring" : "uendret"}; ${Math.abs(d) >= mdc ? "over" : "under"} MDC på ${mdc} poeng for utgangsskår ${pv}). MDC etter Donoghue & Stokes 2009; ingen etablert MCID for eldre.`);
+    }
+    return out.join("\n");
+  },
+  guide: `<ul>
+      <li>14 ledd skåret 0–4. Gi laveste skår som passer prestasjonen. Utstyr: stol med og uten armlener, stoppeklokke, linjal, krakk/trinn.</li>
+      <li>Ledd 2: står pasienten trygt i 2 min, gis full skår på ledd 3.</li>
+      <li>Grenseverdi <45 for økt fallrisk. Grovinndeling: 0–20 høy, 21–40 middels, 41–56 lav fallrisk.</li>
+      <li>MDC (eldre) avhenger av utgangsskår: 45–56: 4 poeng, 35–44: 5, 25–34: 7, 0–24: 5. MCID er ikke etablert for eldre, så appen bruker MDC.</li></ul>
+    <p class="source">Kriteriene er forkortet. Bruk den norske versjonen av Berg balanseskala som referanse. Berg KO et al., Can J Public Health 1992;83 Suppl 2:S7–11. Donoghue D & Stokes EK, J Rehabil Med 2009;41:343–6.</p>`
+};
+
+/* ---------- SPPB ---------- */
+function sppbParts(s) {
+  // Balanse
+  let bal = null;
+  if (s.sbs === "nei") bal = 0;
+  else if (s.sbs === "ja") {
+    if (s.semi === "nei") bal = 1;
+    else if (s.semi === "ja") {
+      const t = num(s.tandem);
+      if (s.tandemNo) bal = 2;
+      else if (t != null) bal = 2 + (t >= 10 ? 2 : t >= 3 ? 1 : 0);
+    }
+  }
+  // Gange 4 m (raskeste av to)
+  let gait = null, gt = null;
+  if (s.gaitNo) gait = 0;
+  else {
+    const ts = [num(s.g1), num(s.g2)].filter(x => x != null && x > 0);
+    if (ts.length) { gt = Math.min(...ts); gait = gt >= 60 ? 0 : gt > 8.70 ? 1 : gt > 6.20 ? 2 : gt >= 4.82 ? 3 : 4; }
+  }
+  // 5x reise/sette seg
+  let chair = null; const ct = num(s.chair);
+  if (s.chairNo) chair = 0;
+  else if (ct != null) chair = ct > 60 ? 0 : ct >= 16.70 ? 1 : ct >= 13.70 ? 2 : ct >= 11.20 ? 3 : 4;
+  const total = bal != null && gait != null && chair != null ? bal + gait + chair : null;
+  return { bal, gait, gt, chair, ct, total };
+}
+function sppbClass(t) { return t <= 3 ? "alvorlig begrenset funksjon" : t <= 6 ? "moderat begrenset funksjon" : t <= 9 ? "lett begrenset funksjon" : "minimal begrensning"; }
+const SPPB = {
+  id: "sppb", name: "SPPB", category: "Funksjon og gange", status: "aktiv",
+  title: "Short Physical Performance Battery (SPPB)", meta: "Balanse + gange + reise seg · 0–12",
+  initState: () => ({ sbs: "", semi: "", tandem: "", tandemNo: false, g1: "", g2: "", gaitNo: false, chair: "", chairNo: false, prev: "" }),
+  form: () => `
+    <div class="sub-h">1 · Balanse</div>
+    ${radioF("sppb-sbs", "sbs", "Føttene side ved side, 10 s", [["ja", "Holdt 10 s"], ["nei", "Holdt ikke"]])}
+    <div data-show="semi">${radioF("sppb-semi", "semi", "Semi-tandem, 10 s", [["ja", "Holdt 10 s"], ["nei", "Holdt ikke"]])}</div>
+    <div data-show="tandem" class="grid">
+      ${inputF("sppb-tandem", "tandem", "Tandem, tid (maks 10 s)", "s")}
+      <div class="field"><span class="lbl">&nbsp;</span>${checkF("sppb-tandemNo", "tandemNo", "Ikke forsøkt / klarte ikke")}</div>
+    </div>
+    <div class="sub-h">2 · Ganghastighet 4 m</div>
+    <div class="grid">
+      ${inputF("sppb-g1", "g1", "Forsøk 1", "s")}
+      ${inputF("sppb-g2", "g2", "Forsøk 2", "s", { hint: "Raskeste forsøk skåres." })}
+    </div>
+    ${checkF("sppb-gaitNo", "gaitNo", "Klarte ikke å gå 4 m")}
+    <div class="sub-h">3 · Reise seg fra stol 5 ganger</div>
+    <div class="grid">${inputF("sppb-chair", "chair", "Tid for 5 reisinger", "s")}</div>
+    ${checkF("sppb-chairNo", "chairNo", "Klarte ikke / måtte bruke armene / over 60 s")}
+    <div class="grid">${inputF("sppb-prev", "prev", "Forrige totalskår (valgfritt)", "/12", { int: true })}</div>`,
+  paint(card, s) {
+    card.querySelector('[data-show="semi"]').hidden = s.sbs !== "ja";
+    card.querySelector('[data-show="tandem"]').hidden = !(s.sbs === "ja" && s.semi === "ja");
+  },
+  result(s) {
+    const P = sppbParts(s);
+    const parts = `Balanse ${P.bal ?? "–"} · gange ${P.gait ?? "–"} · reise seg ${P.chair ?? "–"}`;
+    if (P.bal == null && P.gait == null && P.chair == null) return null;
+    if (P.total == null) return { tone: "none", big: "…", main: "Ikke komplett", sub: parts };
+    const t = P.total;
+    return { tone: t <= 6 ? "crit" : t <= 8 ? "warn" : t <= 9 ? "warn" : "ok", big: String(t), main: sppbClass(t)[0].toUpperCase() + sppbClass(t).slice(1), sub: `${parts}${t <= 8 ? " · ≤8: nedsatt fysisk funksjon" : ""}` };
+  },
+  toText(s) {
+    const P = sppbParts(s); if (P.total == null) return null;
+    const t = P.total;
+    let det = `Balanse ${P.bal}/4`;
+    det += `, ganghastighet ${P.gait}/4${P.gt != null ? ` (4 m på ${f(P.gt, 2)} s = ${f(4 / P.gt, 2)} m/s)` : " (klarte ikke)"}`;
+    det += `, reise seg 5 ganger ${P.chair}/4${!s.chairNo && P.ct != null ? ` (${f(P.ct, 1)} s)` : " (klarte ikke)"}.`;
+    const out = [`SPPB: ${t}/12. ${det}`];
+    out.push(`Tolkning: ${sppbClass(t)[0].toUpperCase() + sppbClass(t).slice(1)} (Guralnik 1994).${t <= 8 ? " ≤8 poeng indikerer nedsatt fysisk funksjon (EWGSOP2)." : ""}`);
+    const c = changeText(t, num(s.prev), { unit: "poeng", d: 0, better: "higher", mcid: 0.5, big: 1, mcidLabel: "liten meningsfull endring 0,5 poeng, betydelig 1 poeng (Perera 2006)" });
+    if (c) out.push(c);
+    return out.join("\n");
+  },
+  guide: `<ul>
+      <li>Rekkefølge: balanse, gange, reise seg. Pasienten må kunne stå uten hjelpemiddel. Ganghjelpemiddel er tillatt på gangtesten.</li>
+      <li>Balanse: ett forsøk per stilling. Klarer ikke side ved side → semi-tandem og tandem skåres 0. Tandem: 10 s = 2, 3–9,99 s = 1, &lt;3 s = 0.</li>
+      <li>Gange 4 m, vanlig tempo, to forsøk. &lt;4,82 s = 4 · 4,82–6,20 s = 3 · 6,21–8,70 s = 2 · &gt;8,70 s = 1 · klarer ikke = 0.</li>
+      <li>Reise seg 5 ganger, armene i kryss. ≤11,19 s = 4 · 11,20–13,69 s = 3 · 13,70–16,69 s = 2 · ≥16,70 s = 1 · &gt;60 s, klarer ikke eller bruker armene = 0.</li>
+      <li>Totalskår: 0–3 alvorlig, 4–6 moderat, 7–9 lett, 10–12 minimal begrensning. ≤8 brukes som grense for nedsatt fysisk funksjon (EWGSOP2).</li>
+      <li>Meningsfull endring: 0,5 poeng (liten), 1 poeng (betydelig).</li></ul>
+    <p class="source">Guralnik JM et al., J Gerontol 1994;49:M85–94. Cruz-Jentoft AJ et al., Age Ageing 2019;48:16–31. Perera S et al., J Am Geriatr Soc 2006;54:743–9.</p>`
+};
+
+/* ---------- Register ---------- */
+const planned = (id, name, category) => ({ id, name, category, status: "planlagt" });
+const TESTS = [
+  CFS,
+  BERG, OLS, planned("minibest", "Mini-BESTest", "Balanse"),
+  TUG, SPPB, STS, GAIT, planned("6mwt", "6-minutters gangtest", "Funksjon og gange"),
+  planned("koos", "KOOS", "PROM kne/hofte"), planned("hoos", "HOOS", "PROM kne/hofte"), planned("ikdc", "IKDC", "PROM kne/hofte"), planned("aclrsi", "ACL-RSI", "PROM kne/hofte"), planned("tegner", "Tegner", "PROM kne/hofte"),
+  planned("qdash", "QuickDASH", "PROM skulder/arm"), planned("oss", "Oxford Shoulder Score", "PROM skulder/arm"), planned("worc", "WORC/WOSI", "PROM skulder/arm"),
+  planned("odi", "ODI", "PROM rygg/nakke"), planned("ndi", "NDI", "PROM rygg/nakke"), planned("orebro", "Örebro", "PROM rygg/nakke"), planned("startback", "STarT Back", "PROM rygg/nakke"),
+  planned("nprs", "NPRS", "Generiske"), planned("psfs", "PSFS", "Generiske"), planned("eq5d", "EQ-5D", "Generiske"), planned("pgic", "PGIC", "Generiske")
+];
+const CATEGORIES = ["Skrøpelighet", "Balanse", "Funksjon og gange", "PROM kne/hofte", "PROM skulder/arm", "PROM rygg/nakke", "Generiske"];
+
+/* ---------- App (kun minne) ---------- */
+const app = { selected: ["cfs"], states: {}, profile: { age: "", sex: "" }, refreshers: [] };
+const byId = id => TESTS.find(t => t.id === id);
+
+/* Generisk binding: data-k → state */
+function bind(el, s, onChange) {
+  el.querySelectorAll("[data-k]").forEach(i => {
+    const k = i.dataset.k;
+    if (i.type === "radio") i.checked = String(s[k]) === i.value;
+    else if (i.type === "checkbox") i.checked = i.dataset.multi ? s[k].includes(i.value) : !!s[k];
+    else i.value = s[k] ?? "";
+  });
+  const read = e => {
+    const i = e.target, k = i.dataset && i.dataset.k; if (!k) return;
+    if (i.type === "radio") { if (i.checked) s[k] = i.value; }
+    else if (i.type === "checkbox") {
+      if (i.dataset.multi) s[k] = [...el.querySelectorAll(`[data-k="${k}"]`)].filter(x => x.checked).map(x => x.value);
+      else s[k] = i.checked;
+    } else s[k] = i.value;
+    onChange();
+  };
+  el.addEventListener("input", read);
+  el.addEventListener("change", read);
+}
+
+function paintResult(box, r) {
+  if (!r) { box.className = "result empty"; box.textContent = "Fyll inn resultat for å se tolkning."; return; }
+  box.className = "result";
+  const style = r.tone === "lvl" ? `--c:var(--l${r.lvl})` : "";
+  box.innerHTML = `<span class="num ${r.tone !== "lvl" ? "t-" + r.tone : ""}" style="${style}">${esc(r.big)}</span>
+    <span><span class="r-main">${esc(r.main)}</span><br><span class="r-sub">${esc(r.sub || "")}</span></span>`;
+}
+
+function renderProfile() {
+  const el = document.getElementById("profile");
+  el.innerHTML = `
+    <div class="card-head"><h3>Alder og kjønn</h3><span class="meta">Brukes for normverdier</span></div>
+    <div class="grid">
+      ${inputF("p-age", "age", "Alder", "år", { int: true, ph: "f.eks. 74" })}
+      ${radioF("p-sex", "sex", "Kjønn", [["kvinne", "Kvinne"], ["mann", "Mann"]])}
+    </div>
+    <span class="hint">Oppgi bare alder i år, ikke fødselsdato.</span>`;
+  bind(el, app.profile, () => { app.refreshers.forEach(fn => fn()); updateOutput(); });
+}
+
+function renderLib() {
+  document.getElementById("lib").innerHTML = CATEGORIES.map(c => `
+    <div class="cat"><div class="cat-name">${c}</div><div class="chips">${
+      TESTS.filter(t => t.category === c).map(t => t.status === "aktiv"
+        ? `<button type="button" class="chip" id="chip-${t.id}" data-id="${t.id}" aria-pressed="${app.selected.includes(t.id)}">${t.name}</button>`
+        : `<button type="button" class="chip" disabled title="Planlagt">${t.name}<small>kommer</small></button>`).join("")}</div></div>`).join("");
+}
+
+function renderForms() {
+  const box = document.getElementById("forms");
+  box.innerHTML = ""; app.refreshers = [];
+  if (!app.selected.length) box.innerHTML = `<p class="hint">Ingen tester valgt. Trykk på en test over for å starte.</p>`;
+  app.selected.forEach(id => {
+    const t = byId(id);
+    if (!app.states[id]) app.states[id] = t.initState();
+    const s = app.states[id];
+    const card = document.createElement("article");
+    card.className = "card";
+    card.innerHTML = `<div class="card-head"><h3>${t.title}</h3><span class="meta">${t.meta}</span></div>
+      ${t.form(s)}<div class="result empty" id="res-${t.id}"></div>
+      <details class="guide"><summary>Veiledning og kilder</summary>${t.guide}</details>`;
+    box.appendChild(card);
+    const refresh = () => {
+      paintResult(card.querySelector(`#res-${t.id}`), t.result(s, app.profile));
+      card.querySelectorAll("label.lvl").forEach(l => l.classList.toggle("on", l.querySelector("input").checked));
+      if (t.paint) t.paint(card, s);
+    };
+    app.refreshers.push(refresh);
+    bind(card, s, () => { refresh(); updateOutput(); });
+    refresh();
+  });
+  updateOutput();
+}
+
+function updateOutput() {
+  const blocks = app.selected.map(id => byId(id).toText(app.states[id], app.profile)).filter(Boolean);
+  const ta = document.getElementById("dips");
+  ta.value = blocks.join("\n\n");
+  ta.placeholder = "Fyll ut minst én test for å få tekst her.";
+  document.getElementById("copy").disabled = !blocks.length;
+}
+
+document.getElementById("lib").addEventListener("click", e => {
+  const b = e.target.closest(".chip[data-id]"); if (!b) return;
+  const id = b.dataset.id;
+  app.selected = app.selected.includes(id) ? app.selected.filter(x => x !== id) : [...app.selected, id];
+  // behold bibliotekets rekkefølge
+  app.selected = TESTS.map(t => t.id).filter(x => app.selected.includes(x));
+  b.setAttribute("aria-pressed", app.selected.includes(id));
+  renderForms();
+});
+
+const statusEl = document.getElementById("status");
+function flash(msg) { statusEl.textContent = msg; clearTimeout(flash.t); flash.t = setTimeout(() => statusEl.textContent = "", 3500); }
+
+document.getElementById("copy").addEventListener("click", () => {
+  const ta = document.getElementById("dips");
+  const fallback = () => { ta.focus(); ta.select(); flash("Teksten er markert. Kopier med Ctrl+C eller hold inne og velg Kopier."); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(() => flash("Kopiert. Lim inn i DIPS-notatet."), fallback);
+  else fallback();
+});
+
+const resetBtn = document.getElementById("reset");
+let armed = false;
+resetBtn.addEventListener("click", () => {
+  if (!armed) { armed = true; resetBtn.textContent = "Bekreft"; flash("Trykk Bekreft for å tømme alle felt."); setTimeout(() => { armed = false; resetBtn.textContent = "Nullstill"; }, 4000); return; }
+  armed = false; resetBtn.textContent = "Nullstill";
+  app.states = {}; app.profile = { age: "", sex: "" };
+  renderProfile(); renderForms(); flash("Alt er tømt.");
+});
+
+renderLib();
+renderProfile();
+renderForms();
+</script>
