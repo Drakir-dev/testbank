@@ -38,3 +38,16 @@ test("eksempel: full DIPS-tekst", () => {
   assert.match(TEGNER.toText(s({ now: "4", prev: "6" })), /nivå 6 → 4 \(−2 nivåer\)/);
   assert.deepEqual(TEGNER.result(s({ now: "4", pre: "7" })), { tone: "none", big: "4", main: "Tegner nivå 4", sub: "Før skaden: 7 · 3 nivåer under nivået før skaden" });
 });
+
+test("nivåbeskrivelser: 0–10 er fylt ut og vises fra 10 til 0", async () => {
+  const { TEGNER_TEXT } = await import("../js/data/ledd-tekst.js");
+  const { tegnerLevels } = await import("../js/modules/tegner.js");
+  assert.deepEqual(Object.keys(TEGNER_TEXT).map(Number).sort((a, b) => a - b), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  for (const [k, v] of Object.entries(TEGNER_TEXT)) assert.ok(v.trim(), `nivå ${k} mangler tekst`);
+  const html = TEGNER.form(TEGNER.initState());
+  assert.equal((html.match(/<li data-v=/g) || []).length, 11);
+  assert.ok(html.indexOf('data-v="10"') < html.indexOf('data-v="0"'));
+  assert.match(html, /Sykmeldt eller uføretrygdet/);
+  assert.equal(tegnerLevels({}), "");
+  assert.match(tegnerLevels({ "5": "A <b>" }), /<span class="ttxt">A &lt;b&gt;<\/span>/);
+});

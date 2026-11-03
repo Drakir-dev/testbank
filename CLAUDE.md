@@ -25,6 +25,7 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 - IKDC (© AOSSM, helseforetak må ha lisens), ACL-RSI og Tegner (rettigheter uavklart, «no information» på ePROVIDE): sjekket 3.11.2026. De er bygget uten spørsmåls- og nivåtekster, og svarene tastes inn fra pasientens skjema. CFS og funksjonstestene kan også brukes fritt, med kildeangivelse.
 - KOOS og HOOS: vilkårene er endret (sjekket 3.11.2026, koos.nu). De er «© Ewa M. Roos, all rights reserved» og krever alltid lisens via Mapi. De er bygget **ledd for ledd med leddkoder** (P1, S1 …): svaret 0–4 tastes inn fra pasientens lisensierte skjema, uten spørsmålstekst.
 - Spørsmålstekst (3.11.2026): Rikard oppgir at Mapi har godkjent digital bruk via Ahus-lisensen. Rikard legger selv inn teksten for KOOS, HOOS, IKDC og ACL-RSI i `js/data/ledd-tekst.js`, fra Ahus' lisensierte norske versjoner. Claude henter eller skriver ikke av spørsmålstekst fra nettet. Et tomt felt viser bare leddkoden.
+- Tegner (3.11.2026): Rikard limte inn den engelske originalteksten og ba om norsk oversettelse. Nivåbeskrivelsene i `js/data/ledd-tekst.js` er appens egen oversettelse, ikke en validert norsk versjon. Bytt dem ut med den offisielle norske teksten hvis Ahus har en.
 - Krever lisens eller tillatelse for digital gjengivelse: ODI og EQ-5D (Mapi/EuroQol), Oxford Shoulder Score, QuickDASH, WORC/WOSI og antakelig NDI og STarT Back. Disse bygges inntil videre med **inntasting av delskårer/totalskår**, ikke med spørsmålstekstene.
 - Sjekk bruksvilkårene på nytt før hvert skjema bygges, og oppgi rettighetshaveren i veiledningen.
 
@@ -48,7 +49,7 @@ js/registry.js         testregister, bibliotekets rekkefølge og samlet DIPS-tek
 js/lib/format.js       num(), f() (desimalkomma), fs(), changeText(), aidText()
 js/lib/form.js         esc(), inputF(), radioF(), checkF(), AIDS
 js/lib/koos-hoos.js    felles skåring og skjema for KOOS og HOOS (delskårer 0–100), itemRow() for ledd-rader
-js/data/ledd-tekst.js  spørsmålstekst per leddkode (KOOS, HOOS, IKDC, ACL-RSI), lagt inn av Rikard
+js/data/ledd-tekst.js  spørsmålstekst per leddkode (KOOS, HOOS, IKDC, ACL-RSI) og Tegner-nivåer
 js/modules/<id>.js     én fil per test
 tests/<id>.test.js     tester for skåring og tolkning per test
 tests/eksempel.test.js hele DIPS-teksten for Rikards eksempel
