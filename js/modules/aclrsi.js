@@ -31,7 +31,7 @@ export default {
   title: "ACL Return to Sport after Injury (ACL-RSI)", meta: "12 ledd · 0–100",
   initState: () => { const s = { prev: "" }; for (let i = 1; i <= ACLRSI_N; i++) s["r" + i] = ""; return s; },
   form: () => `
-    <span class="hint">Tast inn svaret for hvert ledd fra pasientens skjema: 0–100 i trinn på 10, der høyere er mer positivt.</span>
+    <span class="hint">${hasText ? "Spørsmålene gjelder hovedidretten før skaden. Pasienten krysser av for hvordan hen føler seg akkurat nå. " : ""}Tast inn svaret for hvert ledd: 0–100 i trinn på 10, der høyere er mer positivt.</span>
     <div class="${hasText ? "kitems" : "grid"}">${Array.from({ length: ACLRSI_N }, (_, i) => {
       const t = itemText(ACLRSI_TEXT, String(i + 1));
       return inputF(`aclrsi-r${i + 1}`, `r${i + 1}`, t ? `${i + 1}. ${esc(t)}` : `Ledd ${i + 1}`, "", { int: true, ph: "0–100" });
