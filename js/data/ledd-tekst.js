@@ -129,3 +129,19 @@ export const ACLRSI_TEXT = {
   "11": "",
   "12": "",
 };
+
+/* Tegner aktivitetsskala (Tegner & Lysholm 1985). Appens egen norske oversettelse av den engelske teksten Rikard
+   limte inn 3.11.2026, ikke en validert norsk versjon. */
+export const TEGNER_TEXT = {
+  "10": "Konkurranseidrett: fotball, amerikansk fotball, rugby (nasjonal eller internasjonal elite)",
+  "9": "Konkurranseidrett: fotball, amerikansk fotball, rugby (lavere divisjoner); ishockey; bryting; turn; basketball",
+  "8": "Konkurranseidrett: racquetball, squash eller badminton, friidrett (hopp o.l.), alpint",
+  "7": "Konkurranseidrett: tennis, løping, motorsport (speedway), håndball. Mosjonsidrett: fotball, amerikansk fotball, rugby, ishockey, basketball, squash, racquetball, løping",
+  "6": "Mosjonsidrett: tennis og badminton, håndball, racquetball, alpint, jogging minst 5 ganger i uken",
+  "5": "Arbeid: tungt fysisk arbeid (anleggsarbeid o.l.). Konkurranseidrett: sykling, langrenn. Mosjonsidrett: jogging på ujevnt underlag minst 2 ganger i uken",
+  "4": "Arbeid: moderat tungt arbeid (f.eks. lastebilkjøring). Mosjonsidrett: sykling, langrenn, jogging på jevnt underlag minst 2 ganger i uken",
+  "3": "Arbeid: lett arbeid (f.eks. sykepleie). Konkurranse- og mosjonsidrett: svømming. Kan gå i skogen",
+  "2": "Kan gå på ujevnt underlag, men kan ikke gå tur med sekk eller gå fjelltur",
+  "1": "Arbeid: stillesittende (f.eks. kontorarbeid)",
+  "0": "Sykmeldt eller uføretrygdet på grunn av kneproblemer",
+};
