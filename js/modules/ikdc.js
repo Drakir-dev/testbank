@@ -1,8 +1,8 @@
 /* IKDC Subjective Knee Form (2000), ledd for ledd (© AOSSM).
    Spørsmålstekst hentes fra js/data/ledd-tekst.js når den er lagt inn. Skåring etter AOSSMs skåringsinstruksjon. */
 import { num, f, fs } from "../lib/format.js";
-import { inputF } from "../lib/form.js";
-import { itemRow, itemText } from "../lib/koos-hoos.js";
+import { inputF, esc } from "../lib/form.js";
+import { itemRow, itemEntry } from "../lib/koos-hoos.js";
 import { IKDC_TEXT } from "../data/ledd-tekst.js";
 
 /* 18 skårede ledd: kode, maks poeng og om tallet pasienten krysset må snus (poeng = 10 − kryss).
@@ -48,8 +48,12 @@ export default {
   title: "IKDC Subjective Knee Form", meta: "18 ledd · 0–100",
   initState: () => { const s = { prev: "" }; IKDC_ITEMS.forEach(it => s["i" + it.code] = ""); return s; },
   form: () => `
-    <span class="hint">Tast inn svarene fra pasientens lisensierte skjema. Ledd 1 og 4–9: poeng etter AOSSMs skåringsnøkkel (0 = lavest funksjon eller mest plager). Ledd 2, 3 og 10: tallet pasienten krysset, 0–10 (appen snur ledd 2 og 3). Ledd 10 «før skaden» skåres ikke.</span>
-    <div class="kitems">${IKDC_ITEMS.map(it => itemRow("ikdc", it.code, "i" + it.code, it.max, itemText(IKDC_TEXT, it.code), `, ${hint(it)}`)).join("")}</div>
+    <span class="hint">Velg svaret pasienten krysset. Tallene er poengene på skjemaet. På ledd 2 og 3 velger du tallet pasienten krysset, og appen snur skalaen så poengene blir riktige. Funksjon før skaden skåres ikke.</span>
+    <div class="kitems">${IKDC_ITEMS.map(it => {
+      const e = itemEntry(IKDC_TEXT, it.code);
+      return (e.head ? `<div class="sub-h">${esc(e.head)}</div>` : "") + (e.note ? `<span class="hint">${esc(e.note)}</span>` : "")
+        + itemRow("ikdc", it.code, "i" + it.code, it.max, e.q, `, ${hint(it)}`, e.opts);
+    }).join("")}</div>
     <div class="grid">${inputF("ikdc-prev", "prev", "Forrige IKDC-skår (valgfritt)", "/100", { ph: "f.eks. 50,6" })}</div>`,
   result(s) {
     const P = scoreIkdc(s); if (!P.answered) return null;

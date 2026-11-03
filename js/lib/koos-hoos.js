@@ -1,19 +1,31 @@
-/* Felles skåring for KOOS og HOOS: fem delskårer 0–100, ledd for ledd uten spørsmålstekst.
-   Spørsmålsteksten er opphavsrettsbeskyttet (© Ewa M. Roos, lisens via Mapi Research Trust) og gjengis ikke.
+/* Felles skåring for KOOS og HOOS: fem delskårer 0–100, ledd for ledd.
+   Spørsmålsteksten (© Ewa M. Roos, lisens via Mapi) hentes fra js/data/ledd-tekst.js når Rikard har lagt den inn.
    Hvert ledd skåres 0–4 (0 = ingen problemer). Rene funksjoner, ingen DOM. */
 import { num, fs } from "./format.js";
 import { inputF, esc } from "./form.js";
 
-/* Leddtekst fra Ahus' lisensierte versjon (js/data/ledd-tekst.js), eller "" */
-export const itemText = (texts, code) => ((texts || {})[code] || "").trim();
+/* Ledd fra js/data/ledd-tekst.js: en tekst, eller et objekt {q, opts, head, note}. Gir alltid et objekt. */
+export function itemEntry(texts, code) {
+  const e = (texts || {})[code];
+  if (!e) return { q: "" };
+  if (typeof e === "string") return { q: e.trim() };
+  return { ...e, q: (e.q || "").trim() };
+}
 
-/* Leddkode, valgfri tekst og knapper 0–max. Brukes av KOOS, HOOS og IKDC. */
-export function itemRow(id, code, k, max, text, ariaExtra = "") {
+/* Bare spørsmålsteksten, eller "" */
+export const itemText = (texts, code) => itemEntry(texts, code).q;
+
+/* Leddkode, valgfri tekst og knapper 0–max. Brukes av KOOS, HOOS og IKDC.
+   opts ([poeng, svar] i skjemaets rekkefølge) gir én knapp per svar med poeng og tekst i stedet for bare tall. */
+export function itemRow(id, code, k, max, text, ariaExtra = "", opts = null) {
   const cols = Math.min(max + 1, 6);
+  const radio = (v, label) => `<label><input type="radio" name="${id}-${code}" id="${id}-${code}-${v}" data-k="${k}" value="${v}"><span>${label}</span></label>`;
+  const buttons = opts
+    ? `<div class="scores opts">${opts.map(([v, t]) => radio(v, `<b>${v}</b> ${esc(t)}`)).join("")}</div>`
+    : `<div class="scores"${max === 4 ? "" : ` style="grid-template-columns:repeat(${cols},1fr)"`}>${Array.from({ length: max + 1 }, (_, v) => radio(v, v)).join("")}</div>`;
   return `
-      <div class="kitem" role="radiogroup" aria-label="${code}${text ? ": " + esc(text) : ariaExtra}">${text ? `<span class="ktext">${esc(text)}</span>` : ""}<span class="kcode">${code}</span>
-        <div class="scores"${max === 4 ? "" : ` style="grid-template-columns:repeat(${cols},1fr)"`}>${Array.from({ length: max + 1 }, (_, v) =>
-          `<label><input type="radio" name="${id}-${code}" id="${id}-${code}-${v}" data-k="${k}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`;
+      <div class="kitem" role="radiogroup" aria-label="${code}${text ? ": " + esc(text) : ariaExtra}">${text ? `<span class="ktext"><b class="kno">${code}</b> ${esc(text)}</span>` : `<span class="kcode">${code}</span>`}
+        ${buttons}</div>`;
 }
 
 /* Ledd 0–4 som heltall, ellers null */

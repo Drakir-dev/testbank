@@ -4,9 +4,9 @@ import assert from "node:assert/strict";
 import { KOOS_TEXT, HOOS_TEXT, IKDC_TEXT, ACLRSI_TEXT } from "../js/data/ledd-tekst.js";
 import { KOOS_DEF } from "../js/modules/koos.js";
 import { HOOS_DEF } from "../js/modules/hoos.js";
-import { IKDC_ITEMS } from "../js/modules/ikdc.js";
+import IKDC, { IKDC_ITEMS } from "../js/modules/ikdc.js";
 import { ACLRSI_N } from "../js/modules/aclrsi.js";
-import { codes, itemRow, itemText } from "../js/lib/koos-hoos.js";
+import { codes, itemRow, itemText, itemEntry } from "../js/lib/koos-hoos.js";
 
 /* Object.keys setter tallnøkler («10») først, så vi sammenligner sortert */
 const keys = o => Object.keys(o).sort();
@@ -19,9 +19,35 @@ test("én tekstnøkkel per leddkode", () => {
   assert.deepEqual(keys(ACLRSI_TEXT), sorted(Array.from({ length: ACLRSI_N }, (_, i) => String(i + 1))));
 });
 
-test("alle tekster er strenger", () => {
-  for (const o of [KOOS_TEXT, HOOS_TEXT, IKDC_TEXT, ACLRSI_TEXT])
+test("KOOS, HOOS og ACL-RSI er tekster", () => {
+  for (const o of [KOOS_TEXT, HOOS_TEXT, ACLRSI_TEXT])
     for (const [k, v] of Object.entries(o)) assert.equal(typeof v, "string", k);
+});
+
+test("IKDC: hvert ledd har spørsmål, og svaralternativene dekker nøyaktig poengene 0–maks", () => {
+  for (const it of IKDC_ITEMS) {
+    const e = itemEntry(IKDC_TEXT, it.code);
+    assert.ok(e.q, `ledd ${it.code} mangler spørsmål`);
+    if (e.opts) assert.deepEqual(e.opts.map(([v]) => v).sort((a, b) => a - b), Array.from({ length: it.max + 1 }, (_, v) => v), `ledd ${it.code}`);
+  }
+  assert.deepEqual(IKDC_TEXT["6"].opts, [[0, "Ja"], [1, "Nei"]]);
+  assert.equal(IKDC_TEXT["1"].opts[0][0], 4);     // skjemaets rekkefølge: 4 først
+  assert.match(IKDC_TEXT["2"].q, /0 = Aldri, 10 = Konstant/);
+});
+
+test("IKDC-skjemaet viser overskrifter, forklaring og svaralternativer med poeng", () => {
+  const html = IKDC.form(IKDC.initState());
+  for (const h of ["Symptomer", "Sportsaktiviteter", "Funksjonsevne"]) assert.match(html, new RegExp(`<div class="sub-h">${h}</div>`));
+  assert.match(html, /<label><input type="radio" name="ikdc-1" id="ikdc-1-4" data-k="i1" value="4"><span><b>4<\/b> Veldig anstrengende/);
+  assert.match(html, /id="ikdc-6-0" data-k="i6" value="0"><span><b>0<\/b> Ja<\/span>/);
+  assert.equal((html.match(/type="radio"/g) || []).length, IKDC_ITEMS.reduce((a, x) => a + x.max + 1, 0));
+  assert.match(html, /Funksjonsevne før kneskaden skåres ikke/);
+});
+
+test("itemEntry godtar både tekst og objekt", () => {
+  assert.deepEqual(itemEntry({ a: " x " }, "a"), { q: "x" });
+  assert.deepEqual(itemEntry({ a: { q: " y ", head: "H" } }, "a"), { q: "y", head: "H" });
+  assert.deepEqual(itemEntry({}, "a"), { q: "" });
 });
 
 test("tom tekst gir bare leddkoden", () => {
@@ -35,7 +61,8 @@ test("tom tekst gir bare leddkoden", () => {
 test("utfylt tekst vises og escapes", () => {
   assert.equal(itemText({ P1: " Spørsmål <b> \"x\" " }, "P1"), "Spørsmål <b> \"x\"");
   const html = itemRow("koos", "P1", "P1", 4, "Spørsmål <b> & \"x\"");
-  assert.match(html, /<span class="ktext">Spørsmål &lt;b&gt; &amp; &quot;x&quot;<\/span>/);
+  assert.match(html, /<span class="ktext"><b class="kno">P1<\/b> Spørsmål &lt;b&gt; &amp; &quot;x&quot;<\/span>/);
+  assert.doesNotMatch(html, /kcode/);
   assert.match(html, /aria-label="P1: Spørsmål &lt;b&gt; &amp; &quot;x&quot;"/);
   assert.equal((html.match(/type="radio"/g) || []).length, 5);
 });

@@ -92,26 +92,40 @@ export const HOOS_TEXT = {
   "Q4": "",
 };
 
-/* IKDC Subjective Knee Form (© AOSSM). Ledd 10 gjelder nåværende funksjon. */
+/* IKDC subjektiv kne-evaluering (© AOSSM). Norsk tekst limt inn av Rikard 4.11.2026.
+   Et ledd kan være en tekst, eller et objekt med q (spørsmål), opts ([poeng, svar] i skjemaets rekkefølge),
+   head (overskrift før leddet) og note (forklaring før leddet). Poengene er de som står på skjemaet. */
+const aktivitet = grunn => [
+  [4, "Veldig anstrengende aktiviteter som å hoppe eller vri deg rundt som i basketball eller fotball"],
+  [3, "Anstrengende aktiviteter som tungt fysisk arbeid, stå på ski eller spille tennis"],
+  [2, "Middels anstrengende aktiviteter som moderat fysisk arbeid, løping eller jogging"],
+  [1, "Lette aktiviteter som å gå, husarbeid eller hagearbeid"],
+  [0, `Ikke i stand til å utføre noen av de ovennevnte aktivitetene på grunn av ${grunn}`]
+];
+const NOTE9 = "Hvordan innvirker kneet ditt på din evne til å: 4 = Ikke vanskelig i det hele tatt, 3 = Minimalt vanskelig, 2 = Moderat vanskelig, 1 = Ekstremt vanskelig, 0 = Ikke i stand til å utføre.";
+
 export const IKDC_TEXT = {
-  "1": "",
-  "2": "",
-  "3": "",
-  "4": "",
-  "5": "",
-  "6": "",
-  "7": "",
-  "8": "",
-  "9a": "",
-  "9b": "",
-  "9c": "",
-  "9d": "",
-  "9e": "",
-  "9f": "",
-  "9g": "",
-  "9h": "",
-  "9i": "",
-  "10": "",
+  "1": { head: "Symptomer", note: "Grader symptomene etter det høyeste aktivitetsnivået du tror du kan fungere på uten nevneverdige symptomer, selv om du ikke faktisk utfører aktivitetene på dette nivået.",
+    q: "Hva er høyeste grad av aktivitet du kan utføre uten nevneverdige smerter i kneet?", opts: aktivitet("smerter i kneet") },
+  "2": { q: "Hvor ofte har du kjent smerter i løpet av de siste fire ukene, eller siden skaden? (0 = Aldri, 10 = Konstant)" },
+  "3": { q: "Hvis du kjenner smerter, hvor sterke er de? (0 = Ingen smerte, 10 = Verst tenkelige smerte)" },
+  "4": { q: "Hvor stivt eller opphovnet har kneet ditt vært i løpet av de siste fire ukene, eller siden skaden?",
+    opts: [[4, "Ikke i det hele tatt"], [3, "Mildt"], [2, "Moderat"], [1, "Svært"], [0, "Ekstremt"]] },
+  "5": { q: "Hva er høyeste grad av aktivitet du kan utføre uten nevneverdig opphovning av kneet?", opts: aktivitet("opphovningen i kneet") },
+  "6": { q: "Har kneet ditt låst seg eller hengt seg opp i løpet av de siste fire ukene, eller siden skaden?", opts: [[0, "Ja"], [1, "Nei"]] },
+  "7": { q: "Hva er høyeste grad av aktivitet du kan utføre uten at kneet ditt gir ordentlig etter?", opts: aktivitet("at kneet gir etter") },
+  "8": { head: "Sportsaktiviteter", q: "Hva er høyeste grad av aktivitet du kan delta i regelmessig?", opts: aktivitet("kneet") },
+  "9a": { note: NOTE9, q: "Gå opp trapper" },
+  "9b": { q: "Gå ned trapper" },
+  "9c": { q: "Knele på fremsiden av kneet" },
+  "9d": { q: "Sitte på huk" },
+  "9e": { q: "Sitte med kneet bøyd" },
+  "9f": { q: "Reise deg opp av en stol" },
+  "9g": { q: "Løpe rett frem" },
+  "9h": { q: "Hoppe og lande på det skadde beinet" },
+  "9i": { q: "Stoppe og starte raskt" },
+  "10": { head: "Funksjonsevne", note: "Hvordan vil du vurdere kneets funksjonsevne på en skala fra 0 til 10, hvor 10 representerer normal, utmerket funksjonsevne og 0 at du ikke er i stand til å utføre noen av dine vanlige daglige aktiviteter, inkludert sportsaktiviteter? Funksjonsevne før kneskaden skåres ikke og er ikke med her.",
+    q: "Nåværende funksjonsevne for kneet ditt (0 = Kan ikke utføre daglige aktiviteter, 10 = Ingen begrensninger i daglige aktiviteter)" },
 };
 
 /* ACL-RSI (Webster, Feller & Lambros 2008). Norsk tekst limt inn av Rikard 3.11.2026, med svarankre for 0 og 100. */
