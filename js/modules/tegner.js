@@ -15,7 +15,7 @@ export function tegnerVsPre(now, pre) {
 
 const row = (k, label) => `
       <div class="kitem tegner-row" role="radiogroup" aria-label="${label}"><span class="kcode">${label}</span>
-        <div class="scores" style="grid-template-columns:repeat(11,1fr)">${Array.from({ length: 11 }, (_, v) =>
+        <div class="scores" style="grid-template-columns:repeat(6,1fr)">${Array.from({ length: 11 }, (_, v) =>
           `<label><input type="radio" name="tegner-${k}" id="tegner-${k}-${v}" data-k="${k}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`;
 
 export default {

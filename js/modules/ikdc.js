@@ -49,7 +49,7 @@ export default {
     <span class="hint">Tast inn svarene fra pasientens lisensierte skjema. Ledd 1 og 4–9: poeng etter AOSSMs skåringsnøkkel (0 = lavest funksjon eller mest plager). Ledd 2, 3 og 10: tallet pasienten krysset, 0–10 (appen snur ledd 2 og 3). Ledd 10 «før skaden» skåres ikke.</span>
     <div class="kitems">${IKDC_ITEMS.map(it => `
       <div class="kitem" role="radiogroup" aria-label="Ledd ${it.code}, ${hint(it)}"><span class="kcode">${it.code}</span>
-        <div class="scores" style="grid-template-columns:repeat(${it.max + 1},1fr)">${Array.from({ length: it.max + 1 }, (_, v) =>
+        <div class="scores" style="grid-template-columns:repeat(${Math.min(it.max + 1, 6)},1fr)">${Array.from({ length: it.max + 1 }, (_, v) =>
           `<label><input type="radio" name="ikdc-${it.code}" id="ikdc-${it.code}-${v}" data-k="i${it.code}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`).join("")}</div>
     <div class="grid">${inputF("ikdc-prev", "prev", "Forrige IKDC-skår (valgfritt)", "/100", { ph: "f.eks. 50,6" })}</div>`,
   result(s) {
