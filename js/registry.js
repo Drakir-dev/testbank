@@ -6,6 +6,7 @@ import TUG from "./modules/tug.js";
 import SPPB from "./modules/sppb.js";
 import STS from "./modules/sts30.js";
 import GAIT from "./modules/10mwt.js";
+import MINIBEST from "./modules/minibest.js";
 import NPRS from "./modules/nprs.js";
 import PSFS from "./modules/psfs.js";
 import PGIC from "./modules/pgic.js";
@@ -20,7 +21,7 @@ const planned = (id, name, category) => ({ id, name, category, status: "planlagt
 /* Rekkefølgen her er bibliotekets rekkefølge, og styrer rekkefølgen i DIPS-teksten */
 export const TESTS = [
   CFS,
-  BERG, OLS, planned("minibest", "Mini-BESTest", "Balanse"),
+  BERG, OLS, MINIBEST,
   TUG, SPPB, STS, GAIT, planned("6mwt", "6-minutters gangtest", "Funksjon og gange"),
   KOOS, HOOS, IKDC, ACLRSI, TEGNER,
   planned("qdash", "QuickDASH", "PROM skulder/arm"), planned("oss", "Oxford Shoulder Score", "PROM skulder/arm"), planned("worc", "WORC/WOSI", "PROM skulder/arm"),

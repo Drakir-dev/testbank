@@ -154,3 +154,6 @@ textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.5;color:v
 .kitem:has(.ktext){padding-top:12px;border-top:1px solid var(--line)}
 .sub-h + .kitems > .kitem:first-child, .hint + .kitem{border-top:0;padding-top:0}
 .ktext{font-weight:700;font-size:.95rem}
+details.instr{font-size:.84rem;color:var(--muted);margin-top:-6px}
+details.instr summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:.8rem}
+details.instr p{margin:6px 0 0}
