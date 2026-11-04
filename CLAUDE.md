@@ -29,6 +29,7 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 - Tegner (3.11.2026): Rikard limte inn den engelske originalteksten og ba om norsk oversettelse. Nivåbeskrivelsene i `js/data/ledd-tekst.js` er appens egen oversettelse, ikke en validert norsk versjon. Bytt dem ut med den offisielle norske teksten hvis Ahus har en.
 - Krever lisens eller tillatelse for digital gjengivelse: ODI og EQ-5D (Mapi/EuroQol), Oxford Shoulder Score, QuickDASH, WORC/WOSI og antakelig NDI og STarT Back. Disse bygges inntil videre med **inntasting av delskårer/totalskår**, ikke med spørsmålstekstene.
 - Skulder/arm (sjekket 4.11.2026), bygget uten spørsmålstekst: QuickDASH (© Institute for Work & Health, gratis for klinikere, men elektronisk bruk krever skriftlig tillatelse, poeng 1–5 per ledd), OSS (© Oxford University Innovation, all bruk krever lisens, poeng 0–4 per ledd) og WORC/WOSI (© 1998 Kirkley m.fl., tillatelse fra forfatterne, domenesummer i mm).
+- ODI (© Jeremy Fairbank) og NDI (© Howard Vernon), sjekket 4.11.2026 på ePROVIDE: gratis for klinisk praksis, men helseforetak og e-versjoner krever lisensavtale via Mapi. Bygget med poeng 0–5 per seksjon, uten spørsmålstekst.
 - Sjekk bruksvilkårene på nytt før hvert skjema bygges, og oppgi rettighetshaveren i veiledningen.
 
 ## Teknisk
@@ -89,10 +90,10 @@ export default {
 
 ## Status
 
-Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst).
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst), og ODI og NDI (poeng per seksjon).
 
 Planlagt:
-1. ODI og NDI (poeng per seksjon), Örebro (fullversjon) og STarT Back (ledd for ledd, Rikard legger inn norsk tekst), og EQ-5D-5L (profil, VAS, norm og norsk indeks).
+1. Örebro (fullversjon) og STarT Back (ledd for ledd, Rikard legger inn norsk tekst), og EQ-5D-5L (profil, VAS, norm og norsk indeks).
 
 Åpne faglige punkter som Rikard skal avklare:
 - CFS nivå 4: kontroller ordlyden mot Helsedirektoratets norske v2.0. Prototypen bruker «Lever med svært lett skrøpelighet».
