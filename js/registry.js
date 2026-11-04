@@ -23,6 +23,7 @@ import ODI from "./modules/odi.js";
 import NDI from "./modules/ndi.js";
 import OREBRO from "./modules/orebro.js";
 import STARTBACK from "./modules/startback.js";
+import EQ5D from "./modules/eq5d.js";
 
 const planned = (id, name, category) => ({ id, name, category, status: "planlagt" });
 
@@ -34,7 +35,7 @@ export const TESTS = [
   KOOS, HOOS, IKDC, ACLRSI, TEGNER,
   QDASH, OSS, WORC,
   ODI, NDI, OREBRO, STARTBACK,
-  NPRS, PSFS, planned("eq5d", "EQ-5D", "Generiske"), PGIC
+  NPRS, PSFS, EQ5D, PGIC
 ];
 export const CATEGORIES = ["Skrøpelighet", "Balanse", "Funksjon og gange", "PROM kne/hofte", "PROM skulder/arm", "PROM rygg/nakke", "Generiske"];
 
