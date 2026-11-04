@@ -32,6 +32,11 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 - ODI (© Jeremy Fairbank) og NDI (© Howard Vernon), sjekket 4.11.2026 på ePROVIDE: gratis for klinisk praksis, men helseforetak og e-versjoner krever lisensavtale via Mapi. Bygget med poeng 0–5 per seksjon, uten spørsmålstekst.
 - Örebro (© Steven J. Linton, «copies for research or clinical use free of charge») og STarT Back (© Keele University, ingen lisens for ikke-kommersiell bruk), sjekket 4.11.2026: bygget ledd for ledd. Rikard legger inn den norske teksten (Örebro: Grotle 2006, STarT Back: Keeles norske versjon) i `js/data/ledd-tekst.js`. Til da vises bare leddnummeret.
 - EQ-5D-5L (© EuroQol, sjekket 4.11.2026): registrering kreves også for ikke-kommersiell bruk, og papirversjonen kan ikke legges inn i en app. Bygget med nivå 1–5 per dimensjon og EQ VAS, uten spørsmåls- og svartekst. Indeksen bruker det norske verdisettet (Garratt 2024) i `js/data/eq5d-no.js`.
+- Kognisjon (sjekket 4.11.2026):
+  - 4AT (© 2011–2014 MacLullich, Ryan og Cash): CC BY 4.0, ingen tillatelse eller registrering. Den norske teksten v1.2 er gjengitt ordrett i `js/data/ledd-tekst.js`, med kreditering, lisens og ansvarsfraskrivelse i veiledningen. Unntak fra regelen om spørsmålstekst: Rikard ba Claude hente teksten fra the4AT.com (4.11.2026), og CC BY tillater det.
+  - Mini-Cog© (Soo Borson): gratis til klinisk bruk og undervisning, og skal brukes uendret (mini-cog.com). Bygget med bare poeng (ord 0–3, klokke 0/2), uten ordlister og instruksjon.
+  - MMSE-NR3 (Nasjonalt senter for aldring og helse, Strobel & Engedal): Aldring og helse regner den som et uavhengig verk og ikke PARs MMSE, men brukeren har selv ansvar for å avklare rettigheter. Skal alltid hete MMSE-NR3 og ikke sidestilles med PARs MMSE. Bygget med bare totalskår.
+  - MoCA (© MoCA Test Inc.): krever opplæring og sertifisering, og elektroniske versjoner er forbudt. Bygget med bare totalskår fra papirskjemaet og utdanningstillegget.
 - Sjekk bruksvilkårene på nytt før hvert skjema bygges, og oppgi rettighetshaveren i veiledningen.
 
 ## Teknisk
@@ -54,7 +59,7 @@ js/registry.js         testregister, bibliotekets rekkefølge og samlet DIPS-tek
 js/lib/format.js       num(), f() (desimalkomma), fs(), changeText(), aidText()
 js/lib/form.js         esc(), inputF(), radioF(), checkF(), AIDS
 js/lib/koos-hoos.js    felles skåring og skjema for KOOS og HOOS (delskårer 0–100), itemRow() for ledd-rader
-js/data/ledd-tekst.js  spørsmålstekst per leddkode (KOOS, HOOS, IKDC, ACL-RSI, Örebro, STarT Back) og Tegner-nivåer
+js/data/ledd-tekst.js  spørsmålstekst per leddkode (KOOS, HOOS, IKDC, ACL-RSI, Örebro, STarT Back, 4AT) og Tegner-nivåer
 js/data/eq5d-no.js     norsk EQ-5D-5L-verdisett og VAS-normer
 js/lib/seksjoner.js    felles skåring for ODI og NDI (10 seksjoner 0–5)
 js/modules/<id>.js     én fil per test
@@ -94,7 +99,7 @@ export default {
 
 ## Status
 
-Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst), og ODI og NDI (poeng per seksjon), og Örebro (fullversjon) og STarT Back (ledd for ledd), og EQ-5D-5L (norsk indeks og VAS-normer).
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst), og ODI og NDI (poeng per seksjon), og Örebro (fullversjon) og STarT Back (ledd for ledd), og EQ-5D-5L (norsk indeks og VAS-normer). Deretter kategorien Kognisjon: 4AT (norsk tekst v1.2), Mini-Cog, MMSE-NR3 (norske normer for alder og utdanning) og MoCA (bare totalskår).
 
 Planlagt:
 1. Norsk tekst for Örebro og STarT Back i `js/data/ledd-tekst.js` (Rikard).
@@ -107,6 +112,9 @@ Planlagt:
 - PGIC: den norske ordlyden er appens egen oversettelse. Bytt til en publisert norsk versjon hvis det finnes en.
 - KOOS/HOOS: kontroller at leddkodene og antallet ledd per delskår stemmer med det lisensierte norske skjemaet. Avklar med Mapi om Ahus-lisensen dekker spørsmålstekst i appen.
 - IKDC: leddnumrene og poengnøkkelen stemmer med det norske skjemaet Rikard limte inn 4.11.2026. Gjenstår: bekreft at Ahus har lisens fra AOSSM.
+- MMSE-NR3: koeffisientene for normen (`MMSE_NORM` i `js/modules/mmsenr3.js`) er hentet fra kalkulatoren til Aldring og helse. Bekreft dem mot Engedal 2023 (J Alzheimers Dis 92:831–42). Kalkulatoren tar ikke med kjønn, selv om teksten nevner det. Ordene for SD-båndene er Claudes forslag.
+- MoCA: den norske normtabellen (Engedal 2022, HUNT 70+) er ikke lagt inn (TODO). Bekreft at de som bruker appen har MoCA-sertifisering.
+- 4AT: bytt ut teksten hvis Ahus bruker en annen norsk versjon enn v1.2 fra the4AT.com.
 
 ## Arbeidsmåte
 - Skriv på norsk i UI, i DIPS-tekst, i commit-meldinger og i kommunikasjonen med Rikard.
