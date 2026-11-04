@@ -27,9 +27,10 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 - KOOS og HOOS: vilkårene er endret (sjekket 3.11.2026, koos.nu). De er «© Ewa M. Roos, all rights reserved» og krever alltid lisens via Mapi. De er bygget **ledd for ledd med leddkoder** (P1, S1 …): svaret 0–4 tastes inn fra pasientens lisensierte skjema, uten spørsmålstekst.
 - Spørsmålstekst (3.11.2026): Rikard oppgir at Mapi har godkjent digital bruk via Ahus-lisensen. Rikard legger selv inn teksten for KOOS, HOOS, IKDC og ACL-RSI (IKDC og ACL-RSI er lagt inn) i `js/data/ledd-tekst.js`, fra Ahus' lisensierte norske versjoner. Claude henter eller skriver ikke av spørsmålstekst fra nettet. Et tomt felt viser bare leddkoden.
 - Tegner (3.11.2026): Rikard limte inn den engelske originalteksten og ba om norsk oversettelse. Nivåbeskrivelsene i `js/data/ledd-tekst.js` er appens egen oversettelse, ikke en validert norsk versjon. Bytt dem ut med den offisielle norske teksten hvis Ahus har en.
-- Krever lisens eller tillatelse for digital gjengivelse: ODI og EQ-5D (Mapi/EuroQol), Oxford Shoulder Score, QuickDASH, WORC/WOSI og antakelig NDI og STarT Back. Disse bygges inntil videre med **inntasting av delskårer/totalskår**, ikke med spørsmålstekstene.
+- Krever lisens eller tillatelse for digital gjengivelse: ODI, NDI og EQ-5D (Mapi/EuroQol), Oxford Shoulder Score, QuickDASH og WORC/WOSI. Disse bygges med **inntasting av poeng eller delskårer**, ikke med spørsmålstekstene.
 - Skulder/arm (sjekket 4.11.2026), bygget uten spørsmålstekst: QuickDASH (© Institute for Work & Health, gratis for klinikere, men elektronisk bruk krever skriftlig tillatelse, poeng 1–5 per ledd), OSS (© Oxford University Innovation, all bruk krever lisens, poeng 0–4 per ledd) og WORC/WOSI (© 1998 Kirkley m.fl., tillatelse fra forfatterne, domenesummer i mm).
 - ODI (© Jeremy Fairbank) og NDI (© Howard Vernon), sjekket 4.11.2026 på ePROVIDE: gratis for klinisk praksis, men helseforetak og e-versjoner krever lisensavtale via Mapi. Bygget med poeng 0–5 per seksjon, uten spørsmålstekst.
+- Örebro (© Steven J. Linton, «copies for research or clinical use free of charge») og STarT Back (© Keele University, ingen lisens for ikke-kommersiell bruk), sjekket 4.11.2026: bygget ledd for ledd. Rikard legger inn den norske teksten (Örebro: Grotle 2006, STarT Back: Keeles norske versjon) i `js/data/ledd-tekst.js`. Til da vises bare leddnummeret.
 - Sjekk bruksvilkårene på nytt før hvert skjema bygges, og oppgi rettighetshaveren i veiledningen.
 
 ## Teknisk
@@ -90,10 +91,11 @@ export default {
 
 ## Status
 
-Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst), og ODI og NDI (poeng per seksjon).
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst), og ODI og NDI (poeng per seksjon), og Örebro (fullversjon) og STarT Back (ledd for ledd).
 
 Planlagt:
-1. Örebro (fullversjon) og STarT Back (ledd for ledd, Rikard legger inn norsk tekst), og EQ-5D-5L (profil, VAS, norm og norsk indeks).
+1. Norsk tekst for Örebro og STarT Back i `js/data/ledd-tekst.js` (Rikard).
+2. EQ-5D-5L (profil, VAS, norm og norsk indeks).
 
 Åpne faglige punkter som Rikard skal avklare:
 - CFS nivå 4: kontroller ordlyden mot Helsedirektoratets norske v2.0. Prototypen bruker «Lever med svært lett skrøpelighet».
