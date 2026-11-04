@@ -31,6 +31,7 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 - Skulder/arm (sjekket 4.11.2026), bygget uten spørsmålstekst: QuickDASH (© Institute for Work & Health, gratis for klinikere, men elektronisk bruk krever skriftlig tillatelse, poeng 1–5 per ledd), OSS (© Oxford University Innovation, all bruk krever lisens, poeng 0–4 per ledd) og WORC/WOSI (© 1998 Kirkley m.fl., tillatelse fra forfatterne, domenesummer i mm).
 - ODI (© Jeremy Fairbank) og NDI (© Howard Vernon), sjekket 4.11.2026 på ePROVIDE: gratis for klinisk praksis, men helseforetak og e-versjoner krever lisensavtale via Mapi. Bygget med poeng 0–5 per seksjon, uten spørsmålstekst.
 - Örebro (© Steven J. Linton, «copies for research or clinical use free of charge») og STarT Back (© Keele University, ingen lisens for ikke-kommersiell bruk), sjekket 4.11.2026: bygget ledd for ledd. Rikard legger inn den norske teksten (Örebro: Grotle 2006, STarT Back: Keeles norske versjon) i `js/data/ledd-tekst.js`. Til da vises bare leddnummeret.
+- EQ-5D-5L (© EuroQol, sjekket 4.11.2026): registrering kreves også for ikke-kommersiell bruk, og papirversjonen kan ikke legges inn i en app. Bygget med nivå 1–5 per dimensjon og EQ VAS, uten spørsmåls- og svartekst. Indeksen bruker det norske verdisettet (Garratt 2024) i `js/data/eq5d-no.js`.
 - Sjekk bruksvilkårene på nytt før hvert skjema bygges, og oppgi rettighetshaveren i veiledningen.
 
 ## Teknisk
@@ -53,7 +54,9 @@ js/registry.js         testregister, bibliotekets rekkefølge og samlet DIPS-tek
 js/lib/format.js       num(), f() (desimalkomma), fs(), changeText(), aidText()
 js/lib/form.js         esc(), inputF(), radioF(), checkF(), AIDS
 js/lib/koos-hoos.js    felles skåring og skjema for KOOS og HOOS (delskårer 0–100), itemRow() for ledd-rader
-js/data/ledd-tekst.js  spørsmålstekst per leddkode (KOOS, HOOS, IKDC, ACL-RSI) og Tegner-nivåer
+js/data/ledd-tekst.js  spørsmålstekst per leddkode (KOOS, HOOS, IKDC, ACL-RSI, Örebro, STarT Back) og Tegner-nivåer
+js/data/eq5d-no.js     norsk EQ-5D-5L-verdisett og VAS-normer
+js/lib/seksjoner.js    felles skåring for ODI og NDI (10 seksjoner 0–5)
 js/modules/<id>.js     én fil per test
 tests/<id>.test.js     tester for skåring og tolkning per test
 tests/eksempel.test.js hele DIPS-teksten for Rikards eksempel
@@ -91,11 +94,10 @@ export default {
 
 ## Status
 
-Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst), og ODI og NDI (poeng per seksjon), og Örebro (fullversjon) og STarT Back (ledd for ledd).
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst), og ODI og NDI (poeng per seksjon), og Örebro (fullversjon) og STarT Back (ledd for ledd), og EQ-5D-5L (norsk indeks og VAS-normer).
 
 Planlagt:
 1. Norsk tekst for Örebro og STarT Back i `js/data/ledd-tekst.js` (Rikard).
-2. EQ-5D-5L (profil, VAS, norm og norsk indeks).
 
 Åpne faglige punkter som Rikard skal avklare:
 - CFS nivå 4: kontroller ordlyden mot Helsedirektoratets norske v2.0. Prototypen bruker «Lever med svært lett skrøpelighet».
