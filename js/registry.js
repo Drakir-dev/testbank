@@ -1,6 +1,7 @@
 /* Testregister og samlet DIPS-tekst. Ingen DOM, så dette kan testes i Node. */
 import CFS from "./modules/cfs.js";
 import FOURAT from "./modules/4at.js";
+import MINICOG from "./modules/minicog.js";
 import BERG from "./modules/berg.js";
 import OLS from "./modules/ols.js";
 import TUG from "./modules/tug.js";
@@ -31,7 +32,7 @@ const planned = (id, name, category) => ({ id, name, category, status: "planlagt
 /* Rekkefølgen her er bibliotekets rekkefølge, og styrer rekkefølgen i DIPS-teksten */
 export const TESTS = [
   CFS,
-  FOURAT,
+  FOURAT, MINICOG,
   BERG, OLS, MINIBEST,
   TUG, SPPB, STS, GAIT, W6,
   KOOS, HOOS, IKDC, ACLRSI, TEGNER,

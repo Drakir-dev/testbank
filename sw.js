@@ -18,6 +18,7 @@ const ASSETS = [
   "js/data/eq5d-no.js",
   "js/modules/cfs.js",
   "js/modules/4at.js",
+  "js/modules/minicog.js",
   "js/modules/berg.js",
   "js/modules/ols.js",
   "js/modules/tug.js",
