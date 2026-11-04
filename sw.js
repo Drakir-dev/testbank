@@ -19,6 +19,7 @@ const ASSETS = [
   "js/modules/cfs.js",
   "js/modules/4at.js",
   "js/modules/minicog.js",
+  "js/modules/mmsenr3.js",
   "js/modules/berg.js",
   "js/modules/ols.js",
   "js/modules/tug.js",
