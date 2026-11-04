@@ -22,6 +22,7 @@ const ASSETS = [
   "js/modules/sts30.js",
   "js/modules/10mwt.js",
   "js/modules/minibest.js",
+  "js/modules/6mwt.js",
   "js/modules/nprs.js",
   "js/modules/psfs.js",
   "js/modules/pgic.js",
