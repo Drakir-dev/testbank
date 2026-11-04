@@ -22,6 +22,7 @@ Eier: Rikard, spesialfysioterapeut på Ahus. Han er klinikeren og tar alle fagli
 
 ### Opphavsrett for PROM-skjemaer
 - Kan bygges som fullt skjema, ledd for ledd: NPRS, PSFS, PGIC og Örebro.
+- Mini-BESTest: fri til klinisk bruk, også i journalsystemer («no longer under copyright control», bestest.us, sjekket 4.11.2026). Bygget med den offisielle norske versjonen (Hamre, Tangen, Botolfsen og Helbostad).
 - IKDC (© AOSSM, helseforetak må ha lisens), ACL-RSI og Tegner (rettigheter uavklart, «no information» på ePROVIDE): sjekket 3.11.2026. De er bygget uten spørsmåls- og nivåtekster, og svarene tastes inn fra pasientens skjema. CFS og funksjonstestene kan også brukes fritt, med kildeangivelse.
 - KOOS og HOOS: vilkårene er endret (sjekket 3.11.2026, koos.nu). De er «© Ewa M. Roos, all rights reserved» og krever alltid lisens via Mapi. De er bygget **ledd for ledd med leddkoder** (P1, S1 …): svaret 0–4 tastes inn fra pasientens lisensierte skjema, uten spørsmålstekst.
 - Spørsmålstekst (3.11.2026): Rikard oppgir at Mapi har godkjent digital bruk via Ahus-lisensen. Rikard legger selv inn teksten for KOOS, HOOS, IKDC og ACL-RSI (IKDC og ACL-RSI er lagt inn) i `js/data/ledd-tekst.js`, fra Ahus' lisensierte norske versjoner. Claude henter eller skriver ikke av spørsmålstekst fra nettet. Et tomt felt viser bare leddkoden.
@@ -87,11 +88,10 @@ export default {
 
 ## Status
 
-Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd uten spørsmålstekst), og IKDC, ACL-RSI og Tegner (uten spørsmåls- og nivåtekster).
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT.
 
 Planlagt:
-1. Mini-BESTest og 6MWT.
-2. Lisensierte skjemaer med inntasting av skårer: QuickDASH, OSS, WORC/WOSI, ODI, NDI, Örebro, STarT Back og EQ-5D.
+1. Lisensierte skjemaer med inntasting av skårer: QuickDASH, OSS, WORC/WOSI, ODI, NDI, Örebro, STarT Back og EQ-5D.
 
 Åpne faglige punkter som Rikard skal avklare:
 - CFS nivå 4: kontroller ordlyden mot Helsedirektoratets norske v2.0. Prototypen bruker «Lever med svært lett skrøpelighet».
