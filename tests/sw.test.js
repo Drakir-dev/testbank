@@ -34,3 +34,8 @@ test("manifestet peker på eksisterende ikoner og har norsk navn", () => {
   for (const i of m.icons) assert.ok(ASSETS.includes(i.src), `${i.src} mangler i sw.js`);
   assert.ok(m.icons.some(i => i.sizes === "192x192") && m.icons.some(i => i.sizes === "512x512"));
 });
+
+test("versjonen i toppen er lik cacheversjonen", async () => {
+  const { VERSION } = await import("../js/registry.js");
+  assert.equal(`testbank-v${VERSION}`, sw.match(/const CACHE = "([^"]+)";/)[1]);
+});
