@@ -200,3 +200,29 @@ export const STARTBACK_TEXT = {
   "8": "",
   "9": "",
 };
+
+/* 4AT, norsk versjon 1.2 (the4AT.com). © 2011–2014 MacLullich, Ryan og Cash. Lisens: CC BY 4.0.
+   Teksten er gjengitt ordrett fra 4AT_Norsk.pdf etter Rikards beslutning 4.11.2026 (CC BY tillater det).
+   help er den kursive instruksjonen på skjemaet. Poengene står i js/modules/4at.js, ikke her. */
+export const FOURAT_TEXT = {
+  "1": {
+    q: "ÅRVÅKENHET (forholder seg normalt til omgivelsene)",
+    help: "Pasienten virker tydelig døsig (dvs. vanskelig å vekke og/ eller er åpenbart søvnig ved undersøkelsen) eller motorisk urolig/hyperaktiv. Observer pasienten. Hvis pasienten sover, forsøk å vekke pasienten med vanlig stemme eller ved varsom berøring på skulderen. Be pasienten oppgi navn og adresse til hjelp med vurderingen.",
+    opts: ["Normal (helt årvåken, ikke urolig ved undersøkelse)", "Lett søvnig < 10 sekunder etter oppvåkning, deretter normal", "Tydelig unormal(t)"]
+  },
+  "2": {
+    q: "AMT4 (Forkortet mental vurdering)",
+    help: "Alder, fødselsdato, sted (navnet på sykehuset eller bygning), årstall",
+    opts: ["Ingen feil", "1 feil", "2 feil eller flere/ikke testbar"]
+  },
+  "3": {
+    q: "OPPMERKSOMHET",
+    help: "Spør pasienten: «Kan du i baklengs rekkefølge nevne for meg årets måneder, begynn med desember». Å hjelpe pasienten med et innledende spørsmål «hva er måneden før desember?» er tillatt. Rekkefølgen av årets måneder baklengs:",
+    opts: ["Oppgir 7 måneder eller flere korrekt", "Begynner, men klarer <7 måneder/ avslår å begynne", "Ikke testbar (er uvel, døsig, uoppmerksom)"]
+  },
+  "4": {
+    q: "AKUTT ENDRING ELLER FLUKTUASJON I TILSTAND",
+    help: "Holdepunkter for betydelige endringer eller fluktuasjoner knyttet til: årvåkenhet, kognisjon, annen mental funksjon (F.eks. paranoide symptomer, hallusinasjoner) oppstått i løpet av de siste to uker og fremdeles tilstede de siste 24 timer",
+    opts: ["Nei", "Ja"]
+  },
+};

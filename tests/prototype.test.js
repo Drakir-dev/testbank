@@ -35,10 +35,12 @@ function same(id, states, profiles) {
 /* Testene som var ferdige i prototypen. Tester bygget senere sammenlignes ikke. */
 const PROTO_ACTIVE = proto.TESTS.filter(t => t.status === "aktiv").map(t => t.id);
 
-test("registeret: samme tester, rekkefølge og kategorier", () => {
-  assert.equal(JSON.stringify(TESTS.map(t => [t.id, t.name, t.category])), JSON.stringify(proto.TESTS.map(t => [t.id, t.name, t.category])));
+/* Nye tester og kategorier (f.eks. Kognisjon) kan komme til, men prototypens egne skal stå i samme rekkefølge */
+test("registeret: prototypens tester og kategorier finnes, i samme rekkefølge", () => {
+  const protoIds = proto.TESTS.map(t => t.id);
+  assert.equal(JSON.stringify(TESTS.filter(t => protoIds.includes(t.id)).map(t => [t.id, t.name, t.category])), JSON.stringify(proto.TESTS.map(t => [t.id, t.name, t.category])));
   for (const id of PROTO_ACTIVE) assert.equal(TESTS.find(t => t.id === id).status, "aktiv", id);
-  assert.equal(JSON.stringify(CATEGORIES), JSON.stringify(proto.CATEGORIES));
+  assert.equal(JSON.stringify(CATEGORIES.filter(c => proto.CATEGORIES.includes(c))), JSON.stringify(proto.CATEGORIES));
 });
 
 test("skjema, veiledning og grunntilstand er uendret", () => {

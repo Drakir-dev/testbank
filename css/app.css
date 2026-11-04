@@ -145,6 +145,7 @@ textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.5;color:v
 .scores.opts span{place-items:center start;text-align:left;font-weight:400;font-size:.88rem;line-height:1.3;padding:8px 10px;min-height:40px}
 .scores.opts span b{font-family:var(--f-mono);margin-right:6px}
 .kitem .ktext ~ .scores{grid-column:1/-1}
+.kitem .khelp{grid-column:1/-1;font-style:italic;line-height:1.35}
 .kno{font-family:var(--f-mono);font-weight:500;color:var(--muted);margin-right:4px}
 .scores.opts span{display:block}
 .scores.s11{grid-template-columns:repeat(6,1fr)}
