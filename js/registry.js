@@ -21,6 +21,8 @@ import OSS from "./modules/oss.js";
 import WORC from "./modules/worc.js";
 import ODI from "./modules/odi.js";
 import NDI from "./modules/ndi.js";
+import OREBRO from "./modules/orebro.js";
+import STARTBACK from "./modules/startback.js";
 
 const planned = (id, name, category) => ({ id, name, category, status: "planlagt" });
 
@@ -31,7 +33,7 @@ export const TESTS = [
   TUG, SPPB, STS, GAIT, W6,
   KOOS, HOOS, IKDC, ACLRSI, TEGNER,
   QDASH, OSS, WORC,
-  ODI, NDI, planned("orebro", "Örebro", "PROM rygg/nakke"), planned("startback", "STarT Back", "PROM rygg/nakke"),
+  ODI, NDI, OREBRO, STARTBACK,
   NPRS, PSFS, planned("eq5d", "EQ-5D", "Generiske"), PGIC
 ];
 export const CATEGORIES = ["Skrøpelighet", "Balanse", "Funksjon og gange", "PROM kne/hofte", "PROM skulder/arm", "PROM rygg/nakke", "Generiske"];

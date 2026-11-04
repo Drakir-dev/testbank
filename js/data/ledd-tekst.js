@@ -160,3 +160,43 @@ export const TEGNER_TEXT = {
   "1": "Arbeid: stillesittende (f.eks. kontorarbeid)",
   "0": "Sykmeldt eller uføretrygdet på grunn av kneproblemer",
 };
+
+/* Örebro (ÖMPSQ, fullversjon, © Steven J. Linton, fri til klinisk bruk). Rikard limer inn den norske teksten
+   (Grotle, Vøllestad & Brox 2006). Ledd 1–4 skåres ikke og er ikke med. Et ledd kan også være {q, opts}. */
+export const OREBRO_TEXT = {
+  "5": "",
+  "6": "",
+  "7": "",
+  "8": "",
+  "9": "",
+  "10": "",
+  "11": "",
+  "12": "",
+  "13": "",
+  "14": "",
+  "15": "",
+  "16": "",
+  "17": "",
+  "18": "",
+  "19": "",
+  "20": "",
+  "21": "",
+  "22": "",
+  "23": "",
+  "24": "",
+  "25": "",
+};
+
+/* STarT Back (© Keele University 2007, fri til ikke-kommersiell bruk). Rikard limer inn Keeles norske versjon.
+   Ledd 9 kan få svaralternativer som {q, opts: [[1, "…"], … [5, "…"]]}. */
+export const STARTBACK_TEXT = {
+  "1": "",
+  "2": "",
+  "3": "",
+  "4": "",
+  "5": "",
+  "6": "",
+  "7": "",
+  "8": "",
+  "9": "",
+};
