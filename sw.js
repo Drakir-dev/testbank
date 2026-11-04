@@ -2,7 +2,7 @@
    Cacher BARE appens egne statiske filer (listen under). Ingen brukerdata, ingen eksterne kall.
    Øk CACHE-versjonen ved hver endring i appen, ellers får brukerne den gamle versjonen fra cachen.
    tests/sw.test.js sjekker at alle filer i js/, css/, fonts/ og icons/ står i listen. */
-const CACHE = "testbank-v10";
+const CACHE = "testbank-v11";
 const ASSETS = [
   "./",
   "index.html",
@@ -21,6 +21,8 @@ const ASSETS = [
   "js/modules/sppb.js",
   "js/modules/sts30.js",
   "js/modules/10mwt.js",
+  "js/modules/minibest.js",
+  "js/modules/6mwt.js",
   "js/modules/nprs.js",
   "js/modules/psfs.js",
   "js/modules/pgic.js",
