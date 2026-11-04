@@ -16,6 +16,9 @@ import HOOS from "./modules/hoos.js";
 import IKDC from "./modules/ikdc.js";
 import ACLRSI from "./modules/aclrsi.js";
 import TEGNER from "./modules/tegner.js";
+import QDASH from "./modules/qdash.js";
+import OSS from "./modules/oss.js";
+import WORC from "./modules/worc.js";
 
 const planned = (id, name, category) => ({ id, name, category, status: "planlagt" });
 
@@ -25,7 +28,7 @@ export const TESTS = [
   BERG, OLS, MINIBEST,
   TUG, SPPB, STS, GAIT, W6,
   KOOS, HOOS, IKDC, ACLRSI, TEGNER,
-  planned("qdash", "QuickDASH", "PROM skulder/arm"), planned("oss", "Oxford Shoulder Score", "PROM skulder/arm"), planned("worc", "WORC/WOSI", "PROM skulder/arm"),
+  QDASH, OSS, WORC,
   planned("odi", "ODI", "PROM rygg/nakke"), planned("ndi", "NDI", "PROM rygg/nakke"), planned("orebro", "Örebro", "PROM rygg/nakke"), planned("startback", "STarT Back", "PROM rygg/nakke"),
   NPRS, PSFS, planned("eq5d", "EQ-5D", "Generiske"), PGIC
 ];
