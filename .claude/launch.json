@@ -1,6 +1,7 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "testbank", "runtimeExecutable": "node", "runtimeArgs": ["tools/serve.mjs", "8080"], "port": 8080 }
+    { "name": "testbank", "runtimeExecutable": "node", "runtimeArgs": ["tools/serve.mjs", "8080"], "port": 8080 },
+    { "name": "testbank-design", "runtimeExecutable": "node", "runtimeArgs": ["tools/serve.mjs", "8081"], "port": 8081 }
   ]
 }
