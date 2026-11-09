@@ -21,19 +21,24 @@ export const itemText = (texts, code) => itemEntry(texts, code).q;
    0–10 står i seks kolonner på mobil og på én rad på bred skjerm (klassen s11 i css/app.css).
    1–10 (Örebro ledd 6 og 7) bruker samme rutenett, men starter i kolonne 2 (klassen off1), så tallene står
    rett over de samme tallene i 0–10-radene og knappene blir like store.
-   min gir knapper fra min til max (QuickDASH bruker 1–5). */
+   min gir knapper fra min til max (QuickDASH bruker 1–5).
+   To korte svaralternativer (f.eks. Uenig/Enig, Ja/Nei, høyst 12 tegn) står side om side (klassen two), så leddet blir én rad.
+   Ledd som går over flere rader, får klassen multi: da får ledd uten spørsmålstekst skillelinje og nummeret øverst. */
+export const TWO_MAX_LEN = 12;
 export function itemRow(id, code, k, max, text, ariaExtra = "", opts = null, desc = false, min = 0) {
   const n = max - min + 1;
   const values = Array.from({ length: n }, (_, i) => desc ? max - i : min + i);
   const oneToTen = n === 10 && min === 1 && max === 10 && !desc;
   const layout = n === 11 ? " s11" : oneToTen ? " s11 off1" : "";
   const style = n === 5 || n === 11 || oneToTen ? "" : ` style="grid-template-columns:repeat(${Math.min(n, 6)},1fr)"`;
+  const two = !!opts && opts.length === 2 && opts.every(([, t]) => String(t).length <= TWO_MAX_LEN);
+  const multi = opts ? !two : n > 6;
   const radio = (v, label) => `<label><input type="radio" name="${id}-${code}" id="${id}-${code}-${v}" data-k="${k}" value="${v}"><span>${label}</span></label>`;
   const buttons = opts
-    ? `<div class="scores opts">${opts.map(([v, t]) => radio(v, `<b>${v}</b> ${esc(t)}`)).join("")}</div>`
+    ? `<div class="scores opts${two ? " two" : ""}">${opts.map(([v, t]) => radio(v, `<b>${v}</b> ${esc(t)}`)).join("")}</div>`
     : `<div class="scores${layout}"${style}>${values.map(v => radio(v, v)).join("")}</div>`;
   return `
-      <div class="kitem" role="radiogroup" aria-label="${code}${text ? ": " + esc(text) : ariaExtra}">${text ? `<span class="ktext"><b class="kno">${code}</b> ${esc(text)}</span>` : `<span class="kcode">${code}</span>`}
+      <div class="kitem${multi ? " multi" : ""}" role="radiogroup" aria-label="${code}${text ? ": " + esc(text) : ariaExtra}">${text ? `<span class="ktext"><b class="kno">${code}</b> ${esc(text)}</span>` : `<span class="kcode">${code}</span>`}
         ${buttons}</div>`;
 }
 

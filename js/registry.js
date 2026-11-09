@@ -56,7 +56,7 @@ export function dipsBlocks(selected, states, profile) {
 export const dipsText = (selected, states, profile) => dipsBlocks(selected, states, profile).join("\n\n");
 
 /* Appversjonen som vises i toppen. Skal være lik CACHE i sw.js (sjekkes i tests/sw.test.js). */
-export const VERSION = "19";
+export const VERSION = "20";
 
 /* Hvilke tester som bruker alder og kjønn fra profilen (til normverdier). Kortet minner om det som mangler.
    tests/registry.test.js sjekker at alle moduler som leser p.age eller p.sex, står her. */

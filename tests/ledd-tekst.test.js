@@ -76,6 +76,23 @@ test("ledd 9a–9i vises 4–0 som på skjemaet, andre ledd 0–maks", () => {
   assert.deepEqual([...itemRow("x", "P1", "P1", 4, "", "", null, true).matchAll(/value="(\d)"/g)].map(m => m[1]), ["4", "3", "2", "1", "0"]);
 });
 
+test("to korte svaralternativer står side om side, lengre eller flere står under hverandre", () => {
+  const two = itemRow("startback", "1", "b1", 1, "", "", [[0, "Uenig"], [1, "Enig"]]);
+  assert.match(two, /class="scores opts two"/);
+  assert.match(two, /class="kitem" role/);                 // én rad: ingen multi
+  const long = itemRow("minicog", "2", "clock", 2, "Klokketest", "", [[2, "Normal klokke"], [0, "Unormal klokke eller ikke gjennomført"]]);
+  assert.match(long, /class="scores opts">/);
+  assert.match(long, /class="kitem multi"/);
+  const three = itemRow("mb", "1", "m1", 2, "", "", [[2, "a"], [1, "b"], [0, "c"]]);
+  assert.match(three, /class="kitem multi"/);
+});
+
+test("ledd over flere rader får klassen multi, ledd på én rad gjør ikke", () => {
+  assert.match(itemRow("orebro", "8", "o8", 10, ""), /class="kitem multi"/);
+  assert.match(itemRow("orebro", "6", "o6", 10, "", "", null, false, 1), /class="kitem multi"/);
+  for (const [max, min] of [[4, 0], [5, 0], [5, 1], [1, 0]]) assert.match(itemRow("x", "1", "k", max, "", "", null, false, min), /class="kitem" role/);
+});
+
 test("ledd med 1–10 bruker samme rutenett som 0–10 og starter i kolonne 2 (Örebro ledd 6 og 7)", () => {
   const html = itemRow("orebro", "6", "o6", 10, "", "", null, false, 1);
   assert.match(html, /class="scores s11 off1">/);
