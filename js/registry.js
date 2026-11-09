@@ -56,7 +56,17 @@ export function dipsBlocks(selected, states, profile) {
 export const dipsText = (selected, states, profile) => dipsBlocks(selected, states, profile).join("\n\n");
 
 /* Appversjonen som vises i toppen. Skal være lik CACHE i sw.js (sjekkes i tests/sw.test.js). */
-export const VERSION = "17";
+export const VERSION = "18";
+
+/* Hvilke tester som bruker alder og kjønn fra profilen (til normverdier). Kortet minner om det som mangler.
+   tests/registry.test.js sjekker at alle moduler som leser p.age eller p.sex, står her. */
+export const PROFILE_NEEDS = {
+  cfs: ["age"], ols: ["age", "sex"], minibest: ["age"], tug: ["age"], sts30: ["age", "sex"],
+  eq5d: ["age", "sex"], mmsenr3: ["age"], moca: ["age"]
+};
+
+/* Profilfeltene en test trenger, men som ikke er fylt ut */
+export const missingProfile = (id, p) => (PROFILE_NEEDS[id] || []).filter(k => !String(p[k] ?? "").trim());
 
 /* Status for et testkort: tom (ingen resultat), delvis (resultat, men ingen DIPS-tekst ennå) eller ferdig */
 export function testStatus(t, s, p) {
