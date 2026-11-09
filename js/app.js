@@ -8,7 +8,7 @@
    Skjemafelt bindes automatisk via data-k="nøkkel".
    Ingen lagring av data: søk, sammenfelte kort og valg ligger bare i minnet.
    ============================================================ */
-import { TESTS, CATEGORIES, VERSION, byId, libraryOrder, dipsBlocks, testStatus, missingProfile } from "./registry.js";
+import { TESTS, CATEGORIES, VERSION, PACKAGES, byId, libraryOrder, dipsBlocks, testStatus, missingProfile, packageOn, togglePackage } from "./registry.js";
 import { esc } from "./lib/form.js";
 import { nextUnanswered, skipped } from "./lib/flyt.js";
 
@@ -82,6 +82,17 @@ function renderLib() {
         : `<button type="button" class="chip" disabled title="Planlagt" data-q="${esc(`${t.name} ${c}`.toLowerCase())}">${t.name}<small>kommer</small></button>`).join("")}</div></div>`).join("");
   filterLib();
 }
+
+/* ---------- Testpakker ---------- */
+function renderPkgs() {
+  $("pkgs").innerHTML = PACKAGES.map(p => `<button type="button" class="pkg" id="pkg-${p.id}" data-pkg="${p.id}" aria-pressed="false"
+      title="${esc(p.ids.map(id => byId(id).name).join(", "))}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>${esc(p.name)}<small>${p.ids.length}</small></button>`).join("");
+}
+function paintPkgs() {
+  PACKAGES.forEach(p => $("pkg-" + p.id).setAttribute("aria-pressed", packageOn(app.selected, p)));
+}
+/* Urørt = tilstanden er lik initState(), eller testen er ikke åpnet ennå */
+const isUntouched = id => !app.states[id] || JSON.stringify(app.states[id]) === JSON.stringify(byId(id).initState());
 
 function filterLib() {
   const q = $("lib-q").value.trim().toLowerCase();
@@ -267,6 +278,8 @@ function renderForms() {
   renderNav();
   app.refreshers.forEach(fn => fn());
   paintLibToggle();
+  paintPkgs();
+  TESTS.forEach(t => { const ch = $("chip-" + t.id); if (ch) ch.setAttribute("aria-pressed", app.selected.includes(t.id)); });
   updateOutput();
   observeCards();
 }
@@ -290,6 +303,17 @@ $("lib").addEventListener("click", e => {
   b.setAttribute("aria-pressed", app.selected.includes(id));
   app.autoFold = true;
   renderForms();
+});
+$("pkgs").addEventListener("click", e => {
+  const b = e.target.closest(".pkg"); if (!b) return;
+  const pkg = PACKAGES.find(p => p.id === b.dataset.pkg);
+  const was = packageOn(app.selected, pkg);
+  app.selected = togglePackage(app.selected, pkg, isUntouched);
+  app.autoFold = true;
+  renderForms();
+  const kept = was ? pkg.ids.filter(id => app.selected.includes(id)).length : 0;
+  const keptTxt = kept === 1 ? "1 utfylt test er beholdt" : `${kept} utfylte tester er beholdt`;
+  flash(was ? (kept ? `${pkg.name} fjernet. ${keptTxt}.` : `${pkg.name} fjernet.`) : `${pkg.name} lagt til.`);
 });
 $("lib-q").addEventListener("input", filterLib);
 $("lib-q").addEventListener("keydown", e => { if (e.key === "Escape") { e.target.value = ""; filterLib(); } });
@@ -346,6 +370,7 @@ resetBtn.addEventListener("click", () => {
 });
 
 $("ver").textContent = "v" + VERSION;
+renderPkgs();
 renderLib();
 renderProfile();
 renderForms();

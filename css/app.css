@@ -320,3 +320,21 @@ dialog.sheet::backdrop{background:rgba(6,18,22,.5)}
 .sheet-foot .btn{flex:1}
 @media (prefers-reduced-motion:no-preference){dialog.sheet[open]{animation:sheet-in .2s ease-out}}
 @keyframes sheet-in{from{transform:translateY(40px);opacity:.4}}
+
+/* ---------- Testpakker ---------- */
+.pkgs-wrap{display:flex;flex-direction:column;gap:6px}
+.pkgs{display:flex;flex-wrap:wrap;gap:8px}
+.pkg{font:inherit;font-size:.92rem;font-weight:700;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;cursor:pointer;
+  color:var(--accent-ink);background:var(--accent-soft);border:1.5px solid var(--accent);border-radius:12px}
+.pkg small{font-family:var(--f-mono);font-size:.8rem;font-weight:500;opacity:.85;padding-left:6px;border-left:1px solid currentColor}
+.pkg[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
+.pkg[aria-pressed="true"]::after{content:"✓";margin-left:-2px}
+.pkg:hover{box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent)}
+.pkg:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* ---------- Kompakt CFS: når et nivå er valgt, viser de andre bare nummer og navn ---------- */
+.levels:has(input:checked){gap:4px}
+.levels:has(input:checked) label.lvl:not(.on){align-items:center;padding-block:6px}
+.levels:has(input:checked) label.lvl:not(.on) .lvl-desc{display:none}
+.levels:has(input:checked) label.lvl:not(.on) .num{height:34px;min-width:34px;font-size:1rem}
+.levels:has(input:checked) label.lvl:not(.on){grid-template-columns:34px 1fr}

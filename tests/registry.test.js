@@ -2,7 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { byId, testStatus, TESTS, PROFILE_NEEDS, missingProfile } from "../js/registry.js";
+import { byId, testStatus, TESTS, PROFILE_NEEDS, missingProfile, PACKAGES, packageOn, togglePackage, libraryOrder } from "../js/registry.js";
 
 test("alle moduler som leser alder eller kjønn, står i PROFILE_NEEDS", () => {
   const reads = TESTS.filter(t => t.status === "aktiv").map(t => t.id).filter(id => {
@@ -11,6 +11,29 @@ test("alle moduler som leser alder eller kjønn, står i PROFILE_NEEDS", () => {
   });
   assert.deepEqual(reads.sort(), Object.keys(PROFILE_NEEDS).sort());
   for (const id of Object.keys(PROFILE_NEEDS)) assert.ok(byId(id), id);
+});
+
+test("pakkene peker på aktive tester, uten dubletter", () => {
+  for (const p of PACKAGES) {
+    assert.equal(new Set(p.ids).size, p.ids.length, p.id);
+    for (const id of p.ids) assert.equal(byId(id)?.status, "aktiv", `${p.id}: ${id}`);
+  }
+  assert.deepEqual(PACKAGES.map(p => p.name), ["Fall og balanse", "Skrøpelig eldre", "Kne"]);
+});
+
+test("pakke legger til i bibliotekets rekkefølge, uten å fjerne noe", () => {
+  const fall = PACKAGES.find(p => p.id === "fall");
+  const sel = togglePackage(["koos", "cfs"], fall, () => true);
+  assert.deepEqual(sel, libraryOrder(["cfs", "koos", "tug", "berg", "sts30", "ols"]));
+  assert.ok(packageOn(sel, fall));
+  assert.ok(!packageOn(["tug", "berg"], fall));
+});
+
+test("nytt trykk fjerner bare urørte tester i pakken", () => {
+  const fall = PACKAGES.find(p => p.id === "fall");
+  const sel = ["cfs", "berg", "ols", "tug", "sts30"];
+  const out = togglePackage(sel, fall, id => id !== "tug");   // TUG er fylt ut
+  assert.deepEqual(out, ["cfs", "tug"]);
 });
 
 test("missingProfile gir feltene som mangler", () => {
