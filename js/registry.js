@@ -54,3 +54,13 @@ export function dipsBlocks(selected, states, profile) {
   return selected.map(id => byId(id).toText(states[id], profile)).filter(Boolean);
 }
 export const dipsText = (selected, states, profile) => dipsBlocks(selected, states, profile).join("\n\n");
+
+/* Appversjonen som vises i toppen. Skal være lik CACHE i sw.js (sjekkes i tests/sw.test.js). */
+export const VERSION = "17";
+
+/* Status for et testkort: tom (ingen resultat), delvis (resultat, men ingen DIPS-tekst ennå) eller ferdig */
+export function testStatus(t, s, p) {
+  const r = t.result(s, p);
+  if (!r) return { status: "tom", r: null };
+  return { status: t.toText(s, p) ? "ferdig" : "delvis", r };
+}
