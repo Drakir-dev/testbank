@@ -230,6 +230,12 @@ textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.55;color:
 @media (min-width:600px){.scores.s11{grid-template-columns:repeat(11,1fr)}}
 /* 1–10: første knapp i kolonne 2, så 1 står over 1 i 0–10-radene (både 6 og 11 kolonner) */
 .scores.off1 label:first-child{grid-column-start:2}
+/* Ledd med 0–10 / 1–10 uten spørsmålstekst: to knapperader per ledd på mobil. Skillelinje og luft mellom leddene,
+   og leddnummeret øverst ved første rad, så hvert ledd leses som én enhet. */
+.kitems:has(> .kitem .scores.s11):not(:has(.ktext)){gap:0}
+.kitem:not(:has(.ktext)):has(.scores.s11){align-items:start;padding-block:12px;border-top:1px solid var(--line)}
+.kitems > .kitem:not(:has(.ktext)):has(.scores.s11):first-child{border-top:0;padding-top:4px}
+.kitem:not(:has(.ktext)):has(.scores.s11) .kcode{padding-top:12px;font-size:1rem;font-weight:700;color:var(--fg)}
 /* Spørsmål med tekst: fet, tydelig skille mellom spørsmålene, svarene under */
 .kitems:has(.ktext){gap:14px}
 .kitem:has(.ktext){padding-top:12px;border-top:1px solid var(--line)}
