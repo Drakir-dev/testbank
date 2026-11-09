@@ -228,6 +228,8 @@ textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.55;color:
 .scores.opts span{display:block}
 .scores.s11{grid-template-columns:repeat(6,1fr)}
 @media (min-width:600px){.scores.s11{grid-template-columns:repeat(11,1fr)}}
+/* 1–10: første knapp i kolonne 2, så 1 står over 1 i 0–10-radene (både 6 og 11 kolonner) */
+.scores.off1 label:first-child{grid-column-start:2}
 /* Spørsmål med tekst: fet, tydelig skille mellom spørsmålene, svarene under */
 .kitems:has(.ktext){gap:14px}
 .kitem:has(.ktext){padding-top:12px;border-top:1px solid var(--line)}
