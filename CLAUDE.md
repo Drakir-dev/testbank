@@ -55,7 +55,8 @@ css/app.css
 fonts/                 woff2 + OFL-lisenser
 icons/                 lages med tools/lag-ikoner.mjs
 js/app.js              kjerne (DOM): rendering, binding, søk i biblioteket, hurtignavigasjon, korthoder, kopier, nullstill, registrering av SW
-js/registry.js         testregister, bibliotekets rekkefølge, samlet DIPS-tekst, VERSION og testStatus() (ingen DOM)
+js/registry.js         testregister, bibliotekets rekkefølge, samlet DIPS-tekst, VERSION, testStatus() og PROFILE_NEEDS (ingen DOM)
+js/lib/flyt.js         nextUnanswered() og skipped() for «neste ubesvarte» i lange skjemaer
 js/lib/format.js       num(), f() (desimalkomma), fs(), changeText(), aidText()
 js/lib/form.js         esc(), inputF(), radioF(), checkF(), AIDS
 js/lib/koos-hoos.js    felles skåring og skjema for KOOS og HOOS (delskårer 0–100), itemRow() for ledd-rader
@@ -73,6 +74,7 @@ prototype/testbank.html  prototypen fra Cowork, uendret referanse
 
 ### Ny test eller ny fil
 - Ny test: lag `js/modules/<id>.js` og `tests/<id>.test.js`, importer modulen i `js/registry.js` og legg filen i `ASSETS` i `sw.js`.
+- Leser modulen `p.age` eller `p.sex`, legg den i `PROFILE_NEEDS` i `js/registry.js` (`tests/registry.test.js` feiler ellers).
 - **Øk `CACHE`-versjonen i `sw.js` ved hver endring i appen**, ellers får installerte apper den gamle versjonen fra cachen. Øk `VERSION` i `js/registry.js` til samme tall (vises i toppen). `tests/sw.test.js` feiler hvis en fil mangler i listen eller versjonene er ulike.
 - `prototype.test.js` sammenligner bare de sju testene fra prototypen. Endres en av dem faglig med vilje, må sammenligningen for den testen tas ut eller oppdateres.
 
@@ -99,7 +101,7 @@ export default {
 
 ## Status
 
-Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst), og ODI og NDI (poeng per seksjon), og Örebro (fullversjon) og STarT Back (ledd for ledd), og EQ-5D-5L (norsk indeks og VAS-normer). Deretter kategorien Kognisjon: 4AT (norsk tekst v1.2), Mini-Cog, MMSE-NR3 (norske normer for alder og utdanning) og MoCA (bare totalskår). Deretter designløft: søk og sammenfelling i biblioteket, hurtignavigasjon med status, sticky korthode med skår og fremdrift, sammenfellbare kort, kortere personverntekst og mer dybde i stilen.
+Ferdig: CFS, Berg balanseskala, ettbensstående, TUG, SPPB, 30 s sit-to-stand og 10 m gangtest. Restrukturert fra prototypen (`prototype/testbank.html`) til moduler med tester og PWA, med uendret DIPS-tekst. Deretter NPRS, PSFS og PGIC (generiske skjemaer), KOOS og HOOS (ledd for ledd, tekst kan legges inn), IKDC, ACL-RSI og Tegner (med norsk tekst), og Mini-BESTest og 6MWT. Deretter QuickDASH, OSS og WORC/WOSI (poeng per ledd eller domenesummer, uten spørsmålstekst), og ODI og NDI (poeng per seksjon), og Örebro (fullversjon) og STarT Back (ledd for ledd), og EQ-5D-5L (norsk indeks og VAS-normer). Deretter kategorien Kognisjon: 4AT (norsk tekst v1.2), Mini-Cog, MMSE-NR3 (norske normer for alder og utdanning) og MoCA (bare totalskår). Deretter designløft: søk og sammenfelling i biblioteket, hurtignavigasjon med status, sticky korthode med skår og fremdrift, sammenfellbare kort, kortere personverntekst og mer dybde i stilen. Deretter brukervennlighet runde 2: biblioteket feller seg sammen ved første utfylling, alder og kjønn på én linje med påminnelse i testene som bruker dem (`PROFILE_NEEDS`), automatisk hopp til neste ubesvarte ledd og markering av hoppede ledd, «Vis tekst»-panel, aktiv test i navigasjonen og stilen «Stor og tydelig» (17 px grunnskrift, minst 13,6 px, 48 px trykkflater, sterkere kontrast).
 
 Planlagt:
 1. Norsk tekst for Örebro og STarT Back i `js/data/ledd-tekst.js` (Rikard).

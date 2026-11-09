@@ -8,12 +8,15 @@
    Skjemafelt bindes automatisk via data-k="nøkkel".
    Ingen lagring av data: søk, sammenfelte kort og valg ligger bare i minnet.
    ============================================================ */
-import { TESTS, CATEGORIES, VERSION, byId, libraryOrder, dipsBlocks, testStatus } from "./registry.js";
-import { esc, inputF, radioF } from "./lib/form.js";
+import { TESTS, CATEGORIES, VERSION, byId, libraryOrder, dipsBlocks, testStatus, missingProfile } from "./registry.js";
+import { esc } from "./lib/form.js";
+import { nextUnanswered, skipped } from "./lib/flyt.js";
 
 /* ---------- App (kun minne) ---------- */
-const app = { selected: ["cfs"], states: {}, profile: { age: "", sex: "" }, refreshers: [], folded: new Set(), libOpen: true };
+const app = { selected: ["cfs"], states: {}, profile: { age: "", sex: "" }, refreshers: [], folded: new Set(), libOpen: true, autoFold: true };
 const $ = id => document.getElementById(id);
+const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const stickH = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--stick")) || 0;
 
 /* Generisk binding: data-k → state */
 function bind(el, s, onChange) {
@@ -46,16 +49,28 @@ function paintResult(box, r) {
     <span><span class="r-main">${esc(r.main)}</span><br><span class="r-sub">${esc(r.sub || "")}</span></span>`;
 }
 
+/* ---------- Profil: én kompakt linje ---------- */
 function renderProfile() {
   const el = $("profile");
   el.innerHTML = `
-    <div class="card-head"><h3>Alder og kjønn</h3><span class="meta">Brukes for normverdier</span></div>
-    <div class="grid">
-      ${inputF("p-age", "age", "Alder", "år", { int: true, ph: "f.eks. 74" })}
-      ${radioF("p-sex", "sex", "Kjønn", [["kvinne", "Kvinne"], ["mann", "Mann"]])}
+    <div class="prof-row">
+      <span class="prof-h">Pasient</span>
+      <label class="inp prof-age"><span class="sr">Alder</span>
+        <input type="text" inputmode="numeric" id="p-age" data-k="age" placeholder="Alder" autocomplete="off"><span class="unit">år</span></label>
+      <div class="seg prof-sex" role="radiogroup" aria-label="Kjønn">
+        <label><input type="radio" name="p-sex" id="p-sex-0" data-k="sex" value="kvinne"> Kvinne</label>
+        <label><input type="radio" name="p-sex" id="p-sex-1" data-k="sex" value="mann"> Mann</label>
+      </div>
     </div>
-    <span class="hint">Oppgi bare alder i år, ikke fødselsdato.</span>`;
+    <span class="hint">Pasientens alder i år og kjønn, bare til normverdier.</span>`;
   bind(el, app.profile, () => { app.refreshers.forEach(fn => fn()); updateOutput(); });
+}
+
+const NEED_TEXT = { age: "Alder", sex: "Kjønn", both: "Alder og kjønn" };
+function goToProfile(missing) {
+  const target = missing[0] === "sex" ? $("p-sex-0") : $("p-age");
+  $("profile").scrollIntoView({ block: "center", behavior: reduced() ? "instant" : "smooth" });
+  target.focus({ preventScroll: true });
 }
 
 /* ---------- Bibliotek: søk og sammenfelling ---------- */
@@ -88,16 +103,30 @@ function paintLibToggle() {
   sum.hidden = app.libOpen;
   sum.innerHTML = names.length ? `<span>Valgt: <b>${esc(names.join(", "))}</b></span><span class="link">Endre</span>` : `<span>Ingen tester valgt</span><span class="link">Velg</span>`;
 }
-const setLib = open => { app.libOpen = open; paintLibToggle(); if (open) $("lib-q").focus({ preventScroll: true }); };
+/* Åpner brukeren biblioteket selv, feller det seg ikke automatisk sammen før neste testvalg */
+const setLib = (open, byUser = true) => {
+  app.libOpen = open; if (open && byUser) app.autoFold = false;
+  paintLibToggle();
+  if (open && byUser) $("lib-q").focus({ preventScroll: true });
+};
+
+/* Første utfylling etter et testvalg feller biblioteket sammen, uten at feltet du trykket på, flytter seg */
+function autoFoldLib(e) {
+  if (!app.autoFold || !app.libOpen) return;
+  app.autoFold = false;
+  const before = e.target.getBoundingClientRect().top;
+  setLib(false, false);
+  window.scrollBy({ top: e.target.getBoundingClientRect().top - before, behavior: "instant" });
+}
 
 /* ---------- Hurtignavigasjon ---------- */
-/* «ferdig» betyr at testen gir DIPS-tekst. KOOS/HOOS kan gi tekst før alle delskårer er fylt ut. */
 const STATUS_LABEL = { tom: "ikke startet", delvis: "delvis utfylt", ferdig: "med i DIPS-teksten" };
 
 function renderNav() {
   const nav = $("jump");
   nav.hidden = !app.selected.length;
   nav.innerHTML = app.selected.map(id => `<a class="jump-i" href="#card-${id}" id="jump-${id}"><i class="dot"></i><span>${esc(byId(id).name)}</span><b class="jv"></b></a>`).join("");
+  paintNavFade();
 }
 
 function paintNav(t, st) {
@@ -109,10 +138,46 @@ function paintNav(t, st) {
   a.setAttribute("aria-label", `${t.name}: ${STATUS_LABEL[st.status]}${v ? `, ${v}` : ""}`);
 }
 
+/* Fade i høyre kant når det finnes flere tester til høyre */
+function paintNavFade() {
+  const n = $("jump");
+  n.classList.toggle("more", n.scrollLeft + n.clientWidth < n.scrollWidth - 4);
+}
+
+/* Markerer testen du står i, og ruller raden så den er synlig */
+let activeId = null, cardObserver = null;
+const visible = new Set();
+function setActive(id) {
+  if (id === activeId) return;
+  activeId = id;
+  document.querySelectorAll(".jump-i").forEach(a => a.toggleAttribute("aria-current", a.id === "jump-" + id));
+  const a = $("jump-" + id), nav = $("jump"); if (!a) return;
+  if (a.offsetLeft < nav.scrollLeft || a.offsetLeft + a.offsetWidth > nav.scrollLeft + nav.clientWidth)
+    nav.scrollTo({ left: a.offsetLeft - 16, behavior: reduced() ? "instant" : "smooth" });
+}
+function observeCards() {
+  if (cardObserver) cardObserver.disconnect();
+  visible.clear(); activeId = null;
+  cardObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => e.isIntersecting ? visible.add(e.target.id.slice(5)) : visible.delete(e.target.id.slice(5)));
+    const id = app.selected.find(x => visible.has(x));
+    if (id) setActive(id);
+  }, { rootMargin: `-${Math.round(stickH()) + 8}px 0px -55% 0px` });
+  document.querySelectorAll(".card.test").forEach(c => cardObserver.observe(c));
+}
+
 /* ---------- Kort ---------- */
-/* Radiogrupper i et kort (innerste nivå), til fremdriften */
+/* Radiogrupper i et kort (innerste nivå), til fremdrift og «neste ubesvarte» */
 const radioGroups = card => [...card.querySelectorAll('.card-body [role="radiogroup"], .card-body fieldset')]
   .filter(g => g.querySelector('input[type="radio"]') && !g.querySelector('[role="radiogroup"], fieldset'));
+const answeredOf = groups => groups.map(g => !!g.querySelector("input:checked"));
+
+/* Scroll et ledd inn rett under toppen og korthodet */
+function scrollToGroup(card, g, focus = false) {
+  const head = card.querySelector(".card-head").getBoundingClientRect().height;
+  window.scrollTo({ top: g.getBoundingClientRect().top + scrollY - stickH() - head - 12, behavior: reduced() ? "instant" : "smooth" });
+  if (focus) (g.querySelector("input:checked") || g.querySelector("input")).focus({ preventScroll: true });
+}
 
 function paintHead(card, t, st) {
   const badge = card.querySelector(".badge");
@@ -123,11 +188,17 @@ function paintHead(card, t, st) {
   } else badge.hidden = true;
   const groups = radioGroups(card), prog = card.querySelector(".prog");
   if (groups.length >= 4) {
-    const n = groups.filter(g => g.querySelector("input:checked")).length;
+    const ans = answeredOf(groups), n = ans.filter(Boolean).length;
     prog.hidden = false;
     prog.querySelector(".prog-txt").textContent = `${n} av ${groups.length} besvart`;
     prog.querySelector("i").style.width = `${Math.round(n / groups.length * 100)}%`;
+    prog.querySelector(".next-btn").hidden = !n || n === groups.length;
+    const sk = skipped(ans);
+    groups.forEach((g, i) => g.classList.toggle("skipped", sk[i]));
   } else prog.hidden = true;
+  const miss = missingProfile(t.id, app.profile), need = card.querySelector(".need");
+  need.hidden = !miss.length;
+  if (miss.length) need.querySelector(".need-txt").textContent = `${NEED_TEXT[miss.length > 1 ? "both" : miss[0]]} brukes til normverdier.`;
 }
 
 function fold(card, id, on) {
@@ -154,14 +225,34 @@ function renderForms() {
         <div class="ch-row"><h3 title="${esc(t.title)}">${t.title}</h3>
           <span class="badge num" hidden></span>
           <button type="button" class="fold" aria-expanded="true" aria-controls="body-${id}" aria-label="Fell sammen ${esc(t.name)}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>
-        <div class="prog" hidden><span class="prog-txt"></span><span class="prog-bar"><i></i></span></div>
+        <div class="prog" hidden><span class="prog-txt"></span><span class="prog-bar"><i></i></span><button type="button" class="link next-btn" hidden>Neste ubesvarte</button></div>
       </div>
       <div class="card-body" id="body-${id}"><span class="meta">${t.category} · ${t.meta}</span>
+      <div class="need" hidden><span class="need-txt"></span><button type="button" class="link need-go">Fyll inn</button></div>
       ${t.form(s)}<div class="result empty" id="res-${t.id}"></div>
       <details class="guide"><summary>Veiledning og kilder</summary>${t.guide}</details></div>`;
     box.appendChild(card);
     if (app.folded.has(id)) fold(card, id, true);
     card.querySelector(".fold").addEventListener("click", () => fold(card, id, !card.classList.contains("folded")));
+    card.querySelector(".need-go").addEventListener("click", () => goToProfile(missingProfile(id, app.profile)));
+    card.querySelector(".next-btn").addEventListener("click", () => {
+      const groups = radioGroups(card), i = nextUnanswered(answeredOf(groups));
+      if (i >= 0) scrollToGroup(card, groups[i], true);
+    });
+    /* Etter et svar på et ubesvart ledd: gli videre til neste ubesvarte.
+       Fanges i capture på «input», som kommer før «change», altså før bind() oppdaterer tilstanden. */
+    card.addEventListener("input", e => {
+      if (e.target.type !== "radio") return;
+      const groups = radioGroups(card); if (groups.length < 4) return;
+      const idx = groups.findIndex(g => g.contains(e.target));
+      if (idx < 0) return;
+      const k = e.target.dataset.k;
+      if (k && s[k] !== "" && s[k] != null) return;   // leddet var besvart fra før: brukeren retter, ikke hopp
+      setTimeout(() => {
+        const next = nextUnanswered(answeredOf(groups), idx);
+        if (next > idx) scrollToGroup(card, groups[next]);
+      }, 250);
+    }, true);
     const refresh = () => {
       const st = testStatus(t, s, app.profile);
       paintResult(card.querySelector(`#res-${t.id}`), st.r);
@@ -177,6 +268,7 @@ function renderForms() {
   app.refreshers.forEach(fn => fn());
   paintLibToggle();
   updateOutput();
+  observeCards();
 }
 
 function updateOutput() {
@@ -184,7 +276,9 @@ function updateOutput() {
   const ta = $("dips");
   ta.value = blocks.join("\n\n");
   ta.placeholder = "Fyll ut minst én test for å få tekst her.";
-  $("copy").disabled = !blocks.length;
+  $("copy").disabled = $("show").disabled = !blocks.length;
+  $("show-n").textContent = blocks.length ? ` (${blocks.length})` : "";
+  $("sheet-text").textContent = ta.value;
 }
 
 $("lib").addEventListener("click", e => {
@@ -194,31 +288,49 @@ $("lib").addEventListener("click", e => {
   // behold bibliotekets rekkefølge
   app.selected = libraryOrder(app.selected);
   b.setAttribute("aria-pressed", app.selected.includes(id));
+  app.autoFold = true;
   renderForms();
 });
 $("lib-q").addEventListener("input", filterLib);
 $("lib-q").addEventListener("keydown", e => { if (e.key === "Escape") { e.target.value = ""; filterLib(); } });
 $("lib-toggle").addEventListener("click", () => setLib(!app.libOpen));
 $("lib-sum").addEventListener("click", () => setLib(true));
+$("forms").addEventListener("input", autoFoldLib, true);
+$("forms").addEventListener("change", autoFoldLib, true);
+$("jump").addEventListener("scroll", paintNavFade, { passive: true });
 
 /* Høyden på toppen + navigasjonen, så kortenes sticky hode og hopp-mål havner rett under */
-new ResizeObserver(([e]) => document.documentElement.style.setProperty("--stick", `${Math.ceil(e.target.getBoundingClientRect().height)}px`)).observe($("sticky"));
+let lastStick = 0;
+new ResizeObserver(([e]) => {
+  const h = Math.ceil(e.target.getBoundingClientRect().height);
+  document.documentElement.style.setProperty("--stick", `${h}px`);
+  if (h !== lastStick) { lastStick = h; observeCards(); paintNavFade(); }
+}).observe($("sticky"));
 
 const statusEl = $("status");
 function flash(msg) { statusEl.textContent = msg; clearTimeout(flash.t); flash.t = setTimeout(() => statusEl.textContent = "", 3500); }
 
-const copyBtn = $("copy");
-copyBtn.addEventListener("click", () => {
-  const ta = $("dips");
-  const fallback = () => { ta.focus(); ta.select(); flash("Teksten er markert. Kopier med Ctrl+C eller hold inne og velg Kopier."); };
+/* ---------- Kopier (bunnlinjen og tekstpanelet) ---------- */
+function copyText(btn, selectFallback) {
+  const text = $("dips").value;
+  const fallback = () => { selectFallback(); flash("Teksten er markert. Kopier med Ctrl+C eller hold inne og velg Kopier."); };
   const done = () => {
     flash("Kopiert. Lim inn i DIPS-notatet.");
-    copyBtn.classList.add("done"); copyBtn.textContent = "Kopiert ✓";
-    clearTimeout(done.t); done.t = setTimeout(() => { copyBtn.classList.remove("done"); copyBtn.textContent = "Kopier til DIPS"; }, 2000);
+    if (!btn.dataset.html) btn.dataset.html = btn.innerHTML;
+    btn.classList.add("done"); btn.textContent = "Kopiert ✓";
+    clearTimeout(btn._t); btn._t = setTimeout(() => { btn.classList.remove("done"); btn.innerHTML = btn.dataset.html; }, 2000);
   };
-  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, fallback);
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
   else fallback();
-});
+}
+$("copy").addEventListener("click", e => copyText(e.currentTarget, () => { const ta = $("dips"); ta.focus(); ta.select(); }));
+$("sheet-copy").addEventListener("click", e => copyText(e.currentTarget, () => getSelection().selectAllChildren($("sheet-text"))));
+
+/* Tekstpanel: lukkes med Esc (innebygd), Lukk eller trykk utenfor */
+const sheet = $("sheet");
+$("show").addEventListener("click", () => sheet.showModal());
+$("sheet-close").addEventListener("click", () => sheet.close());
+sheet.addEventListener("click", e => { if (e.target === sheet) sheet.close(); });
 
 const resetBtn = $("reset");
 let armed = false;
@@ -229,7 +341,7 @@ resetBtn.addEventListener("click", () => {
     flash("Trykk Bekreft for å tømme alle felt."); clearTimeout(disarm.t); disarm.t = setTimeout(disarm, 4000); return;
   }
   clearTimeout(disarm.t); disarm();
-  app.states = {}; app.profile = { age: "", sex: "" }; app.folded.clear();
+  app.states = {}; app.profile = { age: "", sex: "" }; app.folded.clear(); app.autoFold = true;
   renderProfile(); renderForms(); flash("Alt er tømt.");
 });
 

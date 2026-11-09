@@ -67,9 +67,19 @@
 <div class="bar">
   <div class="bar-in">
     <button class="btn danger" id="reset" type="button">Nullstill</button>
-    <button class="btn primary" id="copy" type="button" disabled>Kopier til DIPS</button>
+    <button class="btn" id="show" type="button" disabled aria-haspopup="dialog">Vis tekst<span id="show-n"></span></button>
+    <button class="btn primary" id="copy" type="button" disabled><span class="lbl-l">Kopier til DIPS</span><span class="lbl-s">Kopier</span></button>
   </div>
   <div class="bar-in"><div class="status" id="status" role="status" aria-live="polite"></div></div>
 </div>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-h">
+  <div class="sheet-head">
+    <h2 id="sheet-h">Tekst til DIPS</h2>
+    <button class="btn" id="sheet-close" type="button">Lukk</button>
+  </div>
+  <pre class="sheet-text" id="sheet-text" tabindex="0"></pre>
+  <div class="sheet-foot"><button class="btn primary" id="sheet-copy" type="button">Kopier til DIPS</button></div>
+</dialog>
 </body>
 </html>

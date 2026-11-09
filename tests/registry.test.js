@@ -1,7 +1,24 @@
 /* Status per testkort (brukes i hurtignavigasjonen) */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { byId, testStatus } from "../js/registry.js";
+import { readFileSync } from "node:fs";
+import { byId, testStatus, TESTS, PROFILE_NEEDS, missingProfile } from "../js/registry.js";
+
+test("alle moduler som leser alder eller kjønn, står i PROFILE_NEEDS", () => {
+  const reads = TESTS.filter(t => t.status === "aktiv").map(t => t.id).filter(id => {
+    const src = readFileSync(new URL(`../js/modules/${id}.js`, import.meta.url), "utf8");
+    return /\bp(\s*&&\s*p)?\.(age|sex)\b/.test(src);
+  });
+  assert.deepEqual(reads.sort(), Object.keys(PROFILE_NEEDS).sort());
+  for (const id of Object.keys(PROFILE_NEEDS)) assert.ok(byId(id), id);
+});
+
+test("missingProfile gir feltene som mangler", () => {
+  assert.deepEqual(missingProfile("sts30", { age: "", sex: "" }), ["age", "sex"]);
+  assert.deepEqual(missingProfile("sts30", { age: "70", sex: "" }), ["sex"]);
+  assert.deepEqual(missingProfile("tug", { age: " 70 ", sex: "" }), []);
+  assert.deepEqual(missingProfile("berg", { age: "", sex: "" }), []);
+});
 
 test("status: tom, delvis og ferdig", () => {
   const t = byId("4at"), s = t.initState();
