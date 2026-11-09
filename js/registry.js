@@ -56,7 +56,27 @@ export function dipsBlocks(selected, states, profile) {
 export const dipsText = (selected, states, profile) => dipsBlocks(selected, states, profile).join("\n\n");
 
 /* Appversjonen som vises i toppen. Skal være lik CACHE i sw.js (sjekkes i tests/sw.test.js). */
-export const VERSION = "21";
+export const VERSION = "22";
+
+
+/* Testpakker øverst i biblioteket (valgt av Rikard 9.11.2026). Ett trykk legger til alle testene i pakken. */
+export const PACKAGES = [
+  { id: "fall", name: "Fall og balanse", ids: ["tug", "berg", "sts30", "ols"] },
+  { id: "skrop", name: "Skrøpelig eldre", ids: ["cfs", "4at", "sppb", "10mwt"] },
+  { id: "kne", name: "Kne", ids: ["koos", "nprs", "psfs"] }
+];
+
+/* Pakken er «på» når alle testene i den er valgt */
+export const packageOn = (selected, pkg) => pkg.ids.every(id => selected.includes(id));
+
+/* Trykk på en pakke: legger til testene, eller (når pakken er på) fjerner pakkens tester som er urørt.
+   isUntouched(id) sier om testen ikke er fylt ut. Utfylte tester fjernes aldri. Resultatet står i bibliotekets rekkefølge. */
+export function togglePackage(selected, pkg, isUntouched) {
+  const next = packageOn(selected, pkg)
+    ? selected.filter(id => !(pkg.ids.includes(id) && isUntouched(id)))
+    : [...new Set([...selected, ...pkg.ids])];
+  return libraryOrder(next);
+}
 
 /* Hvilke tester som bruker alder og kjønn fra profilen (til normverdier). Kortet minner om det som mangler.
    tests/registry.test.js sjekker at alle moduler som leser p.age eller p.sex, står her. */
