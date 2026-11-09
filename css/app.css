@@ -11,7 +11,7 @@
 /* Layout: mobilførst enkeltkolonne (maks 720px). Fast topp med hurtignavigasjon, testbibliotek med søk, alder/kjønn,
    ett kort per valgt test (sticky hode med skår og fremdrift), DIPS-tekst nederst og fast kopier-linje i bunn. */
 :root{
-  --bg:#eef2f3; --surface:#ffffff; --surface-2:#e6edef; --surface-3:#f6f9fa; --fg:#14232b; --muted:#56676f; --line:#d3dde1;
+  --bg:#eef2f3; --surface:#ffffff; --surface-2:#e6edef; --surface-3:#f6f9fa; --fg:#101e25; --muted:#45555c; --line:#bccbd1;
   --accent:#0f6e7a; --accent-fg:#ffffff; --accent-soft:#d6ecee; --accent-ink:#0b5862;
   --ok:#2f7d4f; --warn:#a86400; --crit:#b3322b;
   --l1:#1f7a52; --l2:#3c8a4a; --l3:#6f9a3c; --l4:#b08a12; --l5:#c26d10; --l6:#c4501a; --l7:#b3322b; --l8:#8a2236; --l9:#4e3b6b;
@@ -22,7 +22,7 @@
   --r:14px; --r-sm:9px; --stick:96px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0c1418; --surface:#15222a; --surface-2:#1c2d35; --surface-3:#192830; --fg:#e4ecef; --muted:#9db0b8; --line:#2b3f48;
+  --bg:#0c1418; --surface:#15222a; --surface-2:#1c2d35; --surface-3:#192830; --fg:#eef4f6; --muted:#b6c6cd; --line:#3a525d;
   --accent:#4fb8c4; --accent-fg:#06222a; --accent-soft:#163a40; --accent-ink:#7fd0d9;
   --ok:#5cc28a; --warn:#e2a23a; --crit:#ef7a70;
   --l1:#4fbf8a; --l2:#6cc277; --l3:#9cc364; --l4:#d8b443; --l5:#e5964a; --l6:#ea7a4c; --l7:#ef6a5f; --l8:#d86680; --l9:#a58fd0;
@@ -31,7 +31,7 @@
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
-  --bg:#0c1418; --surface:#15222a; --surface-2:#1c2d35; --surface-3:#192830; --fg:#e4ecef; --muted:#9db0b8; --line:#2b3f48;
+  --bg:#0c1418; --surface:#15222a; --surface-2:#1c2d35; --surface-3:#192830; --fg:#eef4f6; --muted:#b6c6cd; --line:#3a525d;
   --accent:#4fb8c4; --accent-fg:#06222a; --accent-soft:#163a40; --accent-ink:#7fd0d9;
   --ok:#5cc28a; --warn:#e2a23a; --crit:#ef7a70;
   --l1:#4fbf8a; --l2:#6cc277; --l3:#9cc364; --l4:#d8b443; --l5:#e5964a; --l6:#ea7a4c; --l7:#ef6a5f; --l8:#d86680; --l9:#a58fd0;
@@ -42,7 +42,9 @@
 *{box-sizing:border-box}
 /* hidden skal alltid skjule, også elementer med egen display (f.eks. .grid) */
 [hidden]{display:none !important}
-body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:16px;line-height:1.45;margin:0;
+/* Stor og tydelig: grunnskrift 17 px (alle rem skaleres med), minste tekst .8rem ≈ 13,6 px */
+html{font-size:106.25%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:1rem;line-height:1.5;margin:0;
   padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
   padding-block:0 calc(120px + env(safe-area-inset-bottom, 0px))}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--bg)}
@@ -57,7 +59,7 @@ header.top{padding-block:12px 10px;display:flex;align-items:center;justify-conte
 .brand{font-weight:700;font-size:1.25rem;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
 .brand img{border-radius:8px;box-shadow:var(--shadow)}
 .brand span{color:var(--accent)}
-.tag{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
+.tag{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
 .jump{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .jump::-webkit-scrollbar{display:none}
 .jump-i{flex:none;display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--fg);font-size:.86rem;font-weight:700;
@@ -95,14 +97,14 @@ details.privacy p{margin:8px 0 2px}
 .search input{font:inherit;font-size:1rem;color:var(--fg);background:none;border:0;outline:0;padding:10px 0;width:100%;min-width:0;min-height:44px}
 .lib{display:flex;flex-direction:column;gap:12px}
 .cat{display:flex;flex-direction:column;gap:6px}
-.cat-name{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.cat-name{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font:inherit;font-size:.92rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:7px 13px;cursor:pointer;min-height:40px}
 .chip:hover:not(:disabled){border-color:var(--accent)}
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);font-weight:700}
 .chip[aria-pressed="true"]::before{content:"✓";margin-right:5px}
 .chip:disabled{cursor:default;color:var(--muted);background:transparent;border-style:dashed}
-.chip small{font-size:.72rem;opacity:.85;margin-left:4px}
+.chip small{font-size:.8rem;opacity:.85;margin-left:4px}
 .lib-sum{font:inherit;font-size:.92rem;color:var(--fg);text-align:left;width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;
   background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;cursor:pointer;box-shadow:var(--shadow);min-height:48px}
 .lib-sum .link{padding:0;flex:none}
@@ -189,7 +191,7 @@ fieldset.bitem legend{font-weight:700;font-size:.92rem;padding:0 4px;display:fle
 details.guide{font-size:.88rem;border-top:1px solid var(--line);padding-top:10px}
 details.guide summary{cursor:pointer;font-weight:700;color:var(--accent-ink)}
 details.guide ul{padding-left:18px;margin:8px 0 0;display:flex;flex-direction:column;gap:4px}
-.source{font-size:.78rem;color:var(--muted);margin:8px 0 0}
+.source{font-size:.8rem;color:var(--muted);margin:8px 0 0}
 
 /* DIPS-tekst */
 .out{display:flex;flex-direction:column;gap:8px}
@@ -234,3 +236,75 @@ textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.55;color:
 details.instr{font-size:.84rem;color:var(--muted);margin-top:-6px}
 details.instr summary{cursor:pointer;color:var(--accent-ink);font-weight:700;font-size:.8rem}
 details.instr p{margin:6px 0 0}
+
+/* ---------- Brukervennlighet, runde 2 ---------- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Stor og tydelig: større trykkflater og tydeligere valg */
+.scores span{min-height:48px;font-size:1.15rem;border-width:1.5px}
+.scores.opts span{min-height:48px;font-size:.92rem}
+.scores input:checked + span{box-shadow:0 0 0 2px var(--accent)}
+.seg label{min-height:48px;border-width:1.5px}
+.seg label:has(input:checked){box-shadow:inset 0 0 0 1.5px var(--accent)}
+.inp input{min-height:48px;border-width:1.5px}
+.result .r-main{font-size:1.1rem}
+.result .r-sub{font-size:.9rem}
+.chip{min-height:44px;border-width:1.5px}
+
+/* Profil på én linje */
+.card.profile{padding:12px 14px;gap:6px}
+.prof-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.prof-h{font-weight:700;margin-right:2px}
+.prof-age{flex:0 0 auto;width:7.5em}
+.prof-sex{flex:1 1 auto;flex-wrap:nowrap}
+.prof-sex label{flex:1;justify-content:center}
+@media (max-width:440px){
+  .prof-row{flex-wrap:nowrap;gap:6px}
+  .prof-h{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .prof-age{width:6.2em}
+  .prof-sex{gap:6px}
+  .prof-sex label{padding:8px;gap:6px}
+}
+.card.profile .hint{font-size:.8rem}
+
+/* Påminnelse om alder/kjønn i testkortet */
+.need{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.9rem;font-weight:700;
+  background:color-mix(in srgb, var(--warn) 12%, var(--surface));border:1.5px solid var(--warn);border-radius:var(--r-sm);padding:8px 12px}
+.need .link{padding:4px 0}
+
+/* Fremdrift med «Neste ubesvarte» */
+.prog{flex-wrap:wrap}
+.prog .next-btn{padding:4px 0;font-size:.85rem}
+
+/* Ledd som er hoppet over */
+.skipped{position:relative;box-shadow:inset 4px 0 0 var(--warn);background:color-mix(in srgb, var(--warn) 9%, transparent);border-radius:8px}
+.kitem.skipped{padding-left:10px;padding-block:6px}
+.skipped::after{content:"Ikke besvart";position:absolute;top:2px;right:6px;font-size:.8rem;font-weight:700;color:var(--warn);pointer-events:none}
+fieldset.skipped{border-color:var(--warn)}
+fieldset.skipped::after{top:-.8em;right:10px;padding:0 6px;background:var(--surface);border-radius:4px}
+
+/* Aktiv test i navigasjonen og fade når det er flere til høyre */
+.jump-i{min-height:40px;font-size:.9rem;border-width:1.5px}
+.jump-i[aria-current]{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 1.5px var(--accent)}
+.jump.more{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent)}
+
+/* Bunnlinjen med tre knapper */
+.bar-in .btn{flex:none;padding-inline:14px}
+.bar-in .btn.primary{flex:1}
+.lbl-s{display:none}
+@media (max-width:420px){.lbl-l{display:none}.lbl-s{display:inline}.bar-in .btn{padding-inline:12px}}
+#show:disabled{opacity:.45;cursor:default}
+
+/* Tekstpanel nedenfra */
+dialog.sheet{border:0;padding:0;margin:auto auto 0;width:100%;max-width:720px;max-height:85vh;border-radius:18px 18px 0 0;
+  background:var(--surface);color:var(--fg);box-shadow:var(--shadow-up);display:flex;flex-direction:column}
+dialog.sheet:not([open]){display:none}
+dialog.sheet::backdrop{background:rgba(6,18,22,.5)}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+.sheet-head h2{margin:0}
+.sheet-text{flex:1;overflow:auto;margin:0;padding:16px;font-family:var(--f-mono);font-size:.92rem;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.sheet-text:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+.sheet-foot{display:flex;padding:10px 16px calc(12px + env(safe-area-inset-bottom, 0px));border-top:1px solid var(--line)}
+.sheet-foot .btn{flex:1}
+@media (prefers-reduced-motion:no-preference){dialog.sheet[open]{animation:sheet-in .2s ease-out}}
+@keyframes sheet-in{from{transform:translateY(40px);opacity:.4}}
