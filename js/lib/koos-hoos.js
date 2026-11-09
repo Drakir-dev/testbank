@@ -19,12 +19,15 @@ export const itemText = (texts, code) => itemEntry(texts, code).q;
    opts ([poeng, svar] i skjemaets rekkefølge) gir én knapp per svar med poeng og tekst i stedet for bare tall.
    desc viser tallknappene fra max til 0, når skjemaet har høyest poeng lengst til venstre.
    0–10 står i seks kolonner på mobil og på én rad på bred skjerm (klassen s11 i css/app.css).
+   1–10 (Örebro ledd 6 og 7) bruker samme rutenett, men starter i kolonne 2 (klassen off1), så tallene står
+   rett over de samme tallene i 0–10-radene og knappene blir like store.
    min gir knapper fra min til max (QuickDASH bruker 1–5). */
 export function itemRow(id, code, k, max, text, ariaExtra = "", opts = null, desc = false, min = 0) {
   const n = max - min + 1;
   const values = Array.from({ length: n }, (_, i) => desc ? max - i : min + i);
-  const layout = n === 11 ? " s11" : "";
-  const style = n === 5 || n === 11 ? "" : ` style="grid-template-columns:repeat(${Math.min(n, 6)},1fr)"`;
+  const oneToTen = n === 10 && min === 1 && max === 10 && !desc;
+  const layout = n === 11 ? " s11" : oneToTen ? " s11 off1" : "";
+  const style = n === 5 || n === 11 || oneToTen ? "" : ` style="grid-template-columns:repeat(${Math.min(n, 6)},1fr)"`;
   const radio = (v, label) => `<label><input type="radio" name="${id}-${code}" id="${id}-${code}-${v}" data-k="${k}" value="${v}"><span>${label}</span></label>`;
   const buttons = opts
     ? `<div class="scores opts">${opts.map(([v, t]) => radio(v, `<b>${v}</b> ${esc(t)}`)).join("")}</div>`

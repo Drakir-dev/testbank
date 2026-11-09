@@ -76,6 +76,15 @@ test("ledd 9a–9i vises 4–0 som på skjemaet, andre ledd 0–maks", () => {
   assert.deepEqual([...itemRow("x", "P1", "P1", 4, "", "", null, true).matchAll(/value="(\d)"/g)].map(m => m[1]), ["4", "3", "2", "1", "0"]);
 });
 
+test("ledd med 1–10 bruker samme rutenett som 0–10 og starter i kolonne 2 (Örebro ledd 6 og 7)", () => {
+  const html = itemRow("orebro", "6", "o6", 10, "", "", null, false, 1);
+  assert.match(html, /class="scores s11 off1">/);
+  assert.doesNotMatch(html, /grid-template-columns/);
+  assert.deepEqual([...html.matchAll(/value="(\d+)"/g)].map(m => m[1]), ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]);
+  /* Andre rader med min > 0 er uendret: QuickDASH 1–5 bruker standard */
+  assert.doesNotMatch(itemRow("qdash", "1", "q1", 5, "", "", null, false, 1), /s11|off1|grid-template-columns/);
+});
+
 test("ledd med 0–10 får klassen s11 (seks kolonner på mobil, én rad på bred skjerm), 0–4 bruker standard", () => {
   assert.match(itemRow("ikdc", "2", "i2", 10, ""), /class="scores s11">/);
   assert.doesNotMatch(itemRow("ikdc", "2", "i2", 10, ""), /grid-template-columns/);
