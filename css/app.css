@@ -169,11 +169,12 @@ textarea.note{font:inherit;color:var(--fg);background:var(--surface);border:1px 
 .result.empty{color:var(--muted);font-size:.92rem;border-left-width:1px;border-style:dashed}
 .t-ok{--c:var(--ok)} .t-warn{--c:var(--warn)} .t-crit{--c:var(--crit)} .t-none{--c:var(--muted)}
 
-.sub-h{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink);border-top:1px solid var(--line);padding-top:12px}
+.sub-h{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink);
+  background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:6px;padding:8px 12px;margin-top:6px}
 .berg{display:flex;flex-direction:column;gap:8px}
 fieldset.bitem{border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
 fieldset.bitem legend{font-weight:700;font-size:.92rem;padding:0 4px;display:flex;gap:8px;align-items:baseline}
-.bno{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.8rem}
+.bno{font-variant-numeric:tabular-nums;color:var(--accent-ink);font-size:.9rem;font-weight:700}
 .scores{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .scores label{position:relative;cursor:pointer}
 .scores input{position:absolute;opacity:0;pointer-events:none}
@@ -183,7 +184,7 @@ fieldset.bitem legend{font-weight:700;font-size:.92rem;padding:0 4px;display:fle
 .scores label:focus-within span{outline:3px solid var(--accent);outline-offset:2px}
 .kitems{display:flex;flex-direction:column;gap:6px}
 .kitem{display:grid;grid-template-columns:3.2em minmax(0,1fr);align-items:center;gap:8px}
-.kcode{font-family:var(--f-mono);font-weight:500;font-size:.9rem;color:var(--muted)}
+.kcode{font-family:var(--f-mono);font-weight:500;font-size:.9rem;color:var(--accent-ink)}
 .ktext{grid-column:1/-1;font-size:.9rem;line-height:1.35}
 .crit{font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:2px}
 .crit.picked span{display:none}
@@ -224,7 +225,7 @@ textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.55;color:
 .scores.opts span b{font-family:var(--f-mono);margin-right:6px}
 .kitem .ktext ~ .scores{grid-column:1/-1}
 .kitem .khelp{grid-column:1/-1;font-style:italic;line-height:1.35}
-.kno{font-family:var(--f-mono);font-weight:500;color:var(--muted);margin-right:4px}
+.kno{font-family:var(--f-mono);font-weight:700;color:var(--accent-ink);margin-right:6px}
 .scores.opts span{display:block}
 .scores.s11{grid-template-columns:repeat(6,1fr)}
 @media (min-width:600px){.scores.s11{grid-template-columns:repeat(11,1fr)}}
@@ -235,14 +236,15 @@ textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.55;color:
 .kitems:has(> .kitem.multi):not(:has(.ktext)){gap:0}
 .kitem.multi:not(:has(.ktext)){align-items:start;padding-block:12px;border-top:1px solid var(--line)}
 .kitems > .kitem.multi:not(:has(.ktext)):first-child{border-top:0;padding-top:4px}
-.kitem.multi:not(:has(.ktext)) .kcode{padding-top:12px;font-size:1rem;font-weight:700;color:var(--fg)}
+.kitem.multi:not(:has(.ktext)) .kcode{padding-top:12px;font-size:1rem;font-weight:700}
 /* To korte svar side om side (Uenig/Enig, Ja/Nei): ett ledd = én rad */
 .scores.opts.two{grid-template-columns:1fr 1fr}
 /* Spørsmål med tekst: fet, tydelig skille mellom spørsmålene, svarene under */
 .kitems:has(.ktext){gap:14px}
 .kitem:has(.ktext){padding-top:12px;border-top:1px solid var(--line)}
 .sub-h + .kitems > .kitem:first-child, .hint + .kitem, .kitems > .kitem:first-child{border-top:0;padding-top:0}
-.ktext{font-weight:700;font-size:.95rem}
+/* Hierarki: spørsmålet i full kontrast og fet 1 rem, leddnummeret som petrol markør, svarene i vanlig vekt */
+.ktext{font-weight:700;font-size:1rem;line-height:1.4;color:var(--fg)}
 details.instr{font-size:.84rem;color:var(--muted);margin-top:-6px}
 details.instr summary{cursor:pointer;color:var(--accent-ink);font-weight:700;font-size:.8rem}
 details.instr p{margin:6px 0 0}
