@@ -8,12 +8,12 @@
    Skjemafelt bindes automatisk via data-k="nøkkel".
    Ingen lagring av data: søk, sammenfelte kort og valg ligger bare i minnet.
    ============================================================ */
-import { TESTS, CATEGORIES, VERSION, PACKAGES, byId, libraryOrder, dipsBlocks, testStatus, missingProfile, packageOn, togglePackage } from "./registry.js";
+import { TESTS, CATEGORIES, VERSION, PACKAGES, byId, libraryOrder, dipsBlocks, testStatus, missingProfile, packageOn, togglePackage, isUntouched as untouched, hasInput } from "./registry.js";
 import { esc } from "./lib/form.js";
 import { nextUnanswered, skipped } from "./lib/flyt.js";
 
 /* ---------- App (kun minne) ---------- */
-const app = { selected: ["cfs"], states: {}, profile: { age: "", sex: "" }, refreshers: [], folded: new Set(), libOpen: true, autoFold: true };
+const app = { selected: [], states: {}, profile: { age: "", sex: "" }, refreshers: [], folded: new Set(), libOpen: true, autoFold: true };
 const $ = id => document.getElementById(id);
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 const stickH = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--stick")) || 0;
@@ -92,7 +92,7 @@ function paintPkgs() {
   PACKAGES.forEach(p => $("pkg-" + p.id).setAttribute("aria-pressed", packageOn(app.selected, p)));
 }
 /* Urørt = tilstanden er lik initState(), eller testen er ikke åpnet ennå */
-const isUntouched = id => !app.states[id] || JSON.stringify(app.states[id]) === JSON.stringify(byId(id).initState());
+const isUntouched = id => untouched(id, app.states);
 
 function filterLib() {
   const q = $("lib-q").value.trim().toLowerCase();
@@ -374,6 +374,13 @@ renderPkgs();
 renderLib();
 renderProfile();
 renderForms();
+
+/* Ingenting lagres, så en lukket eller oppdatert fane tømmer alt. Er noe fylt ut, spør nettleseren først.
+   (Virker på PC og Android. iOS Safari viser ikke denne advarselen.) */
+window.addEventListener("beforeunload", e => {
+  if (!hasInput(app.states, app.profile)) return;
+  e.preventDefault(); e.returnValue = "";
+});
 
 /* Offline: service workeren cacher bare appens egne filer (se sw.js) */
 if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
