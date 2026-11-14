@@ -18,16 +18,19 @@ export function olsWeakest(s) {
   return vals.length ? Math.min(...vals) : null;
 }
 
+const OLS_TIMER = { max: 45, best: true };
+
 export default {
   id: "ols", name: "Ettbensstående", category: "Balanse", status: "aktiv",
   title: "Ettbensstående", meta: "Best av 3 · maks 45 s",
   initState: () => ({ ro: "", lo: "", rc: "", lc: "" }),
+  /* Stoppeklokken stopper selv på 45 s og beholder beste av forsøkene (best av 3, maks 45 s) */
   form: () => `
     <div class="grid">
-      ${inputF("ols-ro", "ro", "Høyre, øyne åpne", "s")}
-      ${inputF("ols-lo", "lo", "Venstre, øyne åpne", "s")}
-      ${inputF("ols-rc", "rc", "Høyre, øyne lukket", "s", { hint: "Valgfritt" })}
-      ${inputF("ols-lc", "lc", "Venstre, øyne lukket", "s", { hint: "Valgfritt" })}
+      ${inputF("ols-ro", "ro", "Høyre, øyne åpne", "s", { timer: OLS_TIMER })}
+      ${inputF("ols-lo", "lo", "Venstre, øyne åpne", "s", { timer: OLS_TIMER })}
+      ${inputF("ols-rc", "rc", "Høyre, øyne lukket", "s", { hint: "Valgfritt", timer: OLS_TIMER })}
+      ${inputF("ols-lc", "lc", "Venstre, øyne lukket", "s", { hint: "Valgfritt", timer: OLS_TIMER })}
     </div>`,
   result(s, p) {
     const mn = olsWeakest(s); if (mn == null) return null;

@@ -11,6 +11,7 @@
 import { TESTS, CATEGORIES, VERSION, PACKAGES, byId, libraryOrder, dipsBlocks, testStatus, missingProfile, packageOn, togglePackage, isUntouched as untouched, hasInput } from "./registry.js";
 import { esc } from "./lib/form.js";
 import { nextUnanswered, skipped } from "./lib/flyt.js";
+import { initTimer } from "./timer.js";
 
 /* ---------- App (kun minne) ---------- */
 const app = { selected: [], states: {}, profile: { age: "", sex: "" }, refreshers: [], folded: new Set(), libOpen: true, autoFold: true };
@@ -378,6 +379,7 @@ resetBtn.addEventListener("click", () => {
 });
 
 $("ver").textContent = "v" + VERSION;
+initTimer(flash);
 renderPkgs();
 renderLib();
 renderProfile();

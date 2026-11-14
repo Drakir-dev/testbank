@@ -358,3 +358,17 @@ dialog.sheet::backdrop{background:rgba(6,18,22,.5)}
   .bar-in{max-width:1180px;display:grid;grid-template-columns:minmax(0,720px) minmax(240px,1fr);gap:32px}
   .bar-in #reset{justify-self:start}
 }
+
+/* ---------- Stoppeklokke: «Ta tid» ved tidsfelt og panelet (js/timer.js) ---------- */
+.tbtn{font:inherit;font-size:.9rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 12px;cursor:pointer;
+  color:var(--accent-ink);background:var(--accent-soft);border:1.5px solid var(--accent);border-radius:var(--r-sm)}
+.tbtn:hover{box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent)}
+.timer-body{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 16px 16px;overflow:auto}
+.t-time{font-family:var(--f-mono);font-weight:500;font-size:clamp(3.6rem, 22vw, 5.5rem);line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.t-unit{font-size:.9rem;color:var(--muted)}
+.t-msg{margin:0;min-height:1.5em;font-weight:700;text-align:center}
+.t-tries{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;font-size:.92rem;font-variant-numeric:tabular-nums}
+.t-tries .best{font-weight:700;color:var(--accent-ink)}
+.btn.t-main{width:100%;min-height:104px;margin-top:10px;font-size:1.6rem;border-radius:18px;background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.timer[data-st="running"] .t-main{background:var(--crit);border-color:var(--crit);color:var(--on-c)}
+.timer[data-st="stopped"] .t-main{min-height:64px;font-size:1.1rem;background:var(--surface);border-color:var(--line-strong);color:var(--fg)}

@@ -50,17 +50,17 @@ export default {
     ${radioF("sppb-sbs", "sbs", "Føttene side ved side, 10 s", [["ja", "Holdt 10 s"], ["nei", "Holdt ikke"]])}
     <div data-show="semi">${radioF("sppb-semi", "semi", "Semi-tandem, 10 s", [["ja", "Holdt 10 s"], ["nei", "Holdt ikke"]])}</div>
     <div data-show="tandem" class="grid">
-      ${inputF("sppb-tandem", "tandem", "Tandem, tid (maks 10 s)", "s")}
+      ${inputF("sppb-tandem", "tandem", "Tandem, tid (maks 10 s)", "s", { timer: { max: 10 } })}
       <div class="field"><span class="lbl">&nbsp;</span>${checkF("sppb-tandemNo", "tandemNo", "Ikke forsøkt / klarte ikke")}</div>
     </div>
     <div class="sub-h">2 · Ganghastighet 4 m</div>
     <div class="grid">
-      ${inputF("sppb-g1", "g1", "Forsøk 1", "s")}
-      ${inputF("sppb-g2", "g2", "Forsøk 2", "s", { hint: "Raskeste forsøk skåres." })}
+      ${inputF("sppb-g1", "g1", "Forsøk 1", "s", { timer: {} })}
+      ${inputF("sppb-g2", "g2", "Forsøk 2", "s", { hint: "Raskeste forsøk skåres.", timer: {} })}
     </div>
     ${checkF("sppb-gaitNo", "gaitNo", "Klarte ikke å gå 4 m")}
     <div class="sub-h">3 · Reise seg fra stol 5 ganger</div>
-    <div class="grid">${inputF("sppb-chair", "chair", "Tid for 5 reisinger", "s")}</div>
+    <div class="grid">${inputF("sppb-chair", "chair", "Tid for 5 reisinger", "s", { timer: {} })}</div>
     ${checkF("sppb-chairNo", "chairNo", "Klarte ikke / måtte bruke armene / over 60 s")}
     <div class="grid">${inputF("sppb-prev", "prev", "Forrige totalskår (valgfritt)", "/12", { int: true })}</div>`,
   paint(card, s) {
