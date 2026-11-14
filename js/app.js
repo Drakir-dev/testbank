@@ -135,7 +135,7 @@ const STATUS_LABEL = { tom: "ikke startet", delvis: "delvis utfylt", ferdig: "me
 
 function renderNav() {
   const nav = $("jump");
-  nav.hidden = !app.selected.length;
+  $("sticky").hidden = !app.selected.length;
   nav.innerHTML = app.selected.map(id => `<a class="jump-i" href="#card-${id}" id="jump-${id}"><i class="dot"></i><span>${esc(byId(id).name)}</span><b class="jv"></b></a>`).join("");
   paintNavFade();
 }
@@ -238,7 +238,8 @@ function renderForms() {
           <button type="button" class="fold" aria-expanded="true" aria-controls="body-${id}" aria-label="Fell sammen ${esc(t.name)}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>
         <div class="prog" hidden><span class="prog-txt"></span><span class="prog-bar"><i></i></span><button type="button" class="link next-btn" hidden>Neste ubesvarte</button></div>
       </div>
-      <div class="card-body" id="body-${id}"><span class="meta">${t.category} · ${t.meta}</span>
+      <div class="card-body" id="body-${id}"><div class="card-top"><span class="meta">${t.category} · ${t.meta}</span>
+        <button type="button" class="link rm" aria-label="Fjern ${esc(t.name)} fra valgte tester">Fjern</button></div>
       <div class="need" hidden><span class="need-txt"></span><button type="button" class="link need-go">Fyll inn</button></div>
       ${t.form(s)}<div class="result empty" id="res-${t.id}"></div>
       <details class="guide"><summary>Veiledning og kilder</summary>${t.guide}</details></div>`;
@@ -246,6 +247,13 @@ function renderForms() {
     if (app.folded.has(id)) fold(card, id, true);
     card.querySelector(".fold").addEventListener("click", () => fold(card, id, !card.classList.contains("folded")));
     card.querySelector(".need-go").addEventListener("click", () => goToProfile(missingProfile(id, app.profile)));
+    /* Fjern testen fra valgte. Tilstanden beholdes (som når brikken i biblioteket slås av), så testen kan legges til igjen. */
+    card.querySelector(".rm").addEventListener("click", () => {
+      const filled = !isUntouched(id);
+      app.selected = app.selected.filter(x => x !== id);
+      renderForms();
+      flash(filled ? `${t.name} fjernet. Utfyllingen er beholdt til du nullstiller.` : `${t.name} fjernet.`);
+    });
     card.querySelector(".next-btn").addEventListener("click", () => {
       const groups = radioGroups(card), i = nextUnanswered(answeredOf(groups));
       if (i >= 0) scrollToGroup(card, groups[i], true);
@@ -323,7 +331,7 @@ $("forms").addEventListener("input", autoFoldLib, true);
 $("forms").addEventListener("change", autoFoldLib, true);
 $("jump").addEventListener("scroll", paintNavFade, { passive: true });
 
-/* Høyden på toppen + navigasjonen, så kortenes sticky hode og hopp-mål havner rett under */
+/* Høyden på den faste navigasjonen (0 når den er skjult), så kortenes sticky hode og hopp-mål havner rett under */
 let lastStick = 0;
 new ResizeObserver(([e]) => {
   const h = Math.ceil(e.target.getBoundingClientRect().height);
