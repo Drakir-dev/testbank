@@ -21,13 +21,12 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="sticky" id="sticky">
-    <header class="top">
-      <div class="brand"><img src="icons/icon.svg" alt="" width="28" height="28">Testbank <span>Fysio</span></div>
-      <div class="tag" id="ver"></div>
-    </header>
-    <nav class="jump" id="jump" aria-label="Valgte tester" hidden></nav>
-  </div>
+ <div class="main">
+  <header class="top">
+    <div class="brand"><img src="icons/icon.svg" alt="" width="28" height="28">Testbank <span>Fysio</span></div>
+    <div class="tag" id="ver"></div>
+  </header>
+  <div class="sticky" id="sticky" hidden><nav class="jump" id="jump" aria-label="Valgte tester"></nav></div>
 
   <details class="privacy">
     <summary><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>
@@ -57,6 +56,7 @@
       <div class="stack" id="forms"></div>
     </div>
   </section>
+ </div>
 
   <section aria-labelledby="h-out" class="out">
     <h2 id="h-out">Tekst til DIPS</h2>
@@ -66,12 +66,12 @@
 </div>
 
 <div class="bar">
+  <div class="status" id="status" role="status" aria-live="polite"></div>
   <div class="bar-in">
     <button class="btn danger" id="reset" type="button">Nullstill</button>
     <button class="btn" id="show" type="button" disabled aria-haspopup="dialog">Vis tekst<span id="show-n"></span></button>
     <button class="btn primary" id="copy" type="button" disabled><span class="lbl-l">Kopier til DIPS</span><span class="lbl-s">Kopier</span></button>
   </div>
-  <div class="bar-in"><div class="status" id="status" role="status" aria-live="polite"></div></div>
 </div>
 
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-h">

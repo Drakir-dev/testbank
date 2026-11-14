@@ -8,8 +8,9 @@
 @font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/ibm-plex-mono-500-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
 @font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/ibm-plex-mono-500-latin.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 
-/* Layout: mobilførst enkeltkolonne (maks 720px). Fast topp med hurtignavigasjon, testbibliotek med søk, alder/kjønn,
-   ett kort per valgt test (sticky hode med skår og fremdrift), DIPS-tekst nederst og fast kopier-linje i bunn. */
+/* Layout: mobilførst enkeltkolonne (maks 720px). Logoraden ruller bort, hurtignavigasjonen er sticky. Testbibliotek med søk,
+   alder/kjønn, ett kort per valgt test (sticky hode med skår og fremdrift), DIPS-tekst nederst og fast kopier-linje i bunn.
+   Fra 1000 px: to kolonner, med DIPS-teksten fast til høyre (se nederst). */
 :root{
   --bg:#eef2f3; --surface:#ffffff; --surface-2:#e6edef; --surface-3:#f6f9fa; --fg:#101e25; --muted:#45555c; --line:#bccbd1; --line-strong:#748a92; --on-c:#ffffff;
   --accent:#0f6e7a; --accent-fg:#ffffff; --accent-soft:#d6ecee; --accent-ink:#0b5862;
@@ -19,7 +20,7 @@
   --shadow-up:0 -2px 14px rgba(16,44,52,.08);
   --f-ui:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
   --f-mono:"IBM Plex Mono", ui-monospace, "Consolas", monospace;
-  --r:14px; --r-sm:9px; --stick:96px;
+  --r:14px; --r-sm:9px; --stick:0px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0c1418; --surface:#15222a; --surface-2:#1c2d35; --surface-3:#192830; --fg:#eef4f6; --muted:#b6c6cd; --line:#3a525d; --line-strong:#647c86; --on-c:#0c1418;
@@ -49,16 +50,17 @@
 html{font-size:106.25%;overscroll-behavior-y:contain}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:1rem;line-height:1.5;margin:0;
   padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
-  padding-block:0 calc(120px + env(safe-area-inset-bottom, 0px))}
+  padding-block:0 calc(96px + env(safe-area-inset-bottom, 0px))}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--bg)}
 .wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.main{display:flex;flex-direction:column;gap:22px;min-width:0}
 .ico{width:1.15em;height:1.15em;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* Topp og hurtignavigasjon (sticky sammen) */
-.sticky{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;margin-inline:-16px;padding-inline:16px;
+/* Topp (ruller bort med siden) og hurtignavigasjon (sticky, skjult når ingen tester er valgt) */
+.sticky{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;margin:-12px -16px 0;padding:8px 16px 0;
   background:var(--bg);border-bottom:1px solid var(--line)}
 @supports (backdrop-filter:blur(8px)){.sticky{background:color-mix(in srgb, var(--bg) 86%, transparent);backdrop-filter:saturate(1.4) blur(10px)}}
-header.top{padding-block:12px 10px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+header.top{padding-block:12px 0;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{font-weight:700;font-size:1.25rem;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
 .brand img{border-radius:8px;box-shadow:var(--shadow)}
 .brand span{color:var(--accent)}
@@ -135,7 +137,8 @@ details.privacy p{margin:8px 0 2px}
 .prog-bar{flex:1;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
 .prog-bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .2s}
 .card-body{padding:16px;display:flex;flex-direction:column;gap:16px}
-.card-body > .meta{margin-bottom:-6px}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-block:-10px -14px}
+.card-top .rm{flex:none;padding:10px 0 10px 12px}
 .folded > .card-body{display:none}
 .empty-note{margin:0;padding:22px 16px;text-align:center;color:var(--muted);border:2px dashed var(--line);border-radius:var(--r)}
 
@@ -211,7 +214,10 @@ textarea#dips{font-family:var(--f-mono);font-size:.86rem;line-height:1.55;color:
 .btn.primary.done{background:var(--ok);border-color:var(--ok)}
 .btn.danger{color:var(--crit);border-color:var(--crit)}
 .btn.danger.armed{background:var(--crit);color:var(--on-c)}
-.status{font-size:.82rem;color:var(--ok);min-height:1.2em}
+/* Statusmelding som et lite varsel over bunnlinjen. Tar ingen plass når den er tom. */
+.status{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);width:max-content;max-width:min(calc(100% - 32px), 560px);
+  font-size:.9rem;font-weight:700;text-align:center;color:var(--bg);background:var(--fg);border-radius:12px;padding:9px 14px;box-shadow:var(--shadow);pointer-events:none}
+.status:empty{opacity:0}
 @media (prefers-reduced-motion:no-preference){
   html{scroll-behavior:smooth}
   label.lvl,.chip,.btn,.seg label,.scores span,.jump-i{transition:background-color .15s,border-color .15s,box-shadow .15s}
@@ -341,3 +347,14 @@ dialog.sheet::backdrop{background:rgba(6,18,22,.5)}
 .levels:has(input:checked) label.lvl:not(.on) .lvl-desc{display:none}
 .levels:has(input:checked) label.lvl:not(.on) .num{height:34px;min-width:34px;font-size:1.1rem}
 .levels:has(input:checked) label.lvl:not(.on){grid-template-columns:34px 1fr}
+
+/* ---------- PC: to kolonner. Skjemaene til venstre, DIPS-teksten følger med til høyre ---------- */
+@media (min-width:1000px){
+  .wrap{max-width:1180px;display:grid;grid-template-columns:minmax(0,720px) minmax(240px,1fr);gap:32px;align-items:start}
+  .out{position:sticky;top:12px;height:calc(100vh - 100px);height:calc(100dvh - 100px);min-height:320px}
+  textarea#dips{flex:1;min-height:0;resize:none;font-size:.9rem}
+  /* Teksten står alltid synlig, så «Vis tekst» trengs ikke. Kopier-knappen står under tekstkolonnen. */
+  #show{display:none}
+  .bar-in{max-width:1180px;display:grid;grid-template-columns:minmax(0,720px) minmax(240px,1fr);gap:32px}
+  .bar-in #reset{justify-self:start}
+}
