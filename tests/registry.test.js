@@ -2,7 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { byId, testStatus, TESTS, PROFILE_NEEDS, missingProfile, PACKAGES, packageOn, togglePackage, libraryOrder } from "../js/registry.js";
+import { byId, testStatus, TESTS, PROFILE_NEEDS, missingProfile, PACKAGES, packageOn, togglePackage, libraryOrder, isUntouched, hasInput } from "../js/registry.js";
 
 test("alle moduler som leser alder eller kjønn, står i PROFILE_NEEDS", () => {
   const reads = TESTS.filter(t => t.status === "aktiv").map(t => t.id).filter(id => {
@@ -62,4 +62,21 @@ test("MMSE-NR3 er ferdig også uten alder, men uten normtolkning", () => {
   assert.equal(testStatus(t, s, { age: "" }).r.tone, "none");
   s.edu = "hoyere";
   assert.equal(testStatus(t, s, { age: "80" }).r.tone, "ok");
+});
+
+test("hasInput: tomt skjema og urørte tester teller ikke som utfylt", () => {
+  const p0 = { age: "", sex: "" };
+  assert.equal(hasInput({}, p0), false);
+  assert.equal(hasInput({ tug: byId("tug").initState(), koos: byId("koos").initState() }, p0), false);
+  assert.equal(isUntouched("tug", {}), true);
+});
+
+test("hasInput: alder, kjønn eller ett utfylt felt teller som utfylt", () => {
+  const p0 = { age: "", sex: "" };
+  assert.equal(hasInput({}, { age: "78", sex: "" }), true);
+  assert.equal(hasInput({}, { age: " ", sex: "" }), false);
+  assert.equal(hasInput({}, { age: "", sex: "kvinne" }), true);
+  const tug = { ...byId("tug").initState(), time: "14,2" };
+  assert.equal(hasInput({ cfs: byId("cfs").initState(), tug }, p0), true);
+  assert.equal(isUntouched("tug", { tug }), false);
 });

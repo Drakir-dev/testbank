@@ -56,7 +56,7 @@ export function dipsBlocks(selected, states, profile) {
 export const dipsText = (selected, states, profile) => dipsBlocks(selected, states, profile).join("\n\n");
 
 /* Appversjonen som vises i toppen. Skal være lik CACHE i sw.js (sjekkes i tests/sw.test.js). */
-export const VERSION = "22";
+export const VERSION = "23";
 
 
 /* Testpakker øverst i biblioteket (valgt av Rikard 9.11.2026). Ett trykk legger til alle testene i pakken. */
@@ -77,6 +77,12 @@ export function togglePackage(selected, pkg, isUntouched) {
     : [...new Set([...selected, ...pkg.ids])];
   return libraryOrder(next);
 }
+
+/* Er noe fylt ut? Alder eller kjønn er satt, eller en test har en tilstand som avviker fra initState().
+   Brukes til å advare før fanen lukkes eller lastes på nytt, siden ingenting lagres. */
+export const isUntouched = (id, states) => !states[id] || JSON.stringify(states[id]) === JSON.stringify(byId(id).initState());
+export const hasInput = (states, profile) =>
+  !!String(profile.age ?? "").trim() || !!profile.sex || Object.keys(states).some(id => !isUntouched(id, states));
 
 /* Hvilke tester som bruker alder og kjønn fra profilen (til normverdier). Kortet minner om det som mangler.
    tests/registry.test.js sjekker at alle moduler som leser p.age eller p.sex, står her. */
