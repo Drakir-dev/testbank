@@ -82,5 +82,20 @@
   <pre class="sheet-text" id="sheet-text" tabindex="0"></pre>
   <div class="sheet-foot"><button class="btn primary" id="sheet-copy" type="button">Kopier til DIPS</button></div>
 </dialog>
+
+<dialog class="sheet timer" id="timer" aria-labelledby="timer-h">
+  <div class="sheet-head">
+    <h2 id="timer-h">Ta tid</h2>
+    <button class="btn" id="timer-close" type="button">Lukk</button>
+  </div>
+  <div class="timer-body">
+    <div class="t-time" id="timer-time" role="timer" aria-live="off">0,0</div>
+    <div class="t-unit">sekunder<span id="timer-max"></span></div>
+    <p class="t-msg" id="timer-msg" role="status" aria-live="polite"></p>
+    <ul class="t-tries" id="timer-tries" hidden></ul>
+    <button class="btn t-main" id="timer-main" type="button">Start</button>
+  </div>
+  <div class="sheet-foot" id="timer-foot" hidden><button class="btn primary" id="timer-use" type="button">Bruk tiden</button></div>
+</dialog>
 </body>
 </html>

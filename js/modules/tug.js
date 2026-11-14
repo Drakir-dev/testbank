@@ -17,7 +17,7 @@ export default {
   initState: () => ({ time: "", aid: "ingen", prev: "" }),
   form: () => `
     <div class="grid">
-      ${inputF("tug-time", "time", "Tid", "s", { ph: "f.eks. 11,4" })}
+      ${inputF("tug-time", "time", "Tid", "s", { ph: "f.eks. 11,4", timer: {} })}
       ${inputF("tug-prev", "prev", "Forrige TUG (valgfritt)", "s", { ph: "s" })}
     </div>
     ${radioF("tug-aid", "aid", "Ganghjelpemiddel", AIDS)}`,

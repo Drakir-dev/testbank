@@ -19,7 +19,7 @@ export default {
   initState: () => ({ time: "", dist: "6", pace: "selvvalgt", aid: "ingen", prev: "" }),
   form: () => `
     <div class="grid">
-      ${inputF("gait-time", "time", "Tid", "s", { ph: "f.eks. 5,8" })}
+      ${inputF("gait-time", "time", "Tid", "s", { ph: "f.eks. 5,8", timer: {} })}
       ${inputF("gait-dist", "dist", "Målt strekning", "m", { hint: "Standard: midtre 6 m av 10 m." })}
       ${inputF("gait-prev", "prev", "Forrige hastighet (valgfritt)", "m/s")}
     </div>

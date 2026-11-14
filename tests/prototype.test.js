@@ -43,11 +43,14 @@ test("registeret: prototypens tester og kategorier finnes, i samme rekkefølge",
   assert.equal(JSON.stringify(CATEGORIES.filter(c => proto.CATEGORIES.includes(c))), JSON.stringify(proto.CATEGORIES));
 });
 
+/* «Ta tid»-knappene (stoppeklokken, v25) fantes ikke i prototypen. Resten av skjemaet skal være likt tegn for tegn. */
+const utenTaTid = html => html.replace(/<button type="button" class="tbtn"[\s\S]*?<\/button>/g, "");
+
 test("skjema, veiledning og grunntilstand er uendret", () => {
   for (const t of TESTS.filter(t => PROTO_ACTIVE.includes(t.id))) {
     const p = proto.TESTS.find(x => x.id === t.id);
     for (const k of ["title", "meta", "guide"]) assert.equal(t[k], p[k], `${t.id}.${k}`);
-    assert.equal(t.form(t.initState()), p.form(p.initState()), `${t.id}.form`);
+    assert.equal(utenTaTid(t.form(t.initState())), p.form(p.initState()), `${t.id}.form`);
     assert.equal(JSON.stringify(t.initState()), JSON.stringify(p.initState()), `${t.id}.initState`);
   }
 });
