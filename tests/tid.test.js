@@ -1,7 +1,7 @@
 /* Stoppeklokken: regning i js/lib/tid.js og «Ta tid»-knappene i skjemaene */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { capMs, reachedMax, secText, bestMs } from "../js/lib/tid.js";
+import { capMs, reachedMax, secText, bestMs, remainingMs, countdownText, clockText, walkDistance, plural } from "../js/lib/tid.js";
 import { TESTS } from "../js/registry.js";
 
 test("secText: én desimal, desimalkomma, avrundet til nærmeste tidel", () => {
@@ -67,4 +67,88 @@ test("stoppeklokke i de tidtatte testene, med riktig makstid", () => {
   assert.equal(count.sppb.length, 4);
   assert.equal(count.sppb.filter(b => /data-max=/.test(b)).length, 1);
   assert.match(count.sppb.find(b => /data-for="sppb-tandem"/.test(b)), /data-max="10"/);
+});
+
+/* ---------- Nedtelling og teller ---------- */
+
+test("remainingMs og countdownText: runder opp, og 0:00 først når tiden er ute", () => {
+  assert.equal(remainingMs(30, 0), 30000);
+  assert.equal(remainingMs(30, 12400), 17600);
+  assert.equal(remainingMs(30, 31000), 0);
+  assert.equal(remainingMs(30, -5), 30000);
+  assert.equal(countdownText(360000), "6:00");
+  assert.equal(countdownText(359999), "6:00");
+  assert.equal(countdownText(359000), "5:59");
+  assert.equal(countdownText(30000), "0:30");
+  assert.equal(countdownText(1), "0:01");
+  assert.equal(countdownText(0), "0:00");
+  assert.equal(countdownText(-100), "0:00");
+});
+
+test("clockText: medgått tid rundet ned", () => {
+  assert.equal(clockText(0), "0:00");
+  assert.equal(clockText(252900), "4:12");
+  assert.equal(clockText(59999), "0:59");
+  assert.equal(clockText(60000), "1:00");
+});
+
+test("walkDistance: lengder × banelengde + restmeter", () => {
+  assert.equal(walkDistance(8, 30, 12), 252);
+  assert.equal(walkDistance(3, 30, 12), 102);
+  assert.equal(walkDistance(0, 30, 0), 0);
+  assert.equal(walkDistance(8, 30, null), 240);
+  assert.equal(walkDistance(8, 30, undefined), 240);
+  assert.equal(walkDistance(10, 20, 20), 220);
+  assert.equal(walkDistance(7, 25.5, 3.2), 182);   // 178,5 + 3,2 = 181,7 → 182
+});
+
+test("walkDistance: ugyldige verdier gir null, ikke et gjettet tall", () => {
+  assert.equal(walkDistance(8, 0, 5), null);
+  assert.equal(walkDistance(8, -30, 5), null);
+  assert.equal(walkDistance(8, NaN, 5), null);
+  assert.equal(walkDistance(8, 30, -1), null);
+  assert.equal(walkDistance(8, 30, 31), null);     // restmeter kan ikke være lengre enn banen
+  assert.equal(walkDistance(8, 30, NaN), null);
+  assert.equal(walkDistance(-1, 30, 0), null);
+  assert.equal(walkDistance(2.5, 30, 0), null);
+});
+
+test("plural", () => {
+  assert.equal(plural(0, "pause", "pauser"), "0 pauser");
+  assert.equal(plural(1, "pause", "pauser"), "1 pause");
+  assert.equal(plural(11, "reising", "reisinger"), "11 reisinger");
+});
+
+const btn = (id, mode) => forms.find(([x]) => x === id)[1].match(new RegExp(`<button[^>]*data-timer="${mode}"[^>]*>`))?.[0];
+
+test("sit-to-stand: nedtelling 30 s som setter antall reisinger", () => {
+  const b = btn("sts30", "sts");
+  assert.ok(b, "knappen mangler");
+  assert.match(b, /data-for="sts-reps"/);
+  assert.match(b, /data-seconds="30"/);
+});
+
+test("6MWT: nedtelling 6 min, bane 30 m, og felt for distanse og pauser finnes", () => {
+  const b = btn("6mwt", "walk"), html = forms.find(([x]) => x === "6mwt")[1];
+  assert.ok(b, "knappen mangler");
+  assert.match(b, /data-seconds="360"/);
+  assert.match(b, /data-lane="30"/);
+  for (const attr of ["data-for", "data-stops"]) {
+    const id = b.match(new RegExp(`${attr}="([^"]+)"`))?.[1];
+    assert.ok(id && html.includes(`id="${id}"`), `${attr}: feltet finnes ikke`);
+  }
+});
+
+test("distansen fra panelet godtas av 6MWT-skjemaet", async () => {
+  const { read6mwt } = await import("../js/modules/6mwt.js");
+  const v = read6mwt({ dist: String(walkDistance(8, 30, 12)), stops: "0", prev: "", dysp: "", fat: "", hr0: "", hr1: "", sp0: "", sp1: "" });
+  assert.equal(v.dist, 252);
+  assert.equal(v.stops, 0);
+});
+
+test("alle knapper med data-timer peker på et felt i samme skjema", () => {
+  for (const [id, html] of forms) for (const m of html.matchAll(/<button[^>]*data-timer="[^"]+"[^>]*>/g)) {
+    const target = m[0].match(/data-for="([^"]+)"/)?.[1];
+    assert.ok(target && html.includes(`id="${target}"`), `${id}: ${target}`);
+  }
 });

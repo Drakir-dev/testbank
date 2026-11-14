@@ -33,13 +33,16 @@ export function extras6mwt(v) {
 
 const MCID = { unit: "m", d: 0, better: "higher", mcid: 20, big: 50, mcidLabel: "20 m (liten) og 50 m (betydelig endring; eldre og personer etter hjerneslag, Perera 2006)" };
 
+/* Nedtelling 6 min med teller. Banelengde 30 m er standard etter ATS 2002 og kan endres i panelet. */
+const W6_TIMER = { mode: "walk", seconds: 360, lane: 30, stops: "w6-stops", label: "Start 6 min" };
+
 export default {
   id: "6mwt", name: "6-minutters gangtest", category: "Funksjon og gange", status: "aktiv",
   title: "6-minutters gangtest (6MWT)", meta: "Distanse m · ATS 2002",
   initState: () => ({ dist: "", aid: "ingen", stops: "", dysp: "", fat: "", hr0: "", hr1: "", sp0: "", sp1: "", prev: "" }),
   form: () => `
     <div class="grid">
-      ${inputF("w6-dist", "dist", "Distanse", "m", { int: true, ph: "f.eks. 340" })}
+      ${inputF("w6-dist", "dist", "Distanse", "m", { int: true, ph: "f.eks. 340", timer: W6_TIMER })}
       ${inputF("w6-prev", "prev", "Forrige distanse (valgfritt)", "m", { int: true })}
     </div>
     ${radioF("w6-aid", "aid", "Ganghjelpemiddel", AIDS)}
