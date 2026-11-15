@@ -89,11 +89,26 @@
     <button class="btn" id="timer-close" type="button">Lukk</button>
   </div>
   <div class="timer-body">
+    <div class="field t-setup" id="timer-setup" hidden>
+      <label class="lbl" for="timer-lane">Banelengde (én vei)</label>
+      <div class="inp"><input type="text" inputmode="decimal" id="timer-lane" autocomplete="off"><span class="unit">m</span></div>
+    </div>
     <div class="t-time" id="timer-time" role="timer" aria-live="off">0,0</div>
-    <div class="t-unit">sekunder<span id="timer-max"></span></div>
+    <div class="t-unit" id="timer-unit">sekunder</div>
     <p class="t-msg" id="timer-msg" role="status" aria-live="polite"></p>
     <ul class="t-tries" id="timer-tries" hidden></ul>
+    <div class="t-count" id="timer-count" aria-live="polite" hidden></div>
     <button class="btn t-main" id="timer-main" type="button">Start</button>
+    <div class="t-row" id="timer-row" hidden>
+      <button class="btn" id="timer-undo" type="button">Angre</button>
+      <button class="btn" id="timer-pause" type="button">+1 pause</button>
+      <button class="btn" id="timer-end" type="button">Avslutt</button>
+    </div>
+    <div class="field t-rest" id="timer-rest" hidden>
+      <label class="lbl" for="timer-restm">Restmeter på siste påbegynte lengde</label>
+      <div class="inp"><input type="text" inputmode="decimal" id="timer-restm" placeholder="0" autocomplete="off"><span class="unit">m</span></div>
+      <div class="t-sum" id="timer-sum"></div>
+    </div>
   </div>
   <div class="sheet-foot" id="timer-foot" hidden><button class="btn primary" id="timer-use" type="button">Bruk tiden</button></div>
 </dialog>

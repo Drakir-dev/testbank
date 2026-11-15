@@ -56,7 +56,7 @@ export function dipsBlocks(selected, states, profile) {
 export const dipsText = (selected, states, profile) => dipsBlocks(selected, states, profile).join("\n\n");
 
 /* Appversjonen som vises i toppen. Skal være lik CACHE i sw.js (sjekkes i tests/sw.test.js). */
-export const VERSION = "25";
+export const VERSION = "26";
 
 
 /* Testpakker øverst i biblioteket (valgt av Rikard 9.11.2026). Ett trykk legger til alle testene i pakken. */

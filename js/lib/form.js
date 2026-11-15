@@ -2,9 +2,19 @@
 
 export const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-/* «Ta tid»-knapp til et tidsfelt. timer = { max: makstid i sekunder, best: true for best av flere forsøk }.
-   Panelet ligger i js/timer.js. */
-const timerBtn = (id, label, t) => `<button type="button" class="tbtn" data-timer="up" data-for="${id}" data-title="${esc(label)}"${t.max ? ` data-max="${t.max}"` : ""}${t.best ? " data-best" : ""}><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5v-4M9.5 2.5h5M12 2.5V6"/></svg>Ta tid<span class="sr">: ${esc(label)}</span></button>`;
+/* Knapp som åpner stoppeklokken eller nedtellingen for et felt (panelet ligger i js/timer.js). timer er:
+     {}                              stoppeklokke («Ta tid»). max = makstid i sekunder, best = beste av flere forsøk.
+     { mode: "sts", seconds }        nedtelling med teller for reisinger
+     { mode: "walk", seconds, lane, stops }  nedtelling med lengder og pauser. lane = banelengde i meter,
+                                     stops = id til feltet for antall pauser.
+   label er knappeteksten. */
+const TIMER_ICON = `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5v-4M9.5 2.5h5M12 2.5V6"/></svg>`;
+function timerBtn(id, label, t) {
+  const attrs = [`data-timer="${t.mode || "up"}"`, `data-for="${id}"`, `data-title="${esc(label)}"`,
+    t.max ? `data-max="${t.max}"` : "", t.best ? "data-best" : "", t.seconds ? `data-seconds="${t.seconds}"` : "",
+    t.lane ? `data-lane="${t.lane}"` : "", t.stops ? `data-stops="${t.stops}"` : ""].filter(Boolean).join(" ");
+  return `<button type="button" class="tbtn" ${attrs}>${TIMER_ICON}${t.label || "Ta tid"}<span class="sr">: ${esc(label)}</span></button>`;
+}
 
 export function inputF(id, k, label, unit, opts = {}) {
   return `<div class="field"><label class="lbl" for="${id}">${label}</label>

@@ -17,7 +17,7 @@ export default {
   initState: () => ({ reps: "", arms: false, prev: "" }),
   form: () => `
     <div class="grid">
-      ${inputF("sts-reps", "reps", "Antall reisinger", "stk", { int: true, ph: "f.eks. 11" })}
+      ${inputF("sts-reps", "reps", "Antall reisinger", "stk", { int: true, ph: "f.eks. 11", timer: { mode: "sts", seconds: 30, label: "Start 30 s" } })}
       ${inputF("sts-prev", "prev", "Forrige (valgfritt)", "stk", { int: true })}
     </div>
     ${checkF("sts-arms", "arms", "Måtte bruke armene (skåres 0)")}`,
