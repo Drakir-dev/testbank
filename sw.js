@@ -2,7 +2,7 @@
    Cacher BARE appens egne statiske filer (listen under). Ingen brukerdata, ingen eksterne kall.
    Øk CACHE-versjonen ved hver endring i appen, ellers får brukerne den gamle versjonen fra cachen.
    tests/sw.test.js sjekker at alle filer i js/, css/, fonts/ og icons/ står i listen. */
-const CACHE = "testbank-v26";
+const CACHE = "testbank-v27";
 const ASSETS = [
   "./",
   "index.html",
@@ -68,7 +68,8 @@ self.addEventListener("install", e => {
 });
 
 /* Ny versjon tar over, men siden lastes ikke automatisk på nytt (det ville slettet utfylte felt).
-   Den nye versjonen brukes neste gang appen åpnes. */
+   Appen viser «Ny versjon er klar» (controllerchange i js/app.js), med «Oppdater nå» når ingenting er fylt ut.
+   Ellers brukes den nye versjonen neste gang appen åpnes. */
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys()
     .then(keys => Promise.all(keys.filter(k => k.startsWith("testbank-") && k !== CACHE).map(k => caches.delete(k))))

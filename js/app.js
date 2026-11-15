@@ -293,6 +293,16 @@ function renderForms() {
   observeCards();
 }
 
+/* Varsel om ny versjon (settes av service worker-koden nederst) */
+let updateReady = false;
+function paintUpdate() {
+  $("update").hidden = !updateReady;
+  if (!updateReady) return;
+  const filled = hasInput(app.states, app.profile);
+  $("update-txt").textContent = filled ? "Ny versjon er klar. Knappen for å oppdatere kommer når du har nullstilt." : "Ny versjon er klar.";
+  $("update-go").hidden = filled;
+}
+
 function updateOutput() {
   const blocks = dipsBlocks(app.selected, app.states, app.profile);
   const ta = $("dips");
@@ -301,6 +311,7 @@ function updateOutput() {
   $("copy").disabled = $("show").disabled = !blocks.length;
   $("show-n").textContent = blocks.length ? ` (${blocks.length})` : "";
   $("sheet-text").textContent = ta.value;
+  paintUpdate();
 }
 
 $("lib").addEventListener("click", e => {
@@ -378,6 +389,7 @@ resetBtn.addEventListener("click", () => {
   renderProfile(); renderForms(); flash("Alt er tømt.");
 });
 
+$("update-go").addEventListener("click", () => location.reload());
 $("ver").textContent = "v" + VERSION;
 initTimer(flash);
 renderPkgs();
@@ -392,5 +404,18 @@ window.addEventListener("beforeunload", e => {
   e.preventDefault(); e.returnValue = "";
 });
 
-/* Offline: service workeren cacher bare appens egne filer (se sw.js) */
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
+/* Offline: service workeren cacher bare appens egne filer (se sw.js).
+   Ny versjon: workeren tar over med en gang, men siden lastes ikke på nytt av seg selv, for det ville tømt utfylte felt.
+   Appen sier fra, og «Oppdater nå» vises bare når ingenting er fylt ut. Ellers brukes den nye versjonen neste gang
+   appen åpnes. */
+if ("serviceWorker" in navigator) {
+  const sw = navigator.serviceWorker, hadController = !!sw.controller;   // uten controller er dette første installasjon
+  sw.addEventListener("controllerchange", () => {
+    if (!hadController) return;
+    updateReady = true; paintUpdate(); flash("Ny versjon er klar.");
+  });
+  window.addEventListener("load", () => sw.register("sw.js").then(reg => {
+    /* En installert app kan stå åpen lenge. Se etter ny versjon når den hentes fram igjen. */
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") reg.update().catch(() => {}); });
+  }).catch(() => {}));
+}

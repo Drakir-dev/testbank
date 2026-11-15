@@ -382,3 +382,8 @@ dialog.sheet::backdrop{background:rgba(6,18,22,.5)}
 .t-sum{font-family:var(--f-mono);font-size:.95rem;font-variant-numeric:tabular-nums}
 .t-sum.bad{font-family:var(--f-ui);font-weight:700;color:color-mix(in srgb, var(--crit) 80%, var(--fg))}
 #timer-use:disabled{opacity:.45;cursor:default}
+
+/* ---------- Varsel om ny versjon ---------- */
+.update{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px;font-size:.92rem;font-weight:700;
+  background:var(--accent-soft);border:1.5px solid var(--accent);border-radius:var(--r);padding:10px 14px}
+.update .btn{flex:none;min-height:44px;padding:8px 14px;background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
